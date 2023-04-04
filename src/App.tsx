@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import HomeLayout from "components/common/@Layout/layouts/HomeLayout";
+import "./app.css";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import LoginPage from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import StatisticsPage from "./pages/Statistics";
+import { useEffect, useMemo } from "react";
+import { getToken } from "utils/sessionStorage/token";
+import SignUpPage from "pages/SignUp";
 
 function App() {
+  const token = getToken();
+  const navigete = useNavigate();
+  const { pathname } = useLocation();
+  const exceptPath = useMemo(() => ["/login", "/signup"], []);
+
+  useEffect(() => {
+    if (!token && !exceptPath.includes(pathname)) {
+      navigete("/login");
+    }
+  }, [exceptPath, navigete, pathname, token]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomeLayout content={<StatisticsPage />} />} />
+      <Route path="/login" element={<HomeLayout content={<LoginPage />} />} />
+      <Route path="/signup" element={<HomeLayout content={<SignUpPage />} />} />
+      <Route element={<NotFound />} />
+    </Routes>
   );
 }
 

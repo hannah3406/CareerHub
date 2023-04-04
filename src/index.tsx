@@ -1,15 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import ChakraSetting from "components/common/ChakraSetting";
+import AntdSetting from "components/common/AntdSetting";
+import { BrowserRouter } from "react-router-dom";
+import ReactQuerySetting from "components/common/ReactQueryProvider";
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <App />
+    <ReactQuerySetting>
+      <AntdSetting>
+        <ChakraSetting>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ChakraSetting>
+      </AntdSetting>
+    </ReactQuerySetting>
   </React.StrictMode>
 );
 
