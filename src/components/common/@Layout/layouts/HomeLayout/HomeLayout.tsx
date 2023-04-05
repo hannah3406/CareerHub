@@ -21,12 +21,21 @@ const HomeLayout = ({
     <Grid
       minH="100vh"
       h="100%"
-      maxW="1200px"
+      // maxW="1200px"
       m="0 auto"
       gridTemplateRows="auto 1fr auto"
       {...containerProps}
     >
-      <header>{header}</header>
+      <header
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 99,
+          backgroundColor: "#fff",
+        }}
+      >
+        {header}
+      </header>
       <main>{content}</main>
       <footer>{footer}</footer>
     </Grid>

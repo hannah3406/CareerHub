@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Text, VStack } from '@chakra-ui/layout';
+import { Text, VStack } from "@chakra-ui/layout";
 
 interface LetterSpacingSectionProps {
   letterSpacings: Record<string, string>;
@@ -24,7 +24,7 @@ const LetterSpacingSection = ({
               fontWeight="bold"
               color="gray.600"
             >
-              안녕하세요 똑똑한 개발자 입니다.
+              안녕하세요 .
             </Text>
           </VStack>
         );

@@ -63,7 +63,7 @@ const ChartComponent = (props: DoughnutChartProps) => {
       {
         data: values,
         label: "빈도수",
-        backgroundColor: chartType === "doughnut" ? randomColor : "#33D78D",
+        backgroundColor: chartType === "doughnut" ? randomColor : "#D89999",
         hoverOffset: 4,
         fill: isFill ? "start" : isFill,
         tension: 0.3,
@@ -254,14 +254,14 @@ const ButtonStyle = styled(Button)`
   transition: 0.3s;
   &:hover {
     transition: 0.3s;
-    background: #33d78d;
+    background: #d89999;
     span {
       font-weight: bold;
       color: #fff;
     }
   }
   &:focus {
-    background: #33d78d;
+    background: #d89999;
     span {
       font-weight: bold;
       color: #fff;

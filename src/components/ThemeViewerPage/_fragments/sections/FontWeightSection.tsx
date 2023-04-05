@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Text, VStack } from '@chakra-ui/layout';
+import { Text, VStack } from "@chakra-ui/layout";
 
 interface FontWeightSectionProps {
   fontWeights: Record<string, string>;
@@ -17,7 +17,7 @@ const FontWeightSection = ({ fontWeights }: FontWeightSectionProps) => {
               {key}: {fontWeight}
             </Text>
             <Text fontWeight={fontWeight} textStyle="lg" color="gray.600">
-              안녕하세요 똑똑한 개발자 입니다.
+              안녕하세요 .
             </Text>
           </VStack>
         );

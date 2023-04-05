@@ -5,4 +5,7 @@ export const QUERY_KEY = {
   AUTH: {
     REFRESH: "auth-refresh",
   },
+  WEBCRAWLING: {
+    GETLIST: "webcrawling-getList",
+  },
 };

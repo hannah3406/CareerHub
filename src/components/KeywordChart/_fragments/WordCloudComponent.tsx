@@ -81,14 +81,14 @@ const ButtonStyle = styled(Button)`
   transition: 0.3s;
   &:hover {
     transition: 0.3s;
-    background: #33d78d;
+    background: #d89999;
     span {
       font-weight: bold;
       color: #fff;
     }
   }
   &:focus {
-    background: #33d78d;
+    background: #d89999;
     span {
       font-weight: bold;
       color: #fff;

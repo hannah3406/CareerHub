@@ -1,18 +1,15 @@
 import HomeLayout from "components/common/@Layout/layouts/HomeLayout";
 import "./app.css";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import LoginPage from "./pages/Login";
-import NotFound from "./pages/NotFound";
-import StatisticsPage from "./pages/Statistics";
+import * as P from "./pages/index";
 import { useEffect, useMemo } from "react";
 import { getToken } from "utils/sessionStorage/token";
-import SignUpPage from "pages/SignUp";
 
 function App() {
   const token = getToken();
   const navigete = useNavigate();
   const { pathname } = useLocation();
-  const exceptPath = useMemo(() => ["/login", "/signup"], []);
+  const exceptPath = useMemo(() => ["/login", "/signup", "/", "/position"], []);
 
   useEffect(() => {
     if (!token && !exceptPath.includes(pathname)) {
@@ -22,10 +19,21 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<HomeLayout content={<StatisticsPage />} />} />
-      <Route path="/login" element={<HomeLayout content={<LoginPage />} />} />
-      <Route path="/signup" element={<HomeLayout content={<SignUpPage />} />} />
-      <Route element={<NotFound />} />
+      <Route path="/" element={<HomeLayout content={<P.MainPage />} />} />
+      <Route
+        path="/statistics"
+        element={<HomeLayout content={<P.StatisticsPage />} />}
+      />
+      <Route
+        path="/position"
+        element={<HomeLayout content={<P.PositionPage />} />}
+      />
+      <Route path="/login" element={<HomeLayout content={<P.LoginPage />} />} />
+      <Route
+        path="/signup"
+        element={<HomeLayout content={<P.SignUpPage />} />}
+      />
+      <Route element={<P.NotFound />} />
     </Routes>
   );
 }

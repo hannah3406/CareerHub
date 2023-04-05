@@ -9,7 +9,7 @@ function AntdSetting(props: IAntdProviderProps) {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#33d78d",
+          colorPrimary: "#D89999",
         },
       }}
     >
