@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { CONFIG } from "config";
-import { getToken } from "utils/sessionStorage/token";
-const token = getToken();
+
 const instance: AxiosInstance = axios.create({
   baseURL: CONFIG.API_BASE_URL,
   timeout: 15000,

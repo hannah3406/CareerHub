@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { useGetListQuery } from "apis/webcrawling/query";
 import ScrollUp from "components/common/@Icons/System/ScrollUp";
 import PositionComponent from "components/Position";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const PositionContainer = () => {
   // const [page, setPage] = useState(1);
