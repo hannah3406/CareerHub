@@ -1,7 +1,7 @@
 export const CONFIG = {
   //   ENV: process.env.NODE_ENV,
   //   DOMAIN: requireEnv("NEXT_PUBLIC_DOMAIN", "https://yourhompage.com"),
-  API_BASE_URL: "https://careerhub-back.netlify.app/",
+  API_BASE_URL: "localhost",
   //   APP_NAME: requireEnv("APP_NAME", "퍼스트 업로더"),
   AUTH_TOKEN_KEY: "ACCESS_TOKEN",
   //   ACCESSTOKEN: process.env.NEXT_PUBLIC_API_ACCESSTOKEN,
