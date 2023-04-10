@@ -1,5 +1,5 @@
 import HomeLayout from "components/common/@Layout/layouts/HomeLayout";
-import "./app.css";
+import "./App.css";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import * as P from "./pages/index";
 import { useEffect, useMemo } from "react";

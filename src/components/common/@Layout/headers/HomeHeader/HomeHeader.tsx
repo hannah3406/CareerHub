@@ -38,15 +38,7 @@ const HomeHeader = () => {
       postLogoutUserMutate({ email: userProfile.email });
     }
   };
-  const cancel = () => {
-    setOpen(false);
-  };
-  const content = (
-    <ProfilePanel>
-      <div>마이페이지</div>
-      <div>로그아웃</div>
-    </ProfilePanel>
-  );
+
   return (
     <Box w="100%" p="15px 0" boxShadow="md">
       <Flex
@@ -64,12 +56,37 @@ const HomeHeader = () => {
           </Link>
         </Box>
         <Flex w="50%" justifyContent="right" alignItems="center">
-          {!exceptPath.includes(pathname) && (
-            <Popover content={content} trigger="click">
+          {!!userProfile ? (
+            <Popover
+              content={
+                <ProfilePanel>
+                  <div>마이페이지</div>
+                  <div onClick={confirm}>로그아웃</div>
+                </ProfilePanel>
+              }
+              trigger="click"
+            >
               <ProfileImg>
                 <img src={PROFILE_DEFAULT} alt="profile" />
               </ProfileImg>
             </Popover>
+          ) : (
+            <>
+              <Link to={ROUTES.SIGNUP}>
+                <Box fontWeight="bold">회원가입</Box>
+              </Link>
+              <Divider
+                display={{ base: "none", sm: "block" }}
+                orientation="vertical"
+                w="1px"
+                h="8px"
+                bg="#000"
+                mx="10px"
+              />
+              <Link to={ROUTES.LOGIN}>
+                <Box fontWeight="bold">로그인</Box>
+              </Link>
+            </>
           )}
         </Flex>
       </Flex>
