@@ -5,7 +5,8 @@ import PositionComponent from "components/Position";
 import { useEffect, useState } from "react";
 
 const PositionContainer = () => {
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
+  const page = 1;
   const { data } = useGetListQuery(page, {
     options: {
       staleTime: 10 * 1000,

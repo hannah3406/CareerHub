@@ -1,11 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
-import { Box, Divider, Flex, Text } from "@chakra-ui/react";
-import { Button, Popconfirm, Popover } from "antd";
+import { Box, Divider, Flex } from "@chakra-ui/react";
+import { Popover } from "antd";
 import { getToken } from "utils/sessionStorage/token";
 // import Logo from "components/common/@Icons/System/Logo";
 
-import { LAYOUT } from "constants/layout";
 import { ROUTES } from "constants/routes";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useUserProfileQuery } from "apis/user/query";
@@ -14,7 +13,7 @@ import LOGO from "assets/icon/LOGO5.png";
 import PROFILE_DEFAULT from "assets/image/profile-default.png";
 import styled from "@emotion/styled";
 const HomeHeader = () => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   const token = getToken();
   const exceptPath = useMemo(() => ["/login", "/signup"], []);
