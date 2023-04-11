@@ -24,3 +24,14 @@ body {
   font-weight: bold;
   font-size: 12px;
 }
+.arrowDown {
+  animation: arrowDownAni 0.8s 1s infinite linear alternate;
+}
+@keyframes arrowDownAni {
+  0% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(3px);
+  }
+}

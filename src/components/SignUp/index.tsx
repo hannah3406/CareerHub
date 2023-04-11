@@ -1,16 +1,16 @@
 import { Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Button, Form, Input } from "antd";
-import { usePostCreateUser } from "apis/user/mutation";
+import userApi from "apis/user";
 import { CreateUser } from "apis/user/type";
 import { useNavigate } from "react-router-dom";
 
 const SignUpComponent = () => {
   const navigete = useNavigate();
-  const { mutate: postCreateUserMutate } = usePostCreateUser();
-  const onFinish = (values: CreateUser) => {
+
+  const onFinish = async (values: CreateUser) => {
     try {
-      postCreateUserMutate(values);
+      await userApi.createUser(values);
       alert("회원가입이 완료되었습니다! 로그인을 해주세요!");
       navigete("/login");
     } catch (e) {

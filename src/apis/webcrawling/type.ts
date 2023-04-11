@@ -4,11 +4,20 @@ export type PositionList = {
   title: string;
   majorTasks: string;
   experience: string;
+  type: string;
+  closingdate?: string;
   preferential: string;
   welfare: string;
   skill: string[];
   location: string;
+  locationDetail: null | string;
   company: string;
   createdAt: string;
   updatedAt: string;
+  description?: string;
+};
+
+export type PositionListResult = {
+  page: number;
+  results: PositionList[];
 };

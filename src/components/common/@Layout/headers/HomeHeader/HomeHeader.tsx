@@ -1,40 +1,25 @@
-import { useMemo } from "react";
-
 import { Box, Divider, Flex } from "@chakra-ui/react";
 import { Popover } from "antd";
-import { getToken } from "utils/sessionStorage/token";
-// import Logo from "components/common/@Icons/System/Logo";
 
 import { ROUTES } from "constants/routes";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useUserProfileQuery } from "apis/user/query";
-import { usePostLogoutUser } from "apis/auth/mutation";
+
 import LOGO from "assets/icon/LOGO5.png";
 import PROFILE_DEFAULT from "assets/image/profile-default.png";
 import styled from "@emotion/styled";
+import { useRecoilState } from "recoil";
+import { Tuser, userProfileState } from "recoil/users";
+import authApi from "apis/auth";
 const HomeHeader = () => {
-  // const [open, setOpen] = useState(false);
+  const [userProfile, setUserProfile] = useRecoilState<Tuser>(userProfileState);
   const { pathname } = useLocation();
-  const token = getToken();
-  const exceptPath = useMemo(() => ["/login", "/signup"], []);
   const navigete = useNavigate();
-  const { mutate: postLogoutUserMutate } = usePostLogoutUser({
-    options: {
-      onSuccess: () => navigete("/login"),
-    },
-  });
-  const { data: userProfile } = useUserProfileQuery(
-    token !== null ? token : undefined,
-    {
-      options: {
-        enabled: token !== null && !exceptPath.includes(pathname),
-        staleTime: 10 * 1000,
-      },
-    }
-  );
-  const confirm = async () => {
+
+  const logout = async () => {
     if (!!userProfile) {
-      postLogoutUserMutate({ email: userProfile.email });
+      await authApi.logoutUser(userProfile.email);
+      setUserProfile(undefined);
+      navigete("/login");
     }
   };
 
@@ -60,7 +45,7 @@ const HomeHeader = () => {
               content={
                 <ProfilePanel>
                   <div>마이페이지</div>
-                  <div onClick={confirm}>로그아웃</div>
+                  <div onClick={logout}>로그아웃</div>
                 </ProfilePanel>
               }
               trigger="click"

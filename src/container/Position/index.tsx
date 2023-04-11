@@ -5,19 +5,34 @@ import PositionComponent from "components/Position";
 import { useEffect } from "react";
 
 const PositionContainer = () => {
-  // const [page, setPage] = useState(1);
-  const page = 1;
-  const { data } = useGetListQuery(page, {
+  const { data: position, fetchNextPage } = useGetListQuery({
     options: {
-      staleTime: 10 * 1000,
+      getNextPageParam: (lastPage) => {
+        if (lastPage.results.length < 10) return;
+        return lastPage.page + 1;
+      },
     },
   });
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight) return fetchNextPage();
+  };
+
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
+
   return (
     <Box p="50px 10px">
-      <PositionComponent data={data} />
+      {position?.pages.map((page) => {
+        return <PositionComponent key={page.page} data={page.results} />;
+      })}
+
       <Box
         position="fixed"
         bottom={{ base: "90px", sm: "40px" }}

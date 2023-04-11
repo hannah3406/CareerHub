@@ -1,6 +1,6 @@
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
-import { PositionList } from "./type";
+import { PositionListResult } from "./type";
 
 export class WebCrawlingApi {
   axios: AxiosInstance = instance;
@@ -8,13 +8,14 @@ export class WebCrawlingApi {
     if (axios) this.axios = axios;
   }
 
-  getList = async (page?: number): Promise<PositionList[]> => {
+  getList = async (pageParam?: number): Promise<PositionListResult> => {
+    const page = !!pageParam ? pageParam : 0;
     const { data } = await instance({
       method: "GET",
       url: `/web-crawling/getList`,
       params: { page },
     });
-    return data;
+    return { page, results: data };
   };
 }
 

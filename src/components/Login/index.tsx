@@ -1,32 +1,36 @@
 import { Flex, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Alert, Button, Form, Input } from "antd";
-import { usePostLoginUser } from "apis/auth/mutation";
+import authApi from "apis/auth";
 import { LoginData } from "apis/auth/type";
+import userApi from "apis/user";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { Tuser, userProfileState } from "recoil/users";
 
 const LoginComponent = () => {
+  const setUserProfile = useSetRecoilState<Tuser>(userProfileState);
   const navigete = useNavigate();
-  const { mutate: postLoginUserMutate } = usePostLoginUser({
-    options: {
-      onSuccess: () => navigete("/"),
-    },
-  });
+
   const [errMsg, setErrMsg] = useState<string | undefined>(undefined);
+  const getUserProfile = async (token: string) => {
+    const data = await userApi.getProfile(token);
+    setUserProfile(data);
+  };
   const onFinish = async (values: LoginData) => {
     setErrMsg(undefined);
     try {
-      postLoginUserMutate(values);
-
-      // window.location.replace("/");
+      const accessToken = await authApi.loginUser(values);
+      await getUserProfile(accessToken);
+      navigete("/");
     } catch (e: any) {
       setErrMsg(e.response.data.message[0]);
     }
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    console.log("로그인 실패:", errorInfo);
   };
 
   return (

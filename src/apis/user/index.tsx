@@ -8,7 +8,7 @@ export class UserApi {
   constructor(axios?: AxiosInstance) {
     if (axios) this.axios = axios;
   }
-  PostCreateUser = async (userData: CreateUser): Promise<{}> => {
+  createUser = async (userData: CreateUser): Promise<{}> => {
     const { data } = await instance({
       method: "POST",
       url: `/user/create`,
