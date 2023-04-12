@@ -27,6 +27,25 @@ body {
 .arrowDown {
   animation: arrowDownAni 0.8s 1s infinite linear alternate;
 }
+/* /position */
+.ant-modal {
+  width: 900px !important;
+}
+.ant-modal-content {
+  padding: 0 !important;
+  border-radius: 20px !important;
+  overflow: hidden;
+}
+.ant-modal-close {
+  display: none;
+}
+.ant-modal-header {
+  overflow: hidden;
+}
+.ant-modal-footer {
+  overflow: hidden;
+}
+
 @keyframes arrowDownAni {
   0% {
     transform: translateY(-3px);
