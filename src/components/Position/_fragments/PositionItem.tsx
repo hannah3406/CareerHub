@@ -28,12 +28,12 @@ export const PositionItem = (props: IPositionItemProps) => {
 
   const PositionDetail = ({ title, value }: IPositionDetailProps) => (
     <Box mt={"10px"}>
-      {title !== "" && show && (
+      {title !== "" && title !== "show" && (
         <BoxStyles>
           <span>{title}</span>
         </BoxStyles>
       )}
-      <Box p={show ? "20px" : "10px 20px 20px 20px"}>
+      <Box p={title !== "show" ? "20px" : "0 20px 10px 20px"}>
         <TextAreaStyle value={value} readOnly />
       </Box>
     </Box>
@@ -57,14 +57,14 @@ export const PositionItem = (props: IPositionItemProps) => {
               display="inline-block"
               fontSize="10px"
               fontWeight="bold"
-              color={data.url.includes("wanted") ? "#fff" : "#000"}
+              color={data.type === "wanted" ? "#fff" : "#000"}
               p="2px 8px"
               borderRadius="8px"
               bg={data.type === "wanted" ? "#36f" : "rgb(0, 221, 109)"}
             >
               {data.type}
             </Box>
-            <Box ml="5px" fontSize="14px" fontWeight="bold">
+            <Box ml="5px" fontSize="14px" fontWeight="bold" color="gray.700">
               {data.company}
             </Box>
           </Flex>
@@ -143,7 +143,7 @@ export const PositionItem = (props: IPositionItemProps) => {
   const PositionBody = ({ show }: IPositionFooterProps) => (
     <>
       {!show ? (
-        <PositionDetail title="" value={data.majorTasks} />
+        <PositionDetail title="show" value={data.majorTasks} />
       ) : (
         <>
           {data.description && (
@@ -184,7 +184,7 @@ export const PositionItem = (props: IPositionItemProps) => {
         <Flex flexDirection="column" w="100%">
           <PositionHeader show={false} />
           <PositionBody show={false} />
-          <PositionFooter show={false} />
+          {/* <PositionFooter show={false} /> */}
         </Flex>
       </Flex>
       <Modal

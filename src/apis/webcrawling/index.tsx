@@ -8,12 +8,20 @@ export class WebCrawlingApi {
     if (axios) this.axios = axios;
   }
 
-  getList = async (pageParam?: number): Promise<PositionListResult> => {
+  getList = async (
+    keyword: string | undefined,
+    pageParam?: number
+  ): Promise<PositionListResult> => {
     const page = !!pageParam ? pageParam : 0;
+
+    const params = {
+      page,
+      keyword,
+    };
     const { data } = await instance({
       method: "GET",
       url: `/web-crawling/getList`,
-      params: { page },
+      params,
     });
     return { page, results: data };
   };

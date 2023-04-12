@@ -11,7 +11,7 @@ const PositionComponent = (props: IPositionComponentProps) => {
   const { data } = props;
 
   return (
-    <Flex flexDirection="column" w="900px" m="0 auto">
+    <Flex flexDirection="column">
       {data && data.map((data, idx) => <PositionItem data={data} key={idx} />)}
     </Flex>
   );

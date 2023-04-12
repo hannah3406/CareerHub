@@ -10,3 +10,7 @@ export type GraphTypes = {
   name: string;
   type: string;
 }[];
+
+export type SearchListParams = {
+  keyword: string;
+};
