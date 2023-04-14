@@ -21,3 +21,8 @@ export type PositionListResult = {
   page: number;
   results: PositionList[];
 };
+
+export type PositionSearchParams = {
+  keyword: string | undefined;
+  type?: string | undefined;
+};

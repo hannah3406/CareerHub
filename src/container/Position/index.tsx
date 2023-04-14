@@ -6,21 +6,25 @@ import SearchBar from "components/common/SearchBar";
 import PositionComponent from "components/Position";
 import { useEffect, useState } from "react";
 import { ROUTES } from "constants/routes";
-import { searchState } from "recoil/search";
+import { SearchParam, searchParamsState } from "recoil/search";
 import { useRecoilState } from "recoil";
+import { positionFilter } from "components/Position/position.data";
+import { RadioChangeEvent } from "antd";
 
 const PositionContainer = () => {
-  const [init, setInit] = useState(false);
+  const location = useLocation();
   const navigete = useNavigate();
-  const [searchKeyword, setSearchKeyword] = useRecoilState<string | undefined>(
-    searchState
-  );
+  const [searchParams, setSearchParams] =
+    useRecoilState<SearchParam>(searchParamsState);
+  const [selectType, setSelectType] = useState<string>("title");
+
   const {
     data: position,
     fetchNextPage,
     hasNextPage,
     isLoading,
-  } = useGetListQuery(searchKeyword, {
+  } = useGetListQuery({
+    variables: searchParams,
     options: {
       enabled: true,
       getNextPageParam: (lastPage) => {
@@ -29,14 +33,21 @@ const PositionContainer = () => {
       },
     },
   });
+  const onChange = (e: RadioChangeEvent) => {
+    setSelectType(e.target.value);
+  };
   const onSearch = (keyword: string) => {
-    const params = { keyword };
-    setSearchKeyword(keyword);
+    const params = {
+      keyword,
+      type: selectType,
+    };
+    setSearchParams(params);
     navigete({
       pathname: ROUTES.POSITION,
       search: `?${createSearchParams(params)}`,
     });
   };
+
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
@@ -44,10 +55,12 @@ const PositionContainer = () => {
     if (hasNextPage && scrollTop + clientHeight >= scrollHeight)
       return fetchNextPage();
   };
-
   useEffect(() => {
-    console.log(init || !!searchKeyword);
-  }, [init, searchKeyword]);
+    if (location.search === undefined || location.search === "") {
+      setSearchParams({ keyword: undefined, type: undefined });
+    }
+  }, [location.search, setSearchParams]);
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -56,13 +69,31 @@ const PositionContainer = () => {
   });
 
   return (
-    <Box p="50px 10px" w="900px" m="0 auto">
-      <SearchBar onSearch={onSearch} />
+    <Box>
+      <Box
+        w="100%"
+        position="sticky"
+        top="110px"
+        bg="#fff"
+        p="15px 0"
+        zIndex="98"
+      >
+        <SearchBar
+          style={{ width: 900, margin: "0 auto" }}
+          onSearch={onSearch}
+          onChange={onChange}
+          selectType={selectType}
+          filter={positionFilter}
+        />
+      </Box>
       {isLoading && <Text>Loading...</Text>}
-      {position?.pages.map((page) => {
-        return <PositionComponent key={page.page} data={page.results} />;
-      })}
-      {/* {!hasNextPage && <Text>최하단입니다!</Text>} */}
+      <Box w="900px" m="0 auto">
+        {position?.pages.map((page) => {
+          return <PositionComponent key={page.page} data={page.results} />;
+        })}
+      </Box>
+
+      {!hasNextPage && <Text>최하단입니다!</Text>}
       <Box
         position="fixed"
         bottom={{ base: "90px", sm: "40px" }}
