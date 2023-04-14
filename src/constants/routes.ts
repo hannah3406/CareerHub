@@ -5,4 +5,5 @@ export const ROUTES = {
   COMMUNITY: "/community",
   SIGNUP: "/signup",
   STATISTICSPAGE: "/statistics",
+  MYPAGE: "/mypage",
 } as const;

@@ -20,6 +20,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomeLayout content={<P.MainPage />} />} />
+      <Route path="mypage" element={<HomeLayout content={<P.MyPage />} />} />
       <Route
         path="/statistics"
         element={<HomeLayout content={<P.StatisticsPage />} />}

@@ -19,7 +19,7 @@ const HomeHeader = () => {
     if (!!userProfile) {
       await authApi.logoutUser(userProfile.email);
       setUserProfile(undefined);
-      navigete("/login");
+      navigete(ROUTES.LOGIN);
     }
   };
 
@@ -44,7 +44,7 @@ const HomeHeader = () => {
             <Popover
               content={
                 <ProfilePanel>
-                  <div>마이페이지</div>
+                  <div onClick={() => navigete(ROUTES.MYPAGE)}>마이페이지</div>
                   <div onClick={logout}>로그아웃</div>
                 </ProfilePanel>
               }
