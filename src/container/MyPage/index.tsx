@@ -1,20 +1,52 @@
 import { Flex, Text, Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userProfileState } from "recoil/users";
-import PROFILE_DEFAULT from "assets/image/profile-default.png";
-import styled from "@emotion/styled";
+
 import moment from "moment";
 
+import { useNavigate } from "react-router-dom";
+import userApi from "apis/user";
+import { useQueryClient } from "react-query";
+import { QUERY_KEY } from "constants/query-keys";
+import { userProfile as userType } from "apis/user/type";
+import { getToken } from "utils/sessionStorage/token";
+import MyProfileComponent from "components/MyProfile";
+
 const MyPageContainer = () => {
-  const userData = useRecoilValue(userProfileState);
+  const navigete = useNavigate();
+  const queryClient = useQueryClient();
+  const token = getToken();
+  const userProfile = queryClient.getQueryData<userType>([
+    QUERY_KEY.USER.PROFILE,
+    token,
+  ]);
   const [date, setDate] = useState<string | undefined>(undefined);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isSelect, setSelect] = useState<number | undefined>(
+    Number(userProfile?.profileimg)
+  );
   useEffect(() => {
-    if (!!userData) {
-      const local = moment.utc(userData.updatedAt).toDate();
+    if (!!userProfile) {
+      const local = moment.utc(userProfile.updatedAt).toDate();
       setDate(moment(local).format("YYYY.MM.DD"));
     }
-  }, [userData]);
+    if (userProfile === undefined) {
+      navigete("/");
+    }
+  }, [navigete, userProfile]);
+  const onSelectImg = (idx: number) => {
+    setSelect(idx);
+  };
+  const onImageEdit = async (idx: number | undefined) => {
+    if (userProfile === undefined) return;
+    try {
+      await userApi.updateUser(userProfile._id, "profileimg", String(idx));
+      alert("변경되었습니다.");
+      await queryClient.invalidateQueries([QUERY_KEY.USER.PROFILE, token]);
+      setIsEdit(!isEdit);
+    } catch (e) {
+      console.log("저장 실패");
+    }
+  };
   return (
     <Box>
       <Text
@@ -28,31 +60,24 @@ const MyPageContainer = () => {
       >
         마이페이지
       </Text>
+
       <Flex flexDirection="column" w="900px" m="20px auto" mb="100px">
         <Text color="#000" p="10px 0" fontSize="20px">
           내프로필
         </Text>
-        <Flex
-          w="900px"
-          m="10px auto"
-          alignItems="center"
-          justifyContent="start"
-          p="30px 50px"
-          bg="#eee"
-          border="1px solid #ddd"
-          borderRadius="20px"
-        >
-          <ProfileImg>
-            <img src={PROFILE_DEFAULT} alt="profile" />
-          </ProfileImg>
-          <Flex flexDirection="column" ml="50px">
-            <Text color="#000" p="10px 0" fontSize="20px">
-              {userData?.name}
-            </Text>
-            <Box>{userData?.email}</Box>
-            {date && <Box>{date}</Box>}
-          </Flex>
-        </Flex>
+
+        {userProfile && !!date && (
+          <MyProfileComponent
+            date={date}
+            userProfile={userProfile}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+            onSelectImg={onSelectImg}
+            onImageEdit={onImageEdit}
+            isSelect={isSelect}
+          />
+        )}
+
         <Text mt="30px" color="#000" p="10px 0" fontSize="20px">
           활동내역
         </Text>
@@ -63,19 +88,3 @@ const MyPageContainer = () => {
 };
 
 export default MyPageContainer;
-const ProfileImg = styled.div`
-  width: 120px;
-  height: 120px;
-  overflow: hidden;
-  transition: 0.3s;
-  cursor: pointer;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 2.194px 2.046px 7.6px 0.4px rgba(0, 0, 0, 0.15);
-  > img {
-    width: 100%;
-  }
-  &:hover {
-    transform: scale(1.1);
-  }
-`;

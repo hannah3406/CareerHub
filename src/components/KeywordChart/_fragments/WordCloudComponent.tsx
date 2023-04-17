@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { Button } from "antd";
 import { DummyList, WordCloudData } from "container/Statistics/types";
 import { useEffect, useState } from "react";
+
 import WordCloud from "react-d3-cloud";
 interface IWordCloudComponentProps {
   dummy: DummyList;

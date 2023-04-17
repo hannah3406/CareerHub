@@ -5,20 +5,26 @@ import { ROUTES } from "constants/routes";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import LOGO from "assets/icon/LOGO5.png";
-import PROFILE_DEFAULT from "assets/image/profile-default.png";
 import styled from "@emotion/styled";
-import { useRecoilState } from "recoil";
-import { Tuser, userProfileState } from "recoil/users";
+
 import authApi from "apis/auth";
+import { useQueryClient } from "react-query";
+import { QUERY_KEY } from "constants/query-keys";
+import { userProfile as userType } from "apis/user/type";
+import { getToken } from "utils/sessionStorage/token";
 const HomeHeader = () => {
-  const [userProfile, setUserProfile] = useRecoilState<Tuser>(userProfileState);
   const { pathname } = useLocation();
   const navigete = useNavigate();
-
+  const queryClient = useQueryClient();
+  const token = getToken();
+  const userProfile = queryClient.getQueryData<userType>([
+    QUERY_KEY.USER.PROFILE,
+    token,
+  ]);
   const logout = async () => {
     if (!!userProfile) {
       await authApi.logoutUser(userProfile.email);
-      setUserProfile(undefined);
+      await queryClient.invalidateQueries([QUERY_KEY.USER.PROFILE, token]);
       navigete(ROUTES.LOGIN);
     }
   };
@@ -51,7 +57,12 @@ const HomeHeader = () => {
               trigger="click"
             >
               <ProfileImg>
-                <img src={PROFILE_DEFAULT} alt="profile" />
+                <img
+                  src={`assets/image/profile/파일 ${
+                    Number(userProfile.profileimg) + 1
+                  }.svg`}
+                  alt="homeheader_profile"
+                />
               </ProfileImg>
             </Popover>
           ) : (

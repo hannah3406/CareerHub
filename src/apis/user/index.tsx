@@ -1,5 +1,6 @@
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
+import { getToken } from "utils/sessionStorage/token";
 
 import { CreateUser, userProfile } from "./type";
 
@@ -8,6 +9,7 @@ export class UserApi {
   constructor(axios?: AxiosInstance) {
     if (axios) this.axios = axios;
   }
+
   createUser = async (userData: CreateUser): Promise<{}> => {
     const { data } = await instance({
       method: "POST",
@@ -17,7 +19,25 @@ export class UserApi {
     return data;
   };
 
-  getProfile = async (token: string | undefined): Promise<userProfile> => {
+  updateUser = async (id: string, type: string, value: string): Promise<{}> => {
+    const token = getToken();
+    const { data } = await instance({
+      method: "PATCH",
+      url: `/user/profile/${id}`,
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: 0,
+        Authorization: `Bearer ${token}`,
+      },
+      data: { type, value },
+    });
+    return data;
+  };
+
+  getProfile = async (
+    token: string | null | undefined
+  ): Promise<userProfile> => {
     const { data } = await instance({
       method: "GET",
       url: `/user/profile`,

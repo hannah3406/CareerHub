@@ -13,4 +13,5 @@ export type userProfile = {
   createdAt: string;
   updatedAt: string;
   _id: string;
+  profileimg: number;
 };
