@@ -128,6 +128,7 @@ export const PositionItem = (props: IPositionItemProps) => {
         <Button
           key="link"
           href={data.url}
+          target="_blank"
           type="primary"
           style={{
             width: 200,

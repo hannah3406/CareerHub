@@ -1,10 +1,11 @@
 import HomeLayout from "components/common/@Layout/layouts/HomeLayout";
 import "./App.css";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import * as P from "./pages/index";
+import * as Page from "./pages/index";
 import { useEffect, useMemo } from "react";
 import { getToken } from "utils/sessionStorage/token";
 import { useGetProfileQuery } from "apis/user/query";
+import { ROUTES } from "constants/routes";
 
 function App() {
   const token = getToken();
@@ -27,22 +28,44 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<HomeLayout content={<P.MainPage />} />} />
-      <Route path="mypage" element={<HomeLayout content={<P.MyPage />} />} />
       <Route
-        path="/statistics"
-        element={<HomeLayout content={<P.StatisticsPage />} />}
+        path={ROUTES.HOME}
+        element={<HomeLayout content={<Page.MainPage />} />}
       />
       <Route
-        path="/position"
-        element={<HomeLayout content={<P.PositionPage />} />}
+        path={ROUTES.MYPAGE}
+        element={<HomeLayout content={<Page.MyPage />} />}
       />
-      <Route path="/login" element={<HomeLayout content={<P.LoginPage />} />} />
       <Route
-        path="/signup"
-        element={<HomeLayout content={<P.SignUpPage />} />}
+        path={ROUTES.STATISTICSPAGE}
+        element={<HomeLayout content={<Page.StatisticsPage />} />}
       />
-      <Route element={<P.NotFound />} />
+      <Route
+        path={ROUTES.POSITION}
+        element={<HomeLayout content={<Page.PositionPage />} />}
+      />
+      <Route
+        path={ROUTES.COMMUNITY.LIST}
+        element={<HomeLayout content={<Page.CommunityPage />} />}
+      />
+      <Route
+        path={ROUTES.COMMUNITY.CREATE}
+        element={
+          <HomeLayout
+            header={undefined}
+            content={<Page.CommunityCreatePage />}
+          />
+        }
+      />
+      <Route
+        path={ROUTES.LOGIN}
+        element={<HomeLayout content={<Page.LoginPage />} />}
+      />
+      <Route
+        path={ROUTES.SIGNUP}
+        element={<HomeLayout content={<Page.SignUpPage />} />}
+      />
+      <Route element={<Page.NotFound />} />
     </Routes>
   );
 }

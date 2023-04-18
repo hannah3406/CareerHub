@@ -4,7 +4,7 @@ import HomeFooter from "../../footer";
 import HomeHeader from "../../headers/HomeHeader";
 
 interface HomeLayoutProps {
-  header?: JSX.Element;
+  header?: JSX.Element | undefined;
   footer?: JSX.Element;
   menubar?: JSX.Element;
   content?: JSX.Element;
@@ -12,7 +12,7 @@ interface HomeLayoutProps {
 }
 
 const HomeLayout = ({
-  header = <HomeHeader />,
+  header,
   footer = <HomeFooter />,
   containerProps,
   content,
@@ -34,7 +34,7 @@ const HomeLayout = ({
           backgroundColor: "#fff",
         }}
       >
-        {header}
+        {!!header && <HomeHeader />}
       </header>
       <main>{content}</main>
       <footer>{footer}</footer>

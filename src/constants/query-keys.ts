@@ -8,4 +8,7 @@ export const QUERY_KEY = {
   WEBCRAWLING: {
     GETLIST: "webcrawling-getList",
   },
+  COMMUNITY: {
+    GETLIST: "community-getList",
+  },
 };

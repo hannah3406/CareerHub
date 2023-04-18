@@ -5,6 +5,8 @@ import PositionPage from "pages/Position";
 import LoginPage from "pages/Login";
 import NotFound from "pages/NotFound";
 import StatisticsPage from "pages/Statistics";
+import CommunityPage from "./Community";
+import CommunityCreatePage from "./Community/create";
 
 export {
   SignUpPage,
@@ -14,4 +16,6 @@ export {
   LoginPage,
   NotFound,
   StatisticsPage,
+  CommunityPage,
+  CommunityCreatePage,
 };

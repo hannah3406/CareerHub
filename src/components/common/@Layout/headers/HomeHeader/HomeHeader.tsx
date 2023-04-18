@@ -91,8 +91,10 @@ const HomeHeader = () => {
           <NaviText isPath={pathname === ROUTES.POSITION}>채용공고 </NaviText>
         </Link>
 
-        <Link to={ROUTES.COMMUNITY}>
-          <NaviText isPath={pathname === ROUTES.COMMUNITY}>커뮤니티</NaviText>
+        <Link to={ROUTES.COMMUNITY.LIST}>
+          <NaviText isPath={pathname === ROUTES.COMMUNITY.LIST}>
+            커뮤니티
+          </NaviText>
         </Link>
         <Link to={ROUTES.STATISTICSPAGE}>
           <NaviText isPath={pathname === ROUTES.STATISTICSPAGE}>
