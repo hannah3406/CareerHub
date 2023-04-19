@@ -29,12 +29,13 @@ export class WebCrawlingApi {
       url: `/web-crawling/getList`,
       params,
     });
-    return { page, results: data };
+    const { results, total } = data;
+    return { page, results, total };
   };
 
   getPaginationList = async (
     searchParams: PositionPageSearchParams
-  ): Promise<PositionList[]> => {
+  ): Promise<PositionListResult> => {
     const { keyword, type, page } = searchParams;
     const params = {
       page,
@@ -46,20 +47,8 @@ export class WebCrawlingApi {
       url: `/web-crawling/getList`,
       params,
     });
-    return data;
-  };
-  getListCount = async (countParams: PositionSearchParams): Promise<number> => {
-    const { keyword, type } = countParams;
-    const params = {
-      keyword,
-      type,
-    };
-    const { data } = await instance({
-      method: "GET",
-      url: `/web-crawling/getListCount`,
-      params,
-    });
-    return data;
+    const { results, total } = data;
+    return { page, results, total };
   };
 }
 

@@ -20,6 +20,7 @@ export type PositionList = {
 export type PositionListResult = {
   page: number;
   results: PositionList[];
+  total: number;
 };
 
 export type PositionSearchParams = {

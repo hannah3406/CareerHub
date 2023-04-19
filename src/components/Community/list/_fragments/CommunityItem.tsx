@@ -62,9 +62,9 @@ const CommunityItem = ({ data }: ICommunityItemProps) => {
       )}
       {data.skill && (
         <Flex alignItems="center" pt="10px" flexWrap="wrap">
-          {data.skill.slice(0, 10).map((el) => (
+          {data.skill.slice(0, 10).map((el, idx) => (
             <Box
-              key={el}
+              key={idx}
               mr="7px"
               mb="7px"
               fontSize="12px"

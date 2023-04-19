@@ -8,10 +8,7 @@ import PositionPagination from "components/Position/Pagination";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { SearchPageParam, searchPageParamsState } from "recoil/search";
-import {
-  useGetListCountQuery,
-  useGetPaginationListQuery,
-} from "apis/webcrawling/query";
+import { useGetPaginationListQuery } from "apis/webcrawling/query";
 
 interface IWriteModalProps {
   show: boolean;
@@ -30,12 +27,6 @@ const PositionSearchModal = ({ show, setShow }: IWriteModalProps) => {
   };
   const { data: search } = useGetPaginationListQuery({
     variables: searchParams,
-    options: {
-      enabled: show,
-    },
-  });
-  const { data: total } = useGetListCountQuery({
-    variables: { type: searchParams.type, keyword: searchParams.keyword },
     options: {
       enabled: show,
     },
@@ -96,14 +87,18 @@ const PositionSearchModal = ({ show, setShow }: IWriteModalProps) => {
               </ModalTableHeaderStyle>
               <ModalTableHeaderStyle>일자</ModalTableHeaderStyle>
             </Flex>
-            {(!search || !total) && <Box>검색결과가 없습니다.</Box>}
-            <PositionPagination data={search} setShow={setShow} />
+            {!search && <Box>검색결과가 없습니다.</Box>}
+            {search && (
+              <PositionPagination data={search.results} setShow={setShow} />
+            )}
           </Flex>
-          <PaginationStyle
-            current={current}
-            onChange={onPageChange}
-            total={total}
-          />
+          {search && (
+            <PaginationStyle
+              current={current}
+              onChange={onPageChange}
+              total={search.total}
+            />
+          )}
         </Flex>
       </ModalBodyStyle>
     </Modal>
