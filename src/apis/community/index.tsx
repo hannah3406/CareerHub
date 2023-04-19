@@ -1,6 +1,6 @@
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
-import { CommunityListResult } from "./type";
+import { CommunityListResult, CreateBoard } from "./type";
 
 export class CommunityApi {
   axios: AxiosInstance = instance;
@@ -20,6 +20,15 @@ export class CommunityApi {
       params,
     });
     return { page, results: data };
+  };
+
+  createBoard = async (boardData: CreateBoard): Promise<{}> => {
+    const { data } = await instance({
+      method: "POST",
+      url: `/community/createBoard`,
+      data: boardData,
+    });
+    return data;
   };
 }
 

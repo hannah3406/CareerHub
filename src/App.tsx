@@ -51,10 +51,7 @@ function App() {
       <Route
         path={ROUTES.COMMUNITY.CREATE}
         element={
-          <HomeLayout
-            header={undefined}
-            content={<Page.CommunityCreatePage />}
-          />
+          <HomeLayout isHideHeader content={<Page.CommunityCreatePage />} />
         }
       />
       <Route

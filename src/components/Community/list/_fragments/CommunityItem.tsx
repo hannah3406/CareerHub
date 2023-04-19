@@ -1,11 +1,12 @@
 import { CommunityList } from "apis/\bcommunity/type";
-import { LikeOutlined, MessageFilled, SkinFilled } from "@ant-design/icons";
+import { LikeOutlined, MessageFilled } from "@ant-design/icons";
 import { ViewIcon } from "@chakra-ui/icons";
 import { Flex, Box, Text, Tooltip } from "@chakra-ui/react";
 import DotIcon from "components/common/@Icons/System/Dot";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import PositionArticleCard from "components/common/PositionArticleCard";
 
 interface ICommunityItemProps {
   data: CommunityList;
@@ -25,6 +26,7 @@ const CommunityItem = ({ data }: ICommunityItemProps) => {
       border="1px solid #ddd"
       p="10px 40px"
       borderRadius="10px"
+      m="10px 0"
     >
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center" p="5px 0">
@@ -48,47 +50,23 @@ const CommunityItem = ({ data }: ICommunityItemProps) => {
       <Box fontWeight="bold" fontSize="18px" p="10px 0">
         {data.title}
       </Box>
-      <Text color="#555" noOfLines={2}>
+      <Text whiteSpace="pre" color="#555" noOfLines={2}>
         {data.description}
       </Text>
       {data.positionArticle && (
-        <Tooltip label="공고 바로가기">
-          <Flex
-            as="a"
-            cursor="pointer"
-            target="_blank"
-            href={data.positionArticle.url}
-            alignItems="center"
-            m="10px 0"
-            w="60%"
-            border="1px solid #ddd"
-            transition=".3s"
-            _hover={{
-              boxShadow: "md",
-            }}
-          >
-            <Box
-              w="20%"
-              fontWeight="bold"
-              fontSize="12px"
-              textAlign="center"
-              bg="primary.500"
-              p="10px 5px "
-            >
-              {data.positionArticle.company}
-            </Box>
-            <Box w="80%" fontSize="12px" p="10px" noOfLines={1}>
-              {data.positionArticle.title}
-            </Box>
-          </Flex>
-        </Tooltip>
+        <PositionArticleCard
+          url={data.positionArticle.url}
+          company={data.positionArticle.company}
+          title={data.positionArticle.title}
+        />
       )}
       {data.skill && (
-        <Flex alignItems="center" pt="10px">
+        <Flex alignItems="center" pt="10px" flexWrap="wrap">
           {data.skill.map((el) => (
             <Box
               key={el}
               mr="7px"
+              mb="7px"
               fontSize="12px"
               borderRadius="10px"
               bg="#ffe6e6"

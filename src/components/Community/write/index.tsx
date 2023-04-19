@@ -1,77 +1,95 @@
-import { Button, Form, Input, Modal, RadioChangeEvent, Tag, theme } from "antd";
-import { useEffect, useRef, useState } from "react";
-import type { InputRef } from "antd";
+import { Button, Form, Input } from "antd";
+import { useEffect, useState } from "react";
 
 import { PlusOutlined } from "@ant-design/icons";
 import styled from "@emotion/styled";
-import SearchBar from "components/common/SearchBar";
-import { positionFilter } from "components/Position/position.data";
+
+import WriteTag from "./_fragments/Write.Tag";
+import PositionSearchModal from "../../common/PositionSearchModal";
 import { useRecoilState } from "recoil";
-import { SearchParam, searchParamsState } from "recoil/search";
-import { useGetListQuery } from "apis/webcrawling/query";
-import { Box } from "@chakra-ui/react";
+import { PositionArtice, positionArticleState } from "recoil/position";
+import CloseIcon from "components/common/@Icons/System/Close";
+import { Flex } from "@chakra-ui/react";
+import { userProfile as userType } from "apis/user/type";
+import { useQueryClient } from "react-query";
+import { QUERY_KEY } from "constants/query-keys";
+import { getToken } from "utils/sessionStorage/token";
+import { UserInfo } from "apis/\bcommunity/type";
+import communityApi from "apis/\bcommunity";
+import { ROUTES } from "constants/routes";
+import { useNavigate } from "react-router-dom";
+import PositionArticleCard from "components/common/PositionArticleCard";
 
 const CommunityWriteComponent = () => {
+  const queryClient = useQueryClient();
+  const navigete = useNavigate();
+  const [positionArticle, setPositionArticle] =
+    useRecoilState<PositionArtice>(positionArticleState);
   const [tags, setTags] = useState<string[]>([]);
   const [show, setShow] = useState<boolean>(false);
-  const [inputVisible, setInputVisible] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState("");
-  const inputRef = useRef<InputRef>(null);
-  const [selectType, setSelectType] = useState<string>("title");
-  const [searchParams, setSearchParams] =
-    useRecoilState<SearchParam>(searchParamsState);
-  const onFinish = (values: any) => {
-    const result = values;
-    result.skill = tags;
-  };
-  const handleClose = (removedTag: string) => {
-    const newTags = tags.filter((tag) => tag !== removedTag);
-    setTags(newTags);
-  };
-  const { data: search } = useGetListQuery({
-    variables: searchParams,
-    options: {
-      enabled: show,
-      getNextPageParam: (lastPage) => {
-        if (lastPage.results.length < 10) return;
-        return lastPage.page + 1;
-      },
-    },
+  const token = getToken();
+  const userProfile = queryClient.getQueryData<userType>([
+    QUERY_KEY.USER.PROFILE,
+    token,
+  ]);
+
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    userId: "",
+    profileimg: "",
+    userName: "",
   });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+  const onGoBack = () => {
+    alert("작성중인 게시글은 저장되지 않습니다.");
+    setPositionArticle(undefined);
+    navigete(ROUTES.COMMUNITY.LIST);
   };
-  const handleInputConfirm = () => {
-    if (inputValue && tags.indexOf(inputValue) !== -1) return;
+  const onFinish = async (values: any) => {
+    const result = values;
+    result.userInfo = userInfo;
+    if (tags.length > 0) result.skill = tags;
+    if (!!positionArticle)
+      result.positionArticle = {
+        positionId: positionArticle.positionId,
+        title: positionArticle.title,
+        company: positionArticle.company,
+        url: positionArticle.url,
+      };
 
-    if (tags.length > 4) {
-      const changeValue = [...tags];
-      changeValue[2] = inputValue;
-      setTags(changeValue);
-    } else {
-      setTags([...tags, inputValue]);
+    try {
+      await communityApi.createBoard(result);
+      alert("게시글이 작성되었습니다.");
+      await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
+      console.log(result);
+      setPositionArticle(undefined);
+      navigete(ROUTES.COMMUNITY.LIST);
+    } catch (e) {
+      console.log(e);
     }
+  };
+  const onCancelArticle = () => {
+    const deleteArr = tags.filter((tag) => {
+      return positionArticle?.skill && !positionArticle?.skill.includes(tag);
+    });
+    setTags(deleteArr);
 
-    setInputVisible(false);
-    setInputValue("");
-  };
-  const onChange = (e: RadioChangeEvent) => {
-    setSelectType(e.target.value);
-  };
-  const onSearch = (keyword: string) => {
-    const params = {
-      keyword,
-      type: selectType,
-    };
-    setSearchParams(params);
+    setPositionArticle(undefined);
   };
 
   useEffect(() => {
-    if (inputVisible) {
-      inputRef.current?.focus();
+    const maxLength = 7 - tags.length;
+    const skillSelect = positionArticle?.skill?.slice(0, maxLength);
+    setTags((prevState) => [...prevState, ...(skillSelect ?? [])]);
+  }, [positionArticle, tags.length]);
+
+  useEffect(() => {
+    if (!!userProfile) {
+      setUserInfo({
+        userName: userProfile.name,
+        profileimg: userProfile.profileimg,
+        userId: userProfile._id,
+      });
     }
-  }, [inputVisible]);
+  }, [userProfile]);
 
   return (
     <>
@@ -88,93 +106,51 @@ const CommunityWriteComponent = () => {
           <FormContents placeholder="내용을 입력해주세요" />
         </Form.Item>
         <Form.Item
-          label="공고검색"
+          label="관련공고선택"
           style={{
             fontWeight: "bold",
             padding: "10px",
           }}
         >
-          <Button
-            type="dashed"
-            block
-            icon={<PlusOutlined />}
-            onClick={() => setShow(true)}
-          >
-            공고 추가하기
-          </Button>
+          {!!positionArticle ? (
+            <Flex alignItems="center">
+              <CloseIcon
+                style={{ cursor: "pointer" }}
+                onClick={onCancelArticle}
+              />
+              <PositionArticleCard
+                url={positionArticle.url}
+                company={positionArticle.company}
+                title={positionArticle.title}
+              />
+            </Flex>
+          ) : (
+            <Button
+              type="dashed"
+              block
+              icon={<PlusOutlined />}
+              onClick={() => setShow(true)}
+            >
+              공고 추가하기
+            </Button>
+          )}
         </Form.Item>
         <FormSkill
-          label="태그선택 (최대5개)"
+          label="태그추가 (최대 7개)"
           style={{
             padding: "10px",
           }}
         >
-          <>
-            {inputVisible ? (
-              <Input
-                ref={inputRef}
-                type="text"
-                size="small"
-                style={{ width: 78, marginRight: 10 }}
-                value={inputValue}
-                onChange={handleInputChange}
-                onBlur={handleInputConfirm}
-                onPressEnter={handleInputConfirm}
-              />
-            ) : (
-              <Tag
-                onClick={() => {
-                  setInputVisible((prev) => !prev);
-                }}
-              >
-                <PlusOutlined />
-              </Tag>
-            )}
-            <div style={{ marginBottom: 16, display: "inline-block" }}>
-              {tags.map((tag) => (
-                <span key={tag} style={{ display: "inline-block" }}>
-                  <SkillStyle
-                    closable
-                    onClose={(e) => {
-                      e.preventDefault();
-                      handleClose(tag);
-                    }}
-                  >
-                    {tag}
-                  </SkillStyle>
-                </span>
-              ))}
-            </div>
-          </>
+          <WriteTag setTags={setTags} tags={tags} />
         </FormSkill>
         <FormSubmit>
-          <Button>나가기</Button>
+          <Button onClick={onGoBack}>나가기</Button>
           <Button type="primary" htmlType="submit">
             등록
           </Button>
         </FormSubmit>
       </Form>
-      <Modal
-        open={show}
-        title={<ModalHeaderStyle>공고검색</ModalHeaderStyle>}
-        onCancel={() => setShow(false)}
-        footer={<>하단</>}
-      >
-        <ModalBodyStyle>
-          <SearchBar
-            style={{ margin: "0 auto" }}
-            onSearch={onSearch}
-            onChange={onChange}
-            selectType={selectType}
-            filter={positionFilter}
-          />
-          {search ? (
-            search.pages.map((el, idx) => <Box key={idx}>{idx}</Box>)
-          ) : (
-            <Box>검색결과가 없습니다.</Box>
-          )}
-        </ModalBodyStyle>
-      </Modal>
+      <PositionSearchModal show={show} setShow={setShow} />
     </>
   );
 };
@@ -249,24 +225,4 @@ const FormSubmit = styled(Form.Item)`
     height: 40px;
     font-size: 16px;
   }
-`;
-const SkillStyle = styled(Tag)`
-  font-size: 12px;
-  color: #000;
-  margin: 0px 5px 10px 0;
-  text-align: center;
-  padding: 3px 10px;
-  border-radius: 10px;
-  font-weight: 600;
-  background-color: #ffe6e6;
-  // background: #ffe6e6;
-  border: 1px solid #d89999;
-  // border-color: #ffe6e6;
-`;
-const ModalHeaderStyle = styled.div`
-  padding: 30px;
-  font-weight: bold;
-`;
-const ModalBodyStyle = styled.div`
-  padding: 30px;
 `;

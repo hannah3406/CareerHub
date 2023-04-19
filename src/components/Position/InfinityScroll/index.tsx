@@ -3,11 +3,11 @@ import { Flex } from "@chakra-ui/react";
 import { PositionList } from "apis/webcrawling/type";
 
 import PositionItem from "./_fragments/PositionItem";
-interface IPositionComponentProps {
+interface IPositionInfinityScrollProps {
   data?: PositionList[];
 }
 
-const PositionComponent = (props: IPositionComponentProps) => {
+const PositionInfinityScroll = (props: IPositionInfinityScrollProps) => {
   const { data } = props;
 
   return (
@@ -17,4 +17,4 @@ const PositionComponent = (props: IPositionComponentProps) => {
   );
 };
 
-export default PositionComponent;
+export default PositionInfinityScroll;

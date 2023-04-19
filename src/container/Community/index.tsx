@@ -1,6 +1,5 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import ScrollUp from "components/common/@Icons/System/ScrollUp";
-import PositionComponent from "components/Position";
 import { useEffect } from "react";
 import { useGetCommunityListQuery } from "apis/\bcommunity/query";
 import CommunityComponent from "components/Community/list";
@@ -68,8 +67,10 @@ const CommunityContainer = () => {
         h="60px"
         bg="#fff"
         borderRadius="100%"
+        border="1px solid #eee"
         alignItems="center"
         justifyContent="center"
+        boxShadow="md"
       >
         <FormOutlined style={{ fontSize: 20 }} />
       </Flex>

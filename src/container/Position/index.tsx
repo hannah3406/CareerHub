@@ -1,9 +1,9 @@
 import { Box, Text } from "@chakra-ui/react";
 import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
-import { useGetListQuery } from "apis/webcrawling/query";
+import { useGetInfinityScrollListQuery } from "apis/webcrawling/query";
 import ScrollUp from "components/common/@Icons/System/ScrollUp";
 import SearchBar from "components/common/SearchBar";
-import PositionComponent from "components/Position";
+import PositionInfinityScroll from "components/Position/InfinityScroll";
 import { useEffect, useState } from "react";
 import { ROUTES } from "constants/routes";
 import { SearchParam, searchParamsState } from "recoil/search";
@@ -23,7 +23,7 @@ const PositionContainer = () => {
     fetchNextPage,
     hasNextPage,
     isLoading,
-  } = useGetListQuery({
+  } = useGetInfinityScrollListQuery({
     variables: searchParams,
     options: {
       enabled: true,
@@ -89,7 +89,7 @@ const PositionContainer = () => {
       {isLoading && <Text>Loading...</Text>}
       <Box w="900px" m="0 auto">
         {position?.pages.map((page) => {
-          return <PositionComponent key={page.page} data={page.results} />;
+          return <PositionInfinityScroll key={page.page} data={page.results} />;
         })}
       </Box>
 

@@ -4,7 +4,8 @@ import HomeFooter from "../../footer";
 import HomeHeader from "../../headers/HomeHeader";
 
 interface HomeLayoutProps {
-  header?: JSX.Element | undefined;
+  header?: JSX.Element;
+  isHideHeader?: boolean;
   footer?: JSX.Element;
   menubar?: JSX.Element;
   content?: JSX.Element;
@@ -12,10 +13,11 @@ interface HomeLayoutProps {
 }
 
 const HomeLayout = ({
-  header,
+  header = <HomeHeader />,
   footer = <HomeFooter />,
   containerProps,
   content,
+  isHideHeader,
 }: HomeLayoutProps) => {
   return (
     <Grid
@@ -26,16 +28,18 @@ const HomeLayout = ({
       gridTemplateRows="auto 1fr auto"
       {...containerProps}
     >
-      <header
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 99,
-          backgroundColor: "#fff",
-        }}
-      >
-        {!!header && <HomeHeader />}
-      </header>
+      {!isHideHeader && (
+        <header
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 99,
+            backgroundColor: "#fff",
+          }}
+        >
+          {header}
+        </header>
+      )}
       <main>{content}</main>
       <footer>{footer}</footer>
     </Grid>

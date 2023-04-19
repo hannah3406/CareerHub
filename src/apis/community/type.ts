@@ -22,8 +22,16 @@ export type PositionArticle = {
   url: string;
 };
 
-type UserInfo = {
+export type UserInfo = {
   userId: string;
   userName: string;
   profileimg: string;
+};
+
+export type CreateBoard = {
+  title: string;
+  description?: string;
+  positionArticle?: PositionArticle;
+  skill?: string[];
+  userInfo: UserInfo;
 };

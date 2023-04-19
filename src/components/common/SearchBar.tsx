@@ -16,6 +16,7 @@ interface ISearchBarProps {
     [key: string]: string | number;
   };
   selectType: string;
+  bgNone?: boolean;
 }
 
 const SearchBar = ({
@@ -24,6 +25,7 @@ const SearchBar = ({
   filter,
   style,
   selectType,
+  bgNone,
 }: ISearchBarProps) => {
   const RadioComponent = () => (
     <SearchRadioStyle
@@ -42,8 +44,8 @@ const SearchBar = ({
   return (
     <div style={{ ...style }}>
       <Flex
-        border="1px solid #ddd"
-        bg="#eee"
+        border={bgNone ? "none" : "1px solid #ddd"}
+        bg={bgNone ? "transparent" : "#eee"}
         justifyContent="space-between"
         alignItems="center"
         p="10px 20px"
@@ -72,7 +74,7 @@ const SearchStyle = styled(Search)`
     color: #333;
     display: inline-block;
     padding: 10px 20px !important;
-    border: 1px solid #eee;
+    border: 1px solid #ddd;
     // border-radius: 20px 0px 0px 20px !important;
     border-radius: 20px !important;
     &::placeholder {

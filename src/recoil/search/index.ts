@@ -5,6 +5,11 @@ export type SearchParam = {
   keyword: string | undefined;
   type: string | undefined;
 };
+export type SearchPageParam = {
+  keyword: string | undefined;
+  type: string | undefined;
+  page: number;
+};
 export const searchState = atom<string>({
   key: `searchState/${v1()}`,
   default: "",
@@ -20,5 +25,14 @@ export const searchParamsState = atom<SearchParam>({
   default: {
     keyword: undefined,
     type: undefined,
+  },
+});
+
+export const searchPageParamsState = atom<SearchPageParam>({
+  key: `searchPageParamsState/${v1()}`,
+  default: {
+    keyword: undefined,
+    type: undefined,
+    page: 1,
   },
 });

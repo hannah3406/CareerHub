@@ -26,3 +26,8 @@ export type PositionSearchParams = {
   keyword: string | undefined;
   type?: string | undefined;
 };
+export type PositionPageSearchParams = {
+  keyword: string | undefined;
+  type?: string | undefined;
+  page: number;
+};
