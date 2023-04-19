@@ -46,6 +46,7 @@ const CommunityWriteComponent = () => {
   const onFinish = async (values: any) => {
     const result = values;
     result.userInfo = userInfo;
+    console.log(result, "========");
     if (tags.length > 0) result.skill = tags;
     if (!!positionArticle)
       result.positionArticle = {
@@ -79,7 +80,8 @@ const CommunityWriteComponent = () => {
     const maxLength = 7 - tags.length;
     const skillSelect = positionArticle?.skill?.slice(0, maxLength);
     setTags((prevState) => [...prevState, ...(skillSelect ?? [])]);
-  }, [positionArticle, tags.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [positionArticle]);
 
   useEffect(() => {
     if (!!userProfile) {

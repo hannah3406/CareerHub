@@ -1,42 +1,22 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import ScrollUp from "components/common/@Icons/System/ScrollUp";
-import { useEffect } from "react";
 import { useGetCommunityListQuery } from "apis/\bcommunity/query";
 import CommunityComponent from "components/Community/list";
 import { FormOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "constants/routes";
+import { useRecoilState } from "recoil";
+import { CommunityParam, communityParamsState } from "recoil/community";
 
 const CommunityContainer = () => {
+  const [communityParams, setCommunityParams] =
+    useRecoilState<CommunityParam>(communityParamsState);
   const navigete = useNavigate();
-  const {
-    data: position,
-    fetchNextPage,
-    hasNextPage,
-    isLoading,
-  } = useGetCommunityListQuery({
+  const { data: community, isLoading } = useGetCommunityListQuery({
+    variables: communityParams,
     options: {
       enabled: true,
-      getNextPageParam: (lastPage) => {
-        if (lastPage.results.length < 10) return;
-        return lastPage.page + 1;
-      },
     },
-  });
-
-  const handleScroll = () => {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const clientHeight = document.documentElement.clientHeight;
-    if (hasNextPage && scrollTop + clientHeight >= scrollHeight)
-      return fetchNextPage();
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   });
 
   return (
@@ -51,12 +31,11 @@ const CommunityContainer = () => {
       ></Box>
       {isLoading && <Text>Loading...</Text>}
       <Box w="900px" m="0 auto">
-        {position?.pages.map((page) => {
-          return <CommunityComponent key={page.page} data={page.results} />;
-        })}
+        {community && community.results && (
+          <CommunityComponent data={community.results} />
+        )}
       </Box>
 
-      {!hasNextPage && <Text>최하단입니다!</Text>}
       <Flex
         position="fixed"
         bottom={{ base: "90px", sm: "130px" }}

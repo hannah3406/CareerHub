@@ -1,6 +1,10 @@
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
-import { CommunityListResult, CreateBoard } from "./type";
+import {
+  CommunityListResult,
+  CommunityPageSearchParams,
+  CreateBoard,
+} from "./type";
 
 export class CommunityApi {
   axios: AxiosInstance = instance;
@@ -8,18 +12,22 @@ export class CommunityApi {
     if (axios) this.axios = axios;
   }
 
-  getList = async (pageParam?: number): Promise<CommunityListResult> => {
-    const page = !!pageParam ? pageParam : 1;
-
+  getList = async (
+    pageParam: CommunityPageSearchParams
+  ): Promise<CommunityListResult> => {
+    const { keyword, type, page } = pageParam;
     const params = {
       page,
+      keyword,
+      type,
     };
     const { data } = await instance({
       method: "GET",
       url: `/community/getList`,
       params,
     });
-    return { page, results: data };
+    const { results, total } = data;
+    return { page, results, total };
   };
 
   createBoard = async (boardData: CreateBoard): Promise<{}> => {

@@ -13,6 +13,7 @@ export type CommunityList = {
 export type CommunityListResult = {
   page: number;
   results: CommunityList[];
+  total: number;
 };
 
 export type PositionArticle = {
@@ -34,4 +35,10 @@ export type CreateBoard = {
   positionArticle?: PositionArticle;
   skill?: string[];
   userInfo: UserInfo;
+};
+
+export type CommunityPageSearchParams = {
+  keyword?: string | undefined;
+  type?: string | undefined;
+  page: number;
 };
