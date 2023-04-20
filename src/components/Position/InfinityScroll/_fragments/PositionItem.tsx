@@ -2,6 +2,7 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Button, Modal } from "antd";
 import { PositionList } from "apis/webcrawling/type";
+import SkillTag from "components/common/SkillTag";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import AutosizeTextarea from "react-autosize-textarea";
@@ -78,7 +79,7 @@ export const PositionItem = (props: IPositionItemProps) => {
       </Box>
       <Flex flexWrap="wrap" p="0 20px">
         {data.skill.map((skill, index) => (
-          <SkillStyle key={index}>#{skill}</SkillStyle>
+          <SkillTag key={index} skill={skill} />
         ))}
       </Flex>
     </>
@@ -200,19 +201,6 @@ export const PositionItem = (props: IPositionItemProps) => {
   );
 };
 export default PositionItem;
-const SkillStyle = styled.span`
-  font-size: 12px;
-  color: #000;
-  margin: 0px 5px 10px 0;
-  text-align: center;
-  padding: 3px 10px;
-  border-radius: 10px;
-  font-weight: 600;
-  background-color: #ffe6e6;
-  // background: #ffe6e6;
-  border: 1px solid #d89999;
-  // border-color: #ffe6e6;
-`;
 
 const BoxStyles = styled.div`
   width: 100%;

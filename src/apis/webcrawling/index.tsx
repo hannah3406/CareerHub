@@ -1,8 +1,8 @@
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
 import {
-  PositionList,
   PositionListResult,
+  PositionPageListResult,
   PositionPageSearchParams,
   PositionSearchParams,
 } from "./type";
@@ -35,7 +35,7 @@ export class WebCrawlingApi {
 
   getPaginationList = async (
     searchParams: PositionPageSearchParams
-  ): Promise<PositionListResult> => {
+  ): Promise<PositionPageListResult> => {
     const { keyword, type, page } = searchParams;
     const params = {
       page,
@@ -48,7 +48,7 @@ export class WebCrawlingApi {
       params,
     });
     const { results, total } = data;
-    return { page, results, total };
+    return { results, total };
   };
 }
 

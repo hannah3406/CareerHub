@@ -5,13 +5,15 @@ import CommunityComponent from "components/Community/list";
 import { FormOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "constants/routes";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { CommunityParam, communityParamsState } from "recoil/community";
+import SearchBar from "components/common/SearchBar";
+import { communityFilter } from "./data";
 
 const CommunityContainer = () => {
-  const [communityParams, setCommunityParams] =
-    useRecoilState<CommunityParam>(communityParamsState);
+  const communityParams = useRecoilValue<CommunityParam>(communityParamsState);
   const navigete = useNavigate();
+
   const { data: community, isLoading } = useGetCommunityListQuery({
     variables: communityParams,
     options: {
@@ -28,7 +30,14 @@ const CommunityContainer = () => {
         bg="#fff"
         p="15px 0"
         zIndex="98"
-      ></Box>
+      >
+        <SearchBar
+          type="community"
+          bgNone
+          style={{ width: 900, margin: "0 auto" }}
+          filter={communityFilter}
+        />
+      </Box>
       {isLoading && <Text>Loading...</Text>}
       <Box w="900px" m="0 auto">
         {community && community.results && (

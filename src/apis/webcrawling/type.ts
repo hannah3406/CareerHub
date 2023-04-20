@@ -22,6 +22,10 @@ export type PositionListResult = {
   results: PositionList[];
   total: number;
 };
+export type PositionPageListResult = {
+  results: PositionList[];
+  total: number;
+};
 
 export type PositionSearchParams = {
   keyword: string | undefined;
@@ -30,5 +34,5 @@ export type PositionSearchParams = {
 export type PositionPageSearchParams = {
   keyword: string | undefined;
   type?: string | undefined;
-  page: number;
+  page?: number;
 };

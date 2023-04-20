@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
 import SearchBar from "components/common/SearchBar";
-import { positionFilter } from "components/Position/position.data";
+import { positionFilter } from "container/Position/data";
 
-import { Modal, Pagination, PaginationProps, RadioChangeEvent } from "antd";
+import { Modal, Pagination, PaginationProps } from "antd";
 import { Box, Flex } from "@chakra-ui/react";
 import PositionPagination from "components/Position/Pagination";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { SearchPageParam, searchPageParamsState } from "recoil/search";
+import { SearchParam, searchParamsState } from "recoil/search";
 import { useGetPaginationListQuery } from "apis/webcrawling/query";
 
 interface IWriteModalProps {
@@ -16,15 +16,11 @@ interface IWriteModalProps {
 }
 
 const PositionSearchModal = ({ show, setShow }: IWriteModalProps) => {
-  const [selectType, setSelectType] = useState<string>("title");
-  const [searchParams, setSearchParams] = useRecoilState<SearchPageParam>(
-    searchPageParamsState
-  );
+  const [searchParams, setSearchParams] =
+    useRecoilState<SearchParam>(searchParamsState);
 
-  const [current, setCurrent] = useState<number>(searchParams.page);
-  const onChange = (e: RadioChangeEvent) => {
-    setSelectType(e.target.value);
-  };
+  const [current, setCurrent] = useState<number>(searchParams.page ?? 1);
+
   const { data: search } = useGetPaginationListQuery({
     variables: searchParams,
     options: {
@@ -32,14 +28,6 @@ const PositionSearchModal = ({ show, setShow }: IWriteModalProps) => {
     },
   });
 
-  const onSearch = (keyword: string) => {
-    const params = {
-      keyword,
-      type: selectType,
-      page: current,
-    };
-    setSearchParams(params);
-  };
   const onPageChange: PaginationProps["onChange"] = (page) => {
     setCurrent(page);
     setSearchParams((prev) => ({ ...prev, page }));
@@ -55,10 +43,9 @@ const PositionSearchModal = ({ show, setShow }: IWriteModalProps) => {
         <SearchBar
           style={{ margin: "0 auto" }}
           bgNone
-          onSearch={onSearch}
-          onChange={onChange}
-          selectType={selectType}
+          type="position"
           filter={positionFilter}
+          current={current}
         />
 
         <Flex flexDirection="column">

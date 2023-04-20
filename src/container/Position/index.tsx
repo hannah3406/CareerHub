@@ -1,23 +1,18 @@
 import { Box, Text } from "@chakra-ui/react";
-import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useGetInfinityScrollListQuery } from "apis/webcrawling/query";
 import ScrollUp from "components/common/@Icons/System/ScrollUp";
 import SearchBar from "components/common/SearchBar";
 import PositionInfinityScroll from "components/Position/InfinityScroll";
-import { useEffect, useState } from "react";
-import { ROUTES } from "constants/routes";
+import { useEffect } from "react";
 import { SearchParam, searchParamsState } from "recoil/search";
 import { useRecoilState } from "recoil";
-import { positionFilter } from "components/Position/position.data";
-import { RadioChangeEvent } from "antd";
+import { positionFilter } from "container/Position/data";
 
 const PositionContainer = () => {
   const location = useLocation();
-  const navigete = useNavigate();
   const [searchParams, setSearchParams] =
     useRecoilState<SearchParam>(searchParamsState);
-  const [selectType, setSelectType] = useState<string>("title");
-
   const {
     data: position,
     fetchNextPage,
@@ -33,20 +28,6 @@ const PositionContainer = () => {
       },
     },
   });
-  const onChange = (e: RadioChangeEvent) => {
-    setSelectType(e.target.value);
-  };
-  const onSearch = (keyword: string) => {
-    const params = {
-      keyword,
-      type: selectType,
-    };
-    setSearchParams(params);
-    navigete({
-      pathname: ROUTES.POSITION,
-      search: `?${createSearchParams(params)}`,
-    });
-  };
 
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
@@ -55,6 +36,7 @@ const PositionContainer = () => {
     if (hasNextPage && scrollTop + clientHeight >= scrollHeight)
       return fetchNextPage();
   };
+
   useEffect(() => {
     if (location.search === undefined || location.search === "") {
       setSearchParams({ keyword: undefined, type: undefined });
@@ -80,10 +62,8 @@ const PositionContainer = () => {
       >
         <SearchBar
           style={{ width: 900, margin: "0 auto" }}
-          onSearch={onSearch}
-          onChange={onChange}
-          selectType={selectType}
           filter={positionFilter}
+          type="position"
         />
       </Box>
       {isLoading && <Text>Loading...</Text>}

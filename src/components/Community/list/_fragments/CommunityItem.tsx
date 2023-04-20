@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import PositionArticleCard from "components/common/PositionArticleCard";
+import SkillTag from "components/common/SkillTag";
 
 interface ICommunityItemProps {
   data: CommunityList;
@@ -50,7 +51,7 @@ const CommunityItem = ({ data }: ICommunityItemProps) => {
       <Box fontWeight="bold" fontSize="18px" p="10px 0">
         {data.title}
       </Box>
-      <Text whiteSpace="pre" color="#555" noOfLines={2}>
+      <Text whiteSpace="pre" color="#555" noOfLines={1}>
         {data.description}
       </Text>
       {data.positionArticle && (
@@ -63,19 +64,7 @@ const CommunityItem = ({ data }: ICommunityItemProps) => {
       {data.skill && (
         <Flex alignItems="center" pt="10px" flexWrap="wrap">
           {data.skill.slice(0, 10).map((el, idx) => (
-            <Box
-              key={idx}
-              mr="7px"
-              mb="7px"
-              fontSize="12px"
-              borderRadius="10px"
-              bg="#ffe6e6"
-              border="1px solid #d89999"
-              p="3px 10px"
-              fontWeight="600"
-            >
-              #{el}
-            </Box>
+            <SkillTag key={idx} skill={el} />
           ))}
         </Flex>
       )}

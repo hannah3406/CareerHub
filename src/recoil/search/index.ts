@@ -4,12 +4,9 @@ import { v1 } from "uuid";
 export type SearchParam = {
   keyword: string | undefined;
   type: string | undefined;
+  page?: number;
 };
-export type SearchPageParam = {
-  keyword: string | undefined;
-  type: string | undefined;
-  page: number;
-};
+
 export const searchState = atom<string>({
   key: `searchState/${v1()}`,
   default: "",
@@ -22,14 +19,6 @@ export const selectTypeState = atom<string>({
 
 export const searchParamsState = atom<SearchParam>({
   key: `searchParamsState/${v1()}`,
-  default: {
-    keyword: undefined,
-    type: undefined,
-  },
-});
-
-export const searchPageParamsState = atom<SearchPageParam>({
-  key: `searchPageParamsState/${v1()}`,
   default: {
     keyword: undefined,
     type: undefined,

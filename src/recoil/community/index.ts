@@ -4,7 +4,7 @@ import { v1 } from "uuid";
 export type CommunityParam = {
   keyword: string | undefined;
   type: string | undefined;
-  page: number;
+  page?: number;
 };
 export const communityParamsState = atom<CommunityParam>({
   key: `communityParamsState/${v1()}`,

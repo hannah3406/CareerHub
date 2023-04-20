@@ -2,12 +2,16 @@ import { Box, Flex } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Input, RadioChangeEvent } from "antd";
 import { Radio } from "antd";
+import { ROUTES } from "constants/routes";
+import { useState } from "react";
+import { createSearchParams, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { CommunityParam, communityParamsState } from "recoil/community";
+import { SearchParam, searchParamsState } from "recoil/search";
 
 const { Search } = Input;
 
 interface ISearchBarProps {
-  onSearch: (value: string) => void;
-  onChange: (e: RadioChangeEvent) => void;
   filter: {
     name: string;
     value: string;
@@ -15,18 +19,58 @@ interface ISearchBarProps {
   style: {
     [key: string]: string | number;
   };
-  selectType: string;
   bgNone?: boolean;
+  type: string;
+  current?: number;
 }
-
+export type PageParam = {
+  keyword: string;
+  type: string;
+  page?: number;
+};
 const SearchBar = ({
-  onSearch,
-  onChange,
   filter,
   style,
-  selectType,
   bgNone,
+  type,
+  current,
 }: ISearchBarProps) => {
+  const navigete = useNavigate();
+  const setSearchParams = useSetRecoilState<SearchParam>(searchParamsState);
+  const setCommunityParams =
+    useSetRecoilState<CommunityParam>(communityParamsState);
+  const [selectType, setSelectType] = useState<string>(filter[0].value);
+  const onSearch = (keyword: string) => {
+    const params: PageParam = {
+      keyword,
+      type: selectType,
+    };
+    if (current) params.page = current;
+    if (type === "position") {
+      setSearchParams(params);
+      return navigete({
+        pathname: ROUTES.POSITION,
+        search: `?${createSearchParams({
+          keyword: params.keyword,
+          type: params.type,
+        })}`,
+      });
+    }
+    if (type === "community") {
+      setCommunityParams(params);
+      return navigete({
+        pathname: ROUTES.COMMUNITY.LIST,
+        search: `?${createSearchParams({
+          keyword: params.keyword,
+          type: params.type,
+        })}`,
+      });
+    }
+  };
+  const onChange = (e: RadioChangeEvent) => {
+    setSelectType(e.target.value);
+  };
+
   const RadioComponent = () => (
     <SearchRadioStyle
       defaultValue={filter[0].value}

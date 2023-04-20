@@ -18,6 +18,7 @@ const PositionArticleCard = ({
         href={url}
         alignItems="center"
         m="10px"
+        ml="0"
         w="85%"
         border="1px solid #ddd"
         transition=".3s"
@@ -31,12 +32,12 @@ const PositionArticleCard = ({
           fontSize="12px"
           textAlign="center"
           bg="primary.500"
-          p="10px 5px"
+          p="5px"
           noOfLines={2}
         >
           {company}
         </Box>
-        <Box w="80%" fontSize="12px" p="10px" noOfLines={1}>
+        <Box w="80%" fontSize="12px" p="5px" noOfLines={1}>
           {title}
         </Box>
       </Flex>

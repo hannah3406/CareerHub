@@ -11,7 +11,7 @@ export type CommunityList = {
 };
 
 export type CommunityListResult = {
-  page: number;
+  page?: number;
   results: CommunityList[];
   total: number;
 };
@@ -40,5 +40,5 @@ export type CreateBoard = {
 export type CommunityPageSearchParams = {
   keyword?: string | undefined;
   type?: string | undefined;
-  page: number;
+  page?: number;
 };
