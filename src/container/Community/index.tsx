@@ -3,15 +3,22 @@ import ScrollUp from "components/common/@Icons/System/ScrollUp";
 import { useGetCommunityListQuery } from "apis/\bcommunity/query";
 import CommunityComponent from "components/Community/list";
 import { FormOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "constants/routes";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { CommunityParam, communityParamsState } from "recoil/community";
 import SearchBar from "components/common/SearchBar";
 import { communityFilter } from "./data";
+import { useEffect, useState } from "react";
+import { Pagination, PaginationProps } from "antd";
+import styled from "@emotion/styled";
 
 const CommunityContainer = () => {
-  const communityParams = useRecoilValue<CommunityParam>(communityParamsState);
+  const location = useLocation();
+  const [communityParams, setCommunityParams] =
+    useRecoilState<CommunityParam>(communityParamsState);
+  const [current, setCurrent] = useState<number>(communityParams.page ?? 1);
+
   const navigete = useNavigate();
 
   const { data: community, isLoading } = useGetCommunityListQuery({
@@ -20,6 +27,16 @@ const CommunityContainer = () => {
       enabled: true,
     },
   });
+  const onPageChange: PaginationProps["onChange"] = (page) => {
+    setCurrent(page);
+    setCommunityParams((prev) => ({ ...prev, page }));
+  };
+  useEffect(() => {
+    if (location.search === undefined || location.search === "") {
+      setCommunityParams({ keyword: undefined, type: undefined, page: 1 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
 
   return (
     <Box>
@@ -28,7 +45,7 @@ const CommunityContainer = () => {
         position="sticky"
         top="110px"
         bg="#fff"
-        p="15px 0"
+        p="10px 0"
         zIndex="98"
       >
         <SearchBar
@@ -36,6 +53,7 @@ const CommunityContainer = () => {
           bgNone
           style={{ width: 900, margin: "0 auto" }}
           filter={communityFilter}
+          isSelectType
         />
       </Box>
       {isLoading && <Text>Loading...</Text>}
@@ -44,12 +62,18 @@ const CommunityContainer = () => {
           <CommunityComponent data={community.results} />
         )}
       </Box>
-
+      {community && (
+        <PaginationStyle
+          current={current}
+          onChange={onPageChange}
+          total={community.total}
+        />
+      )}
       <Flex
         position="fixed"
         bottom={{ base: "90px", sm: "130px" }}
         right={{ base: "16px", sm: "60px" }}
-        onClick={() => navigete(ROUTES.COMMUNITY.CREATE)}
+        onClick={() => navigete(ROUTES.COMMUNITY_CREATE.path)}
         cursor="pointer"
         w="60px"
         h="60px"
@@ -76,3 +100,16 @@ const CommunityContainer = () => {
 };
 
 export default CommunityContainer;
+const PaginationStyle = styled(Pagination)`
+  display: inline-block;
+  margin: 30px auto;
+  .ant-pagination-options {
+    display: none;
+  }
+  .ant-pagination-item-active {
+    background: #d89999;
+    > a {
+      color: #fff !important;
+    }
+  }
+`;

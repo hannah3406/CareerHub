@@ -41,7 +41,7 @@ const CommunityWriteComponent = () => {
   const onGoBack = () => {
     alert("작성중인 게시글은 저장되지 않습니다.");
     setPositionArticle(undefined);
-    navigete(ROUTES.COMMUNITY.LIST);
+    navigete(ROUTES.COMMUNITY_LIST.path);
   };
   const onFinish = async (values: any) => {
     const result = values;
@@ -62,7 +62,7 @@ const CommunityWriteComponent = () => {
       await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
       console.log(result);
       setPositionArticle(undefined);
-      navigete(ROUTES.COMMUNITY.LIST);
+      navigete(ROUTES.COMMUNITY_LIST.path);
     } catch (e) {
       console.log(e);
     }

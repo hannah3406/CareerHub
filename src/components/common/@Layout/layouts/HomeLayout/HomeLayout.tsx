@@ -8,7 +8,7 @@ interface HomeLayoutProps {
   isHideHeader?: boolean;
   footer?: JSX.Element;
   menubar?: JSX.Element;
-  content?: JSX.Element;
+  content: JSX.Element;
   containerProps?: ContainerProps;
 }
 

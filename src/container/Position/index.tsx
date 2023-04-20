@@ -41,7 +41,8 @@ const PositionContainer = () => {
     if (location.search === undefined || location.search === "") {
       setSearchParams({ keyword: undefined, type: undefined });
     }
-  }, [location.search, setSearchParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);

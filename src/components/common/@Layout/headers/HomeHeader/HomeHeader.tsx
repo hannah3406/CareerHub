@@ -25,7 +25,7 @@ const HomeHeader = () => {
     if (!!userProfile) {
       await authApi.logoutUser(userProfile.email);
       await queryClient.invalidateQueries([QUERY_KEY.USER.PROFILE, token]);
-      navigete(ROUTES.LOGIN);
+      navigete(ROUTES.LOGIN.path);
     }
   };
 
@@ -39,7 +39,7 @@ const HomeHeader = () => {
         alignItems="center"
       >
         <Box w="50%">
-          <Link to={ROUTES.HOME}>
+          <Link to={ROUTES.HOME.path}>
             <LogoImg>
               <img src={LOGO} alt="logo" />
             </LogoImg>
@@ -50,7 +50,9 @@ const HomeHeader = () => {
             <Popover
               content={
                 <ProfilePanel>
-                  <div onClick={() => navigete(ROUTES.MYPAGE)}>마이페이지</div>
+                  <div onClick={() => navigete(ROUTES.MYPAGE.path)}>
+                    마이페이지
+                  </div>
                   <div onClick={logout}>로그아웃</div>
                 </ProfilePanel>
               }
@@ -67,7 +69,7 @@ const HomeHeader = () => {
             </Popover>
           ) : (
             <>
-              <Link to={ROUTES.SIGNUP}>
+              <Link to={ROUTES.SIGNUP.path}>
                 <Box fontWeight="bold">회원가입</Box>
               </Link>
               <Divider
@@ -78,7 +80,7 @@ const HomeHeader = () => {
                 bg="#000"
                 mx="10px"
               />
-              <Link to={ROUTES.LOGIN}>
+              <Link to={ROUTES.LOGIN.path}>
                 <Box fontWeight="bold">로그인</Box>
               </Link>
             </>
@@ -87,17 +89,19 @@ const HomeHeader = () => {
       </Flex>
       <Divider bg="#ddd" w="100%" h="1px" m="15px 0" />
       <Box maxW="1200px" m="0 auto">
-        <Link to={ROUTES.POSITION}>
-          <NaviText isPath={pathname === ROUTES.POSITION}>채용공고 </NaviText>
+        <Link to={ROUTES.POSITION.path}>
+          <NaviText isPath={pathname === ROUTES.POSITION.path}>
+            채용공고{" "}
+          </NaviText>
         </Link>
 
-        <Link to={ROUTES.COMMUNITY.LIST}>
-          <NaviText isPath={pathname === ROUTES.COMMUNITY.LIST}>
+        <Link to={ROUTES.COMMUNITY_LIST.path}>
+          <NaviText isPath={pathname === ROUTES.COMMUNITY_LIST.path}>
             커뮤니티
           </NaviText>
         </Link>
-        <Link to={ROUTES.STATISTICSPAGE}>
-          <NaviText isPath={pathname === ROUTES.STATISTICSPAGE}>
+        <Link to={ROUTES.STATISTICSPAGE.path}>
+          <NaviText isPath={pathname === ROUTES.STATISTICSPAGE.path}>
             통계분석
           </NaviText>
         </Link>

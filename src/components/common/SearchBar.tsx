@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import { Input, RadioChangeEvent } from "antd";
+import { Input, RadioChangeEvent, Select } from "antd";
 import { Radio } from "antd";
 import { ROUTES } from "constants/routes";
 import { useState } from "react";
@@ -13,9 +13,10 @@ const { Search } = Input;
 
 interface ISearchBarProps {
   filter: {
-    name: string;
+    label: string;
     value: string;
   }[];
+  isSelectType?: boolean;
   style: {
     [key: string]: string | number;
   };
@@ -34,6 +35,7 @@ const SearchBar = ({
   bgNone,
   type,
   current,
+  isSelectType,
 }: ISearchBarProps) => {
   const navigete = useNavigate();
   const setSearchParams = useSetRecoilState<SearchParam>(searchParamsState);
@@ -49,7 +51,7 @@ const SearchBar = ({
     if (type === "position") {
       setSearchParams(params);
       return navigete({
-        pathname: ROUTES.POSITION,
+        pathname: ROUTES.POSITION.path,
         search: `?${createSearchParams({
           keyword: params.keyword,
           type: params.type,
@@ -59,7 +61,7 @@ const SearchBar = ({
     if (type === "community") {
       setCommunityParams(params);
       return navigete({
-        pathname: ROUTES.COMMUNITY.LIST,
+        pathname: ROUTES.COMMUNITY_LIST.path,
         search: `?${createSearchParams({
           keyword: params.keyword,
           type: params.type,
@@ -67,35 +69,46 @@ const SearchBar = ({
       });
     }
   };
-  const onChange = (e: RadioChangeEvent) => {
+  const radioChange = (e: RadioChangeEvent) => {
     setSelectType(e.target.value);
   };
+  const selectChange = (value: string) => {
+    setSelectType(value);
+  };
 
-  const RadioComponent = () => (
-    <SearchRadioStyle
-      defaultValue={filter[0].value}
-      onChange={(e) => onChange(e)}
-      buttonStyle="solid"
-      value={selectType}
-    >
-      {filter.map((el, idx) => (
-        <Radio.Button value={el.value} key={idx}>
-          {el.name}
-        </Radio.Button>
-      ))}
-    </SearchRadioStyle>
-  );
   return (
     <div style={{ ...style }}>
       <Flex
         border={bgNone ? "none" : "1px solid #ddd"}
         bg={bgNone ? "transparent" : "#eee"}
-        justifyContent="space-between"
+        justifyContent={isSelectType ? "flex-end" : "space-between"}
         alignItems="center"
         p="10px 20px"
         borderRadius="10px"
       >
-        <RadioComponent />
+        {isSelectType ? (
+          <SearchSelectStyle>
+            <Select
+              defaultValue={filter[0].value}
+              style={{ width: 120 }}
+              onChange={selectChange}
+              options={filter}
+            />
+          </SearchSelectStyle>
+        ) : (
+          <SearchRadioStyle
+            defaultValue={filter[0].value}
+            onChange={(e) => radioChange(e)}
+            buttonStyle="solid"
+            value={selectType}
+          >
+            {filter.map((el, idx) => (
+              <Radio.Button value={el.value} key={idx}>
+                {el.label}
+              </Radio.Button>
+            ))}
+          </SearchRadioStyle>
+        )}
 
         <Box>
           <SearchStyle
@@ -114,7 +127,7 @@ const SearchStyle = styled(Search)`
   width: 430px;
   .ant-input {
     width: 85%;
-    margin-right: 10px;
+    margin: 0 10px;
     color: #333;
     display: inline-block;
     padding: 10px 20px !important;
@@ -154,5 +167,21 @@ const SearchRadioStyle = styled(Radio.Group)`
     > span {
       padding: 10px;
     }
+  }
+`;
+
+const SearchSelectStyle = styled.div`
+  .ant-select {
+    width: 80px !important;
+    text-align: center;
+  }
+  .ant-select-selector {
+    border-radius: 20px;
+  }
+  input {
+    height: 100% !important;
+  }
+  .ant-select-selection-item {
+    display: inline-block;
   }
 `;
