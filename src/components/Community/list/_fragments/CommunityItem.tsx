@@ -78,7 +78,6 @@ const CommunityItem = ({ data }: ICommunityItemProps) => {
           ))}
         </Flex>
       )}
-
       <Flex alignItems="center" justifyContent="space-between" pt="10px">
         <Flex alignItems="center" p="5px 0">
           <Tooltip label="조회수">
