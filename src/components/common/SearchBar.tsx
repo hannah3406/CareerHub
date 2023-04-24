@@ -37,7 +37,7 @@ const SearchBar = ({
   current,
   isSelectType,
 }: ISearchBarProps) => {
-  const navigete = useNavigate();
+  const navigate = useNavigate();
   const setSearchParams = useSetRecoilState<SearchParam>(searchParamsState);
   const setCommunityParams =
     useSetRecoilState<CommunityParam>(communityParamsState);
@@ -50,7 +50,7 @@ const SearchBar = ({
     if (current) params.page = current;
     if (type === "position") {
       setSearchParams(params);
-      return navigete({
+      return navigate({
         pathname: ROUTES.POSITION.path,
         search: `?${createSearchParams({
           keyword: params.keyword,
@@ -60,7 +60,7 @@ const SearchBar = ({
     }
     if (type === "community") {
       setCommunityParams(params);
-      return navigete({
+      return navigate({
         pathname: ROUTES.COMMUNITY_LIST.path,
         search: `?${createSearchParams({
           keyword: params.keyword,
@@ -81,12 +81,20 @@ const SearchBar = ({
       <Flex
         border={bgNone ? "none" : "1px solid #ddd"}
         bg={bgNone ? "transparent" : "#eee"}
-        justifyContent={isSelectType ? "flex-end" : "space-between"}
+        justifyContent="flex-end"
         alignItems="center"
         p="10px 20px"
         borderRadius="10px"
       >
-        {isSelectType ? (
+        <SearchSelectStyle>
+          <Select
+            defaultValue={filter[0].value}
+            style={{ width: 120 }}
+            onChange={selectChange}
+            options={filter}
+          />
+        </SearchSelectStyle>
+        {/* {isSelectType ? (
           <SearchSelectStyle>
             <Select
               defaultValue={filter[0].value}
@@ -108,10 +116,11 @@ const SearchBar = ({
               </Radio.Button>
             ))}
           </SearchRadioStyle>
-        )}
+        )} */}
 
         <Box>
           <SearchStyle
+            isSelectType={isSelectType}
             placeholder="검색어를 입력해주세요"
             onSearch={onSearch}
             enterButton
@@ -123,10 +132,9 @@ const SearchBar = ({
 };
 export default SearchBar;
 
-const SearchStyle = styled(Search)`
-  width: 430px;
+const SearchStyle = styled(Search)<{ isSelectType?: boolean }>`
   .ant-input {
-    width: 85%;
+    width: 460px;
     margin: 0 10px;
     color: #333;
     display: inline-block;
@@ -140,6 +148,7 @@ const SearchStyle = styled(Search)`
   }
   .ant-input-group-addon {
     height: 100%;
+    width: 50px;
     display: inline-block;
     vertical-align: top;
     border-radius: 20px !important;
@@ -158,30 +167,31 @@ const SearchStyle = styled(Search)`
   // }
 `;
 
-const SearchRadioStyle = styled(Radio.Group)`
-  border-radius: 10px;
-  .ant-radio-button-wrapper {
-    height: auto;
-    padding: 5px;
-    font-weight: bold;
-    > span {
-      padding: 10px;
-    }
-  }
-`;
+// const SearchRadioStyle = styled(Radio.Group)`
+//   border-radius: 10px;
+//   .ant-radio-button-wrapper {
+//     height: auto;
+//     padding: 5px;
+//     font-weight: bold;
+//     > span {
+//       padding: 10px;
+//     }
+//   }
+// `;
 
 const SearchSelectStyle = styled.div`
   .ant-select {
-    width: 80px !important;
+    width: 100px !important;
     text-align: center;
   }
   .ant-select-selector {
     border-radius: 20px;
+    height: 44px !important;
   }
   input {
     height: 100% !important;
   }
   .ant-select-selection-item {
-    display: inline-block;
+    top: 6px;
   }
 `;

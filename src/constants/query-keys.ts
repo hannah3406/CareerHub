@@ -10,5 +10,6 @@ export const QUERY_KEY = {
   },
   COMMUNITY: {
     GETLIST: "community-getList",
+    GETARTICLE: "community-getArticle",
   },
 };

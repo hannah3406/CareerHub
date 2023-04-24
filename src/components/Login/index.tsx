@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const LoginComponent = () => {
-  const navigete = useNavigate();
+  const navigate = useNavigate();
 
   const [errMsg, setErrMsg] = useState<string | undefined>(undefined);
 
@@ -16,7 +16,7 @@ const LoginComponent = () => {
     setErrMsg(undefined);
     try {
       await authApi.loginUser(values);
-      navigete("/");
+      navigate("/");
     } catch (e: any) {
       setErrMsg(e.response.data.message[0]);
     }

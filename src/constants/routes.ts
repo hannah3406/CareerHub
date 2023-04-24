@@ -6,6 +6,7 @@ import LoginPage from "pages/Login";
 import StatisticsPage from "pages/Statistics";
 import CommunityPage from "pages/Community";
 import CommunityCreatePage from "pages/Community/create";
+import CommunityDetailPage from "pages/Community/[id]";
 
 export const ROUTES = {
   HOME: {
@@ -31,6 +32,10 @@ export const ROUTES = {
   COMMUNITY_CREATE: {
     path: "/community/create",
     element: CommunityCreatePage,
+  },
+  COMMUNITY_DETAIL: {
+    path: "/community/:id",
+    element: CommunityDetailPage,
   },
   STATISTICSPAGE: {
     path: "/statistics",

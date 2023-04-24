@@ -12,7 +12,7 @@ import { getToken } from "utils/sessionStorage/token";
 import MyProfileComponent from "components/MyProfile";
 
 const MyPageContainer = () => {
-  const navigete = useNavigate();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const token = getToken();
   const userProfile = queryClient.getQueryData<userType>([
@@ -30,9 +30,9 @@ const MyPageContainer = () => {
       setDate(moment(local).format("YYYY.MM.DD"));
     }
     if (userProfile === undefined) {
-      navigete("/");
+      navigate("/");
     }
-  }, [navigete, userProfile]);
+  }, [navigate, userProfile]);
   const onSelectImg = (idx: number) => {
     setSelect(idx);
   };

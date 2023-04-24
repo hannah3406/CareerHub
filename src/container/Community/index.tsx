@@ -19,7 +19,7 @@ const CommunityContainer = () => {
     useRecoilState<CommunityParam>(communityParamsState);
   const [current, setCurrent] = useState<number>(communityParams.page ?? 1);
 
-  const navigete = useNavigate();
+  const navigate = useNavigate();
 
   const { data: community, isLoading } = useGetCommunityListQuery({
     variables: communityParams,
@@ -50,10 +50,10 @@ const CommunityContainer = () => {
       >
         <SearchBar
           type="community"
-          bgNone
+          // bgNone
           style={{ width: 900, margin: "0 auto" }}
           filter={communityFilter}
-          isSelectType
+          // isSelectType
         />
       </Box>
       {isLoading && <Text>Loading...</Text>}
@@ -62,18 +62,20 @@ const CommunityContainer = () => {
           <CommunityComponent data={community.results} />
         )}
       </Box>
-      {community && (
-        <PaginationStyle
-          current={current}
-          onChange={onPageChange}
-          total={community.total}
-        />
-      )}
+      <Box w="900px" m="0 auto" mb="50px" textAlign="center">
+        {community && (
+          <PaginationStyle
+            current={current}
+            onChange={onPageChange}
+            total={community.total}
+          />
+        )}
+      </Box>
       <Flex
         position="fixed"
         bottom={{ base: "90px", sm: "130px" }}
         right={{ base: "16px", sm: "60px" }}
-        onClick={() => navigete(ROUTES.COMMUNITY_CREATE.path)}
+        onClick={() => navigate(ROUTES.COMMUNITY_CREATE.path)}
         cursor="pointer"
         w="60px"
         h="60px"

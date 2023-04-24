@@ -14,7 +14,7 @@ import { userProfile as userType } from "apis/user/type";
 import { getToken } from "utils/sessionStorage/token";
 const HomeHeader = () => {
   const { pathname } = useLocation();
-  const navigete = useNavigate();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const token = getToken();
   const userProfile = queryClient.getQueryData<userType>([
@@ -25,7 +25,7 @@ const HomeHeader = () => {
     if (!!userProfile) {
       await authApi.logoutUser(userProfile.email);
       await queryClient.invalidateQueries([QUERY_KEY.USER.PROFILE, token]);
-      navigete(ROUTES.LOGIN.path);
+      navigate(ROUTES.LOGIN.path);
     }
   };
 
@@ -50,7 +50,7 @@ const HomeHeader = () => {
             <Popover
               content={
                 <ProfilePanel>
-                  <div onClick={() => navigete(ROUTES.MYPAGE.path)}>
+                  <div onClick={() => navigate(ROUTES.MYPAGE.path)}>
                     마이페이지
                   </div>
                   <div onClick={logout}>로그아웃</div>
@@ -60,10 +60,13 @@ const HomeHeader = () => {
             >
               <ProfileImg>
                 <img
-                  src={`assets/image/profile/파일 ${
-                    Number(userProfile.profileimg) + 1
-                  }.svg`}
-                  alt="homeheader_profile"
+                  src={
+                    process.env.PUBLIC_URL +
+                    `/assets/image/profile/파일 ${
+                      Number(userProfile.profileimg) + 1
+                    }.svg`
+                  }
+                  alt="프로필"
                 />
               </ProfileImg>
             </Popover>

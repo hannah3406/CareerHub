@@ -46,7 +46,10 @@ const MyProfileComponent = ({
                   isSelect={isSelect === idx}
                 >
                   <img
-                    src={`assets/image/profile/파일 ${idx + 1}.svg`}
+                    src={
+                      process.env.PUBLIC_URL +
+                      `/assets/image/profile/파일 ${idx + 1}.svg`
+                    }
                     alt="profile_edit"
                   />
                 </ProfileEditImg>
@@ -101,9 +104,12 @@ const MyProfileComponent = ({
                 <CameraFilled />
               </Flex>
               <img
-                src={`assets/image/profile/파일 ${
-                  Number(userProfile.profileimg) + 1
-                }.svg`}
+                src={
+                  process.env.PUBLIC_URL +
+                  `/assets/image/profile/파일 ${
+                    Number(userProfile.profileimg) + 1
+                  }.svg`
+                }
                 alt="profile"
               />
             </ProfileImg>

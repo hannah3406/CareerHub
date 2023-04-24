@@ -6,13 +6,13 @@ import { CreateUser } from "apis/user/type";
 import { useNavigate } from "react-router-dom";
 
 const SignUpComponent = () => {
-  const navigete = useNavigate();
+  const navigate = useNavigate();
 
   const onFinish = async (values: CreateUser) => {
     try {
       await userApi.createUser(values);
       alert("회원가입이 완료되었습니다! 로그인을 해주세요!");
-      navigete("/login");
+      navigate("/login");
     } catch (e) {
       console.log(e);
     }

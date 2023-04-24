@@ -9,7 +9,7 @@ import { ROUTES } from "constants/routes";
 
 function App() {
   const token = getToken();
-  const navigete = useNavigate();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const exceptPath = useMemo(() => ["/login", "/signup", "/", "/position"], []);
@@ -21,9 +21,9 @@ function App() {
   });
   useEffect(() => {
     if (userProfile === undefined && !token && !exceptPath.includes(pathname)) {
-      navigete("/login");
+      navigate("/login");
     }
-  }, [exceptPath, navigete, pathname, token, userProfile]);
+  }, [exceptPath, navigate, pathname, token, userProfile]);
 
   return (
     <Routes>

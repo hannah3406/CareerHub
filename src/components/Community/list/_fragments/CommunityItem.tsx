@@ -8,12 +8,15 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import PositionArticleCard from "components/common/PositionArticleCard";
 import SkillTag from "components/common/SkillTag";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "constants/routes";
 
 interface ICommunityItemProps {
   data: CommunityList;
 }
 
 const CommunityItem = ({ data }: ICommunityItemProps) => {
+  const navigate = useNavigate();
   const [date, setDate] = useState<string | undefined>(undefined);
   useEffect(() => {
     const local = moment.utc(data.updatedAt).toDate();
@@ -28,14 +31,21 @@ const CommunityItem = ({ data }: ICommunityItemProps) => {
       p="10px 40px"
       borderRadius="10px"
       m="10px 0"
+      cursor="pointer"
+      onClick={() => {
+        navigate(`${ROUTES.COMMUNITY_LIST.path}/${data._id}`);
+      }}
     >
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center" p="5px 0">
           <ProfileImg>
             <img
-              src={`assets/image/profile/파일 ${
-                Number(data.userInfo.profileimg) + 1
-              }.svg`}
+              src={
+                process.env.PUBLIC_URL +
+                `/assets/image/profile/파일 ${
+                  Number(data.userInfo.profileimg) + 1
+                }.svg`
+              }
               alt="homeheader_profile"
             />
           </ProfileImg>
