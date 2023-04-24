@@ -14,7 +14,6 @@ const WriteTag = ({ setTags, tags }: IWriteTagProps) => {
   const inputRef = useRef<InputRef>(null);
   const handleClose = (removedTag: string) => {
     const newTags = tags.filter((tag) => tag !== removedTag);
-    console.log(newTags, "removedTag");
     setTags(newTags);
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

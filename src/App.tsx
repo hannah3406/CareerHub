@@ -33,7 +33,10 @@ function App() {
           path={route.path}
           element={
             <HomeLayout
-              isHideHeader={route.path === "/community/create"}
+              isHideHeader={
+                route.path === "/community/create" ||
+                route.path === "/community/:id/edit"
+              }
               content={<route.element />}
             />
           }

@@ -9,7 +9,14 @@ export type CommunityList = {
   createdAt: string;
   updatedAt: string;
 };
-
+export interface ImyVariables {
+  _id?: string;
+  title?: string;
+  description?: string;
+  positionArticle?: PositionArticle;
+  skill?: string[];
+  userInfo?: UserInfo;
+}
 export type CommunityListResult = {
   page?: number;
   results: CommunityList[];

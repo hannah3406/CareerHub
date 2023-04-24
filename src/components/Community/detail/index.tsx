@@ -8,18 +8,33 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { LikeOutlined, MessageFilled } from "@ant-design/icons";
 import CommentWrtieComponent from "components/Comment/write";
+import DotMoreIcon from "components/common/@Icons/System/DotMore";
+import { userProfile as userType } from "apis/user/type";
+import { getToken } from "utils/sessionStorage/token";
+import { useQueryClient } from "react-query";
+import { QUERY_KEY } from "constants/query-keys";
+import { Popover } from "antd";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "constants/routes";
 interface ICommunityDetailProps {
   data: CommunityList;
 }
 
 const CommunityDetailComponent = (props: ICommunityDetailProps) => {
   const { data } = props;
+  const navigate = useNavigate();
+  const token = getToken();
+  const queryClient = useQueryClient();
+  const userProfile = queryClient.getQueryData<userType>([
+    QUERY_KEY.USER.PROFILE,
+    token,
+  ]);
+
   const [date, setDate] = useState<string | undefined>(undefined);
   useEffect(() => {
     const local = moment.utc(data.updatedAt).toDate();
     setDate(moment(local).fromNow());
   }, [data]);
-  console.log(data, "data");
   return (
     <>
       <Flex
@@ -110,6 +125,42 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
                 </Flex>
               </Tooltip>
             </Flex>
+            {data.userInfo.userId === userProfile?._id && (
+              <Popover
+                trigger="click"
+                content={
+                  <Box p="10px 0">
+                    <Box
+                      cursor="pointer"
+                      p="3px 15px"
+                      _hover={{
+                        bg: "#555",
+                        color: "#fff",
+                      }}
+                      onClick={() =>
+                        navigate(
+                          `${ROUTES.COMMUNITY_LIST.path}/${data._id}/edit`
+                        )
+                      }
+                    >
+                      수정하기
+                    </Box>
+                    <Box
+                      cursor="pointer"
+                      p="3px 15px"
+                      _hover={{
+                        bg: "#555",
+                        color: "#fff",
+                      }}
+                    >
+                      삭제하기
+                    </Box>
+                  </Box>
+                }
+              >
+                <DotMoreIcon w="5px" color="#555" ml="1px" />
+              </Popover>
+            )}
           </Flex>
         </Box>
 

@@ -7,6 +7,7 @@ import StatisticsPage from "pages/Statistics";
 import CommunityPage from "pages/Community";
 import CommunityCreatePage from "pages/Community/create";
 import CommunityDetailPage from "pages/Community/[id]";
+import CommunityEditPage from "pages/Community/[id]/edit";
 
 export const ROUTES = {
   HOME: {
@@ -36,6 +37,10 @@ export const ROUTES = {
   COMMUNITY_DETAIL: {
     path: "/community/:id",
     element: CommunityDetailPage,
+  },
+  COMMUNITY_EDIT: {
+    path: "/community/:id/edit",
+    element: CommunityEditPage,
   },
   STATISTICSPAGE: {
     path: "/statistics",

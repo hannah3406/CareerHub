@@ -15,6 +15,7 @@ const CommentWrtieComponent = () => {
     QUERY_KEY.USER.PROFILE,
     token,
   ]);
+
   const onSubmitValue = (values: any) => {
     console.log(values);
   };

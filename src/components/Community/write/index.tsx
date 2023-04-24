@@ -14,13 +14,19 @@ import { userProfile as userType } from "apis/user/type";
 import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "constants/query-keys";
 import { getToken } from "utils/sessionStorage/token";
-import { UserInfo } from "apis/\bcommunity/type";
+import { CommunityList, ImyVariables, UserInfo } from "apis/\bcommunity/type";
 import communityApi from "apis/\bcommunity";
 import { ROUTES } from "constants/routes";
 import { useNavigate } from "react-router-dom";
 import PositionArticleCard from "components/common/PositionArticleCard";
 
-const CommunityWriteComponent = () => {
+interface ICommunityWriteComponentProps {
+  editData?: CommunityList;
+  isEdit?: boolean;
+}
+
+const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
+  const { editData, isEdit } = props;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [positionArticle, setPositionArticle] =
@@ -46,7 +52,6 @@ const CommunityWriteComponent = () => {
   const onFinish = async (values: any) => {
     const result = values;
     result.userInfo = userInfo;
-    console.log(result, "========");
     if (tags.length > 0) result.skill = tags;
     if (!!positionArticle)
       result.positionArticle = {
@@ -67,6 +72,51 @@ const CommunityWriteComponent = () => {
       console.log(e);
     }
   };
+  const onEditFinish = async (values: any) => {
+    if (editData === undefined) return;
+    const result = values;
+    result.userInfo = userInfo;
+    if (tags.length > 0) result.skill = tags;
+    if (!!positionArticle)
+      result.positionArticle = {
+        positionId: positionArticle.positionId,
+        title: positionArticle.title,
+        company: positionArticle.company,
+        url: positionArticle.url,
+      };
+    const myVariables: ImyVariables = {};
+
+    if (
+      result.positionArticle.positionId !==
+      editData?.positionArticle?.positionId
+    )
+      myVariables.positionArticle = result.positionArticle;
+    if (result.title !== editData.title) myVariables.title = result.title;
+    if (result.description !== editData.description)
+      myVariables.description = result.description;
+    if (!(!!editData.skill && sameArray(result.skill, editData.skill)))
+      myVariables.skill = result.skill;
+
+    myVariables.userInfo = userInfo;
+    try {
+      console.log(myVariables, "myVariables");
+      // await communityApi.createBoard(result);
+      // alert("게시글이 작성되었습니다.");
+      // await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
+      // console.log(result);
+      // setPositionArticle(undefined);
+      // navigate(ROUTES.COMMUNITY_LIST.path);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const sameArray = (arr1: string[], arr2: string[]) => {
+    return (
+      arr1.length === arr2.length &&
+      arr1.every((value, idx) => value === arr2[idx])
+    );
+  };
   const onCancelArticle = () => {
     const deleteArr = tags.filter((tag) => {
       return positionArticle?.skill && !positionArticle?.skill.includes(tag);
@@ -84,6 +134,15 @@ const CommunityWriteComponent = () => {
   }, [positionArticle]);
 
   useEffect(() => {
+    if (isEdit && !!editData && !!editData?.positionArticle) {
+      const { positionId, url, title, company } = editData.positionArticle;
+      const skill = editData.skill;
+      setPositionArticle({ positionId, url, title, company, skill });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEdit]);
+
+  useEffect(() => {
     if (!!userProfile) {
       setUserInfo({
         userName: userProfile.name,
@@ -98,8 +157,12 @@ const CommunityWriteComponent = () => {
       <Form
         name="createBoard"
         layout="vertical"
-        onFinish={onFinish}
+        onFinish={!isEdit ? onFinish : onEditFinish}
         style={{ maxWidth: 900, margin: "120px auto 50px" }}
+        initialValues={{
+          title: !!editData ? editData.title : "",
+          description: !!editData ? editData.description : "",
+        }}
       >
         <Form.Item name="title">
           <FormTitle placeholder="제목을 입력해주세요" />
@@ -148,7 +211,7 @@ const CommunityWriteComponent = () => {
         <FormSubmit>
           <Button onClick={onGoBack}>나가기</Button>
           <Button type="primary" htmlType="submit">
-            등록
+            {!isEdit ? "등록" : "수정"}
           </Button>
         </FormSubmit>
       </Form>
