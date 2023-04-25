@@ -15,3 +15,9 @@ export type userProfile = {
   _id: string;
   profileimg: string;
 };
+
+export type myArticle = {
+  _id: string;
+  title: string;
+  updatedAt: string;
+};

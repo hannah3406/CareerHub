@@ -4,7 +4,6 @@ import { ViewIcon } from "@chakra-ui/icons";
 import { Flex, Box, Text, Tooltip } from "@chakra-ui/react";
 import DotIcon from "components/common/@Icons/System/Dot";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
 import moment from "moment";
 import PositionArticleCard from "components/common/PositionArticleCard";
 import SkillTag from "components/common/SkillTag";
@@ -17,11 +16,6 @@ interface ICommunityItemProps {
 
 const CommunityItem = ({ data }: ICommunityItemProps) => {
   const navigate = useNavigate();
-  const [date, setDate] = useState<string | undefined>(undefined);
-  useEffect(() => {
-    const local = moment.utc(data.updatedAt).toDate();
-    setDate(moment(local).fromNow());
-  }, [data]);
 
   return (
     <Flex
@@ -54,7 +48,7 @@ const CommunityItem = ({ data }: ICommunityItemProps) => {
           </Box>
         </Flex>
         <Text fontSize="12px" color="#555">
-          {date}
+          {moment(data.updatedAt).fromNow()}
         </Text>
       </Flex>
 

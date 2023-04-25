@@ -1,8 +1,7 @@
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
-import { getToken } from "utils/sessionStorage/token";
 
-import { CreateUser, userProfile } from "./type";
+import { CreateUser, myArticle, userProfile } from "./type";
 
 export class UserApi {
   axios: AxiosInstance = instance;
@@ -20,7 +19,6 @@ export class UserApi {
   };
 
   updateUser = async (id: string, type: string, value: string): Promise<{}> => {
-    const token = getToken();
     const { data } = await instance({
       method: "PATCH",
       url: `/user/profile/${id}`,
@@ -28,7 +26,6 @@ export class UserApi {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         Pragma: "no-cache",
         Expires: 0,
-        Authorization: `Bearer ${token}`,
       },
       data: { type, value },
     });
@@ -45,8 +42,16 @@ export class UserApi {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         Pragma: "no-cache",
         Expires: 0,
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
       },
+    });
+    return data;
+  };
+
+  myArticle = async (): Promise<myArticle[]> => {
+    const { data } = await instance({
+      method: "GET",
+      url: `/user/myArticle`,
     });
     return data;
   };

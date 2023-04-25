@@ -10,7 +10,10 @@ import { QUERY_KEY } from "constants/query-keys";
 import { userProfile as userType } from "apis/user/type";
 import { getToken } from "utils/sessionStorage/token";
 import MyProfileComponent from "components/MyProfile";
+import { useGetMyArticleQuery } from "apis/user/query";
 
+import CustomTabs from "components/common/CustomTabs";
+import MyHistoryComponent from "components/MyHistory";
 const MyPageContainer = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -19,11 +22,18 @@ const MyPageContainer = () => {
     QUERY_KEY.USER.PROFILE,
     token,
   ]);
+
   const [date, setDate] = useState<string | undefined>(undefined);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isActiveFirst, setIsActiveFirst] = useState<boolean>(true);
   const [isSelect, setSelect] = useState<number | undefined>(
     Number(userProfile?.profileimg)
   );
+  const { data: myArticle } = useGetMyArticleQuery({
+    options: {
+      enabled: isActiveFirst,
+    },
+  });
   useEffect(() => {
     if (!!userProfile) {
       const local = moment.utc(userProfile.updatedAt).toDate();
@@ -36,6 +46,7 @@ const MyPageContainer = () => {
   const onSelectImg = (idx: number) => {
     setSelect(idx);
   };
+
   const onImageEdit = async (idx: number | undefined) => {
     if (userProfile === undefined) return;
     try {
@@ -81,7 +92,16 @@ const MyPageContainer = () => {
         <Text mt="30px" color="#000" p="10px 0" fontSize="20px">
           활동내역
         </Text>
-        <Box>서비스 준비중입니다</Box>
+        <Box>
+          <Flex w="100%" flexDirection="column">
+            <CustomTabs
+              setIsActiveFirst={setIsActiveFirst}
+              isActiveFirst={isActiveFirst}
+              keyText={["작성 게시글", "작성 댓글"]}
+            />
+            {!!myArticle && <MyHistoryComponent data={myArticle} />}
+          </Flex>
+        </Box>
       </Flex>
     </Box>
   );

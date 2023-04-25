@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { CONFIG } from "config";
+import { getToken } from "utils/sessionStorage/token";
 
 const instance: AxiosInstance = axios.create({
   baseURL: CONFIG.API_BASE_URL,
@@ -9,24 +10,27 @@ const instance: AxiosInstance = axios.create({
   },
 });
 
-// const setAuthHeader = (token: string) => {
-//   if (token) {
-//     instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-//   }
-// };
-// const unsetAuthHeader = () => {
-//   delete instance.defaults.headers.common["Authorization"];
-// };
+const setAuthHeader = (token: string) => {
+  if (token) {
+    instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+};
+const unsetAuthHeader = () => {
+  delete instance.defaults.headers.common["Authorization"];
+};
 
 instance.interceptors.request.use(
   (config) => {
-    // const isAccess = !!token;
-    // if (isAccess) {
-    //   setAuthHeader(token as string);
-    //   config.headers.Authorization = `Bearer ${token}`;
-    //   return config;
-    // }
-    // unsetAuthHeader();
+    const token = getToken();
+
+    const isAccess = !!token;
+    if (isAccess) {
+      console.log(isAccess);
+      setAuthHeader(token as string);
+      config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    }
+    unsetAuthHeader();
     return config;
   },
   (error) => {
@@ -46,5 +50,5 @@ instance.interceptors.response.use(
     }
   }
 );
-// export { setAuthHeader, unsetAuthHeader };
+export { setAuthHeader, unsetAuthHeader };
 export default instance;

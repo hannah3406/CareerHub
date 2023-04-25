@@ -5,7 +5,6 @@ import { ArrowBackIcon, ViewIcon } from "@chakra-ui/icons";
 import PositionArticleCard from "components/common/PositionArticleCard";
 import SkillTag from "components/common/SkillTag";
 import moment from "moment";
-import { useEffect, useState } from "react";
 import { LikeOutlined, MessageFilled } from "@ant-design/icons";
 import CommentWrtieComponent from "components/Comment/write";
 import DotMoreIcon from "components/common/@Icons/System/DotMore";
@@ -31,12 +30,6 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
     QUERY_KEY.USER.PROFILE,
     token,
   ]);
-
-  const [date, setDate] = useState<string | undefined>(undefined);
-  useEffect(() => {
-    const local = moment.utc(data.updatedAt).toDate();
-    setDate(moment(local).fromNow());
-  }, [data]);
 
   const deleteBoard = async () => {
     try {
@@ -77,7 +70,7 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
               </Box>
             </Flex>
             <Text fontSize="12px" color="#555">
-              {date}
+              {moment(data.updatedAt).fromNow()}
             </Text>
           </Flex>
 

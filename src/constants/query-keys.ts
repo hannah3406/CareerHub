@@ -1,6 +1,7 @@
 export const QUERY_KEY = {
   USER: {
     PROFILE: "user-profile",
+    MYARTICLE: "user-myArticle",
   },
   AUTH: {
     REFRESH: "auth-refresh",
