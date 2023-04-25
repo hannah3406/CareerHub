@@ -1,4 +1,4 @@
-import { useGetCommunityDetailQuery } from "apis/\bcommunity/query";
+import { useGetCommunityDetailQuery } from "apis/community/query";
 import CommunityDetailComponent from "components/Community/detail";
 import { useParams } from "react-router-dom";
 

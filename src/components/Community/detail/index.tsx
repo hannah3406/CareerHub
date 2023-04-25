@@ -1,6 +1,6 @@
 import { Flex, Text, Box, Tooltip, Divider } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import { CommunityList } from "apis/\bcommunity/type";
+import { CommunityList } from "apis/community/type";
 import { ArrowBackIcon, ViewIcon } from "@chakra-ui/icons";
 import PositionArticleCard from "components/common/PositionArticleCard";
 import SkillTag from "components/common/SkillTag";
@@ -14,8 +14,9 @@ import { getToken } from "utils/sessionStorage/token";
 import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "constants/query-keys";
 import { Popover } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ROUTES from "constants/routes";
+import communityApi from "apis/community";
 interface ICommunityDetailProps {
   data: CommunityList;
 }
@@ -23,6 +24,7 @@ interface ICommunityDetailProps {
 const CommunityDetailComponent = (props: ICommunityDetailProps) => {
   const { data } = props;
   const navigate = useNavigate();
+  const params = useParams();
   const token = getToken();
   const queryClient = useQueryClient();
   const userProfile = queryClient.getQueryData<userType>([
@@ -35,6 +37,17 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
     const local = moment.utc(data.updatedAt).toDate();
     setDate(moment(local).fromNow());
   }, [data]);
+
+  const deleteBoard = async () => {
+    try {
+      await communityApi.deleteBoard(params.id);
+      alert("게시글이 삭제되었습니다.");
+      await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
+      navigate(ROUTES.COMMUNITY_LIST.path);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <>
       <Flex
@@ -152,6 +165,7 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
                         bg: "#555",
                         color: "#fff",
                       }}
+                      onClick={deleteBoard}
                     >
                       삭제하기
                     </Box>
@@ -172,7 +186,7 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
       <Box w="900px" m="10px auto 35px">
         <Box
           cursor="pointer"
-          onClick={() => window.history.back()}
+          onClick={() => navigate(ROUTES.COMMUNITY_LIST.path)}
           display="inline-block"
           border="1px solid #ddd"
           fontSize="14px"

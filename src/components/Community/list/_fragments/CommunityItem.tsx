@@ -1,4 +1,4 @@
-import { CommunityList } from "apis/\bcommunity/type";
+import { CommunityList } from "apis/community/type";
 import { LikeOutlined, MessageFilled } from "@ant-design/icons";
 import { ViewIcon } from "@chakra-ui/icons";
 import { Flex, Box, Text, Tooltip } from "@chakra-ui/react";

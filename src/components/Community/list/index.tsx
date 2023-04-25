@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import { CommunityList } from "apis/\bcommunity/type";
+import { CommunityList } from "apis/community/type";
 import CommunityItem from "./_fragments/CommunityItem";
 
 interface ICommunityComponentProps {

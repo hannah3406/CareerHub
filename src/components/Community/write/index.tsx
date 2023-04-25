@@ -14,11 +14,12 @@ import { userProfile as userType } from "apis/user/type";
 import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "constants/query-keys";
 import { getToken } from "utils/sessionStorage/token";
-import { CommunityList, ImyVariables, UserInfo } from "apis/\bcommunity/type";
-import communityApi from "apis/\bcommunity";
+import { CommunityList, ImyVariables, UserInfo } from "apis/community/type";
+import communityApi from "apis/community";
 import { ROUTES } from "constants/routes";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PositionArticleCard from "components/common/PositionArticleCard";
+import { sameArray } from "utils/sameArray";
 
 interface ICommunityWriteComponentProps {
   editData?: CommunityList;
@@ -29,9 +30,14 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
   const { editData, isEdit } = props;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const params = useParams();
+  const [skillSelect, setSkillSelect] = useState<string[]>([]);
   const [positionArticle, setPositionArticle] =
     useRecoilState<PositionArtice>(positionArticleState);
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(
+    editData?.skill ? editData?.skill : []
+  );
+
   const [show, setShow] = useState<boolean>(false);
   const token = getToken();
   const userProfile = queryClient.getQueryData<userType>([
@@ -46,7 +52,7 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
   });
   const onGoBack = () => {
     alert("작성중인 게시글은 저장되지 않습니다.");
-    setPositionArticle(undefined);
+    setPositionArticle(null);
     navigate(ROUTES.COMMUNITY_LIST.path);
   };
   const onFinish = async (values: any) => {
@@ -66,78 +72,82 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
       alert("게시글이 작성되었습니다.");
       await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
       console.log(result);
-      setPositionArticle(undefined);
+      setPositionArticle(null);
       navigate(ROUTES.COMMUNITY_LIST.path);
     } catch (e) {
       console.log(e);
     }
   };
   const onEditFinish = async (values: any) => {
-    if (editData === undefined) return;
-    const result = values;
-    result.userInfo = userInfo;
-    if (tags.length > 0) result.skill = tags;
-    if (!!positionArticle)
-      result.positionArticle = {
-        positionId: positionArticle.positionId,
-        title: positionArticle.title,
-        company: positionArticle.company,
-        url: positionArticle.url,
-      };
+    if (!editData) return;
+    if (tags.length > 0) values.skill = tags;
+    const { title, description, skill } = values;
     const myVariables: ImyVariables = {};
 
-    if (
-      result.positionArticle.positionId !==
-      editData?.positionArticle?.positionId
-    )
-      myVariables.positionArticle = result.positionArticle;
-    if (result.title !== editData.title) myVariables.title = result.title;
-    if (result.description !== editData.description)
-      myVariables.description = result.description;
-    if (!(!!editData.skill && sameArray(result.skill, editData.skill)))
-      myVariables.skill = result.skill;
+    if (positionArticle?.positionId !== editData.positionArticle?.positionId) {
+      myVariables.positionArticle = positionArticle;
+    }
 
-    myVariables.userInfo = userInfo;
+    if (title !== editData.title) {
+      myVariables.title = title;
+    }
+
+    if (description !== editData.description) {
+      myVariables.description = description;
+    }
+
+    if (!sameArray(skill, editData.skill)) {
+      myVariables.skill = skill;
+    }
+
+    if (userInfo !== editData?.userInfo) {
+      myVariables.userInfo = userInfo;
+    }
+
     try {
-      console.log(myVariables, "myVariables");
-      // await communityApi.createBoard(result);
-      // alert("게시글이 작성되었습니다.");
-      // await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
-      // console.log(result);
-      // setPositionArticle(undefined);
-      // navigate(ROUTES.COMMUNITY_LIST.path);
+      await communityApi.updateBoard(params.id, myVariables);
+      alert("게시글이 수정되었습니다.");
+      await queryClient.invalidateQueries([
+        QUERY_KEY.COMMUNITY.GETARTICLE,
+        params.id,
+      ]);
+      setPositionArticle(null);
+      navigate(`${ROUTES.COMMUNITY_LIST.path}/${params.id}`);
     } catch (e) {
       console.log(e);
     }
   };
-
-  const sameArray = (arr1: string[], arr2: string[]) => {
-    return (
-      arr1.length === arr2.length &&
-      arr1.every((value, idx) => value === arr2[idx])
-    );
-  };
   const onCancelArticle = () => {
+    console.log(positionArticle?.skill);
     const deleteArr = tags.filter((tag) => {
       return positionArticle?.skill && !positionArticle?.skill.includes(tag);
     });
+    console.log(deleteArr);
     setTags(deleteArr);
 
-    setPositionArticle(undefined);
+    setPositionArticle(null);
   };
 
   useEffect(() => {
-    const maxLength = 7 - tags.length;
-    const skillSelect = positionArticle?.skill?.slice(0, maxLength);
-    setTags((prevState) => [...prevState, ...(skillSelect ?? [])]);
+    if (!!positionArticle && !!positionArticle?.skill) {
+      const maxLength = 7 - tags.length;
+      const select = positionArticle?.skill?.slice(0, maxLength);
+
+      setSkillSelect(select);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [positionArticle]);
 
   useEffect(() => {
-    if (isEdit && !!editData && !!editData?.positionArticle) {
-      const { positionId, url, title, company } = editData.positionArticle;
-      const skill = editData.skill;
-      setPositionArticle({ positionId, url, title, company, skill });
+    if (!!skillSelect) {
+      setTags((prevState) => [...prevState, ...(skillSelect ?? [])]);
+    }
+  }, [skillSelect]);
+
+  useEffect(() => {
+    if (!!editData?.positionArticle) {
+      // setInitialSkill(editData?.positionArticle?.skill);
+      setPositionArticle({ ...editData.positionArticle, skill: undefined });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit]);

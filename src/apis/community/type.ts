@@ -13,8 +13,8 @@ export interface ImyVariables {
   _id?: string;
   title?: string;
   description?: string;
-  positionArticle?: PositionArticle;
-  skill?: string[];
+  positionArticle?: PositionArticle | null;
+  skill?: string[] | undefined;
   userInfo?: UserInfo;
 }
 export type CommunityListResult = {
@@ -42,6 +42,13 @@ export type CreateBoard = {
   positionArticle?: PositionArticle;
   skill?: string[];
   userInfo: UserInfo;
+};
+export type UpdateBoard = {
+  title?: string;
+  description?: string;
+  positionArticle?: PositionArticle | null;
+  skill?: string[] | undefined;
+  userInfo?: UserInfo;
 };
 
 export type CommunityPageSearchParams = {

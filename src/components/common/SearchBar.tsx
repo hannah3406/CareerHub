@@ -1,7 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import { Input, RadioChangeEvent, Select } from "antd";
-import { Radio } from "antd";
+import { Input, Select } from "antd";
 import { ROUTES } from "constants/routes";
 import { useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
@@ -16,7 +15,6 @@ interface ISearchBarProps {
     label: string;
     value: string;
   }[];
-  isSelectType?: boolean;
   style: {
     [key: string]: string | number;
   };
@@ -35,7 +33,6 @@ const SearchBar = ({
   bgNone,
   type,
   current,
-  isSelectType,
 }: ISearchBarProps) => {
   const navigate = useNavigate();
   const setSearchParams = useSetRecoilState<SearchParam>(searchParamsState);
@@ -69,9 +66,7 @@ const SearchBar = ({
       });
     }
   };
-  const radioChange = (e: RadioChangeEvent) => {
-    setSelectType(e.target.value);
-  };
+
   const selectChange = (value: string) => {
     setSelectType(value);
   };
@@ -94,33 +89,9 @@ const SearchBar = ({
             options={filter}
           />
         </SearchSelectStyle>
-        {/* {isSelectType ? (
-          <SearchSelectStyle>
-            <Select
-              defaultValue={filter[0].value}
-              style={{ width: 120 }}
-              onChange={selectChange}
-              options={filter}
-            />
-          </SearchSelectStyle>
-        ) : (
-          <SearchRadioStyle
-            defaultValue={filter[0].value}
-            onChange={(e) => radioChange(e)}
-            buttonStyle="solid"
-            value={selectType}
-          >
-            {filter.map((el, idx) => (
-              <Radio.Button value={el.value} key={idx}>
-                {el.label}
-              </Radio.Button>
-            ))}
-          </SearchRadioStyle>
-        )} */}
 
         <Box>
           <SearchStyle
-            isSelectType={isSelectType}
             placeholder="검색어를 입력해주세요"
             onSearch={onSearch}
             enterButton
@@ -132,7 +103,7 @@ const SearchBar = ({
 };
 export default SearchBar;
 
-const SearchStyle = styled(Search)<{ isSelectType?: boolean }>`
+const SearchStyle = styled(Search)`
   .ant-input {
     width: 460px;
     margin: 0 10px;
@@ -166,18 +137,6 @@ const SearchStyle = styled(Search)<{ isSelectType?: boolean }>`
   //   color: #fff !important;
   // }
 `;
-
-// const SearchRadioStyle = styled(Radio.Group)`
-//   border-radius: 10px;
-//   .ant-radio-button-wrapper {
-//     height: auto;
-//     padding: 5px;
-//     font-weight: bold;
-//     > span {
-//       padding: 10px;
-//     }
-//   }
-// `;
 
 const SearchSelectStyle = styled.div`
   .ant-select {

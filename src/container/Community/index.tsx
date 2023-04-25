@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import ScrollUp from "components/common/@Icons/System/ScrollUp";
-import { useGetCommunityListQuery } from "apis/\bcommunity/query";
+import { useGetCommunityListQuery } from "apis/community/query";
 import CommunityComponent from "components/Community/list";
 import { FormOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -50,10 +50,8 @@ const CommunityContainer = () => {
       >
         <SearchBar
           type="community"
-          // bgNone
           style={{ width: 900, margin: "0 auto" }}
           filter={communityFilter}
-          // isSelectType
         />
       </Box>
       {isLoading && <Text>Loading...</Text>}

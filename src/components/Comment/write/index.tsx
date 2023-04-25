@@ -57,7 +57,7 @@ const CommentWrtieComponent = () => {
             style={{
               padding: "15px 15px 40px 15px",
             }}
-            autoSize={{ minRows: 4 }}
+            autoSize={{ minRows: 2 }}
             placeholder="댓글을 입력해주세요."
           />
         </Form.Item>
