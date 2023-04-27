@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { Pagination, PaginationProps } from "antd";
 import styled from "@emotion/styled";
 
-const CommunityContainer = () => {
+const CommunityListContainer = () => {
   const location = useLocation();
   const [communityParams, setCommunityParams] =
     useRecoilState<CommunityParam>(communityParamsState);
@@ -99,7 +99,7 @@ const CommunityContainer = () => {
   );
 };
 
-export default CommunityContainer;
+export default CommunityListContainer;
 const PaginationStyle = styled(Pagination)`
   display: inline-block;
   margin: 30px auto;

@@ -19,7 +19,7 @@ export function useGetInfinityScrollListQuery(
   params: InfiniteQueryHookParams<typeof webCrawlingApi.getList>
 ) {
   const queryKey = WEBCRAWLING_API_QUERY_KEY.GETLIST(params.variables);
-
+  console.log(queryKey, "queryKey");
   const query = useInfiniteQuery(
     queryKey,
     ({ pageParam = 1 }) => webCrawlingApi.getList(params.variables, pageParam),

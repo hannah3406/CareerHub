@@ -1,13 +1,23 @@
 import { Button, Form, Input } from "antd";
 import { useQueryClient } from "react-query";
 import { getToken } from "utils/sessionStorage/token";
-import { userProfile as userType } from "apis/user/type";
+import { UserInfo, userProfile as userType } from "apis/user/type";
 import { QUERY_KEY } from "constants/query-keys";
 import { Box, Flex } from "@chakra-ui/react";
 import styled from "@emotion/styled";
+import commentApi from "apis/comment";
+import { useEffect, useState } from "react";
+import { ProfileSmallImg } from "assets/style/common";
 const { TextArea } = Input;
 
-const CommentWrtieComponent = () => {
+interface ICommentWrtieComponentProps {
+  title: string;
+  boardId: string;
+}
+const CommentWrtieComponent = ({
+  title,
+  boardId,
+}: ICommentWrtieComponentProps) => {
   const [form] = Form.useForm();
   const token = getToken();
   const queryClient = useQueryClient();
@@ -15,72 +25,99 @@ const CommentWrtieComponent = () => {
     QUERY_KEY.USER.PROFILE,
     token,
   ]);
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    userId: "",
+    profileimg: "",
+    userName: "",
+  });
+  const onSubmitValue = async (values: { contents: string }) => {
+    const { contents } = values;
+    const boardInfo = {
+      title,
+      boardId,
+    };
 
-  const onSubmitValue = (values: any) => {
-    console.log(values);
+    const results = {
+      contents,
+      boardInfo,
+      userInfo,
+    };
+    try {
+      await commentApi.createComment(results);
+      alert("댓글이 등록되었습니다.");
+      console.log(results, "-results");
+
+      await queryClient.invalidateQueries([
+        QUERY_KEY.COMMUNITY.GETARTICLE,
+        boardId,
+      ]);
+      await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
+    } catch (e) {
+      console.log(e);
+    }
   };
+  useEffect(() => {
+    if (!!userProfile) {
+      setUserInfo({
+        userName: userProfile.name,
+        profileimg: userProfile.profileimg,
+        userId: userProfile._id,
+      });
+    }
+  }, [userProfile]);
   return (
-    <Form
-      form={form}
-      onFinish={(values) => {
-        onSubmitValue(values);
-        form.resetFields();
-      }}
-      initialValues={{
-        contents: "",
-        writer: "",
-        rating: 0,
-      }}
-    >
-      <div style={{ position: "relative" }}>
-        {userProfile && (
-          <Flex alignItems="center" p="5px 0 15px">
-            <ProfileImg>
-              <img
-                src={
-                  process.env.PUBLIC_URL +
-                  `/assets/image/profile/파일 ${
-                    Number(userProfile.profileimg) + 1
-                  }.svg`
-                }
-                alt="homeheader_profile"
-              />
-            </ProfileImg>
-            <Box fontSize="14px" margin="0 5px">
-              {userProfile.name}
-            </Box>
-          </Flex>
-        )}
+    <Box bg="#eee" p="10px 40px">
+      <Form
+        form={form}
+        onFinish={(values) => {
+          onSubmitValue(values);
+          form.resetFields();
+        }}
+        initialValues={{
+          contents: "",
+        }}
+      >
+        <div style={{ position: "relative" }}>
+          {userProfile && (
+            <Flex alignItems="center" p="5px 0 15px">
+              <ProfileSmallImg>
+                <img
+                  src={
+                    process.env.PUBLIC_URL +
+                    `/assets/image/profile/파일 ${
+                      Number(userProfile.profileimg) + 1
+                    }.svg`
+                  }
+                  alt="homeheader_profile"
+                />
+              </ProfileSmallImg>
+              <Box fontSize="14px" margin="0 5px">
+                {userProfile.name}
+              </Box>
+            </Flex>
+          )}
 
-        <Form.Item name="contents">
-          <TextArea
-            style={{
-              padding: "15px 15px 40px 15px",
-            }}
-            autoSize={{ minRows: 2 }}
-            placeholder="댓글을 입력해주세요."
-          />
-        </Form.Item>
-        <SubmitButtonWrap>
-          <Button type="primary" htmlType="submit">
-            등록
-          </Button>
-        </SubmitButtonWrap>
-      </div>
-    </Form>
+          <Form.Item name="contents">
+            <TextArea
+              style={{
+                padding: "15px 15px 40px 15px",
+              }}
+              autoSize={{ minRows: 2 }}
+              placeholder="댓글을 입력해주세요."
+            />
+          </Form.Item>
+          <SubmitButtonWrap>
+            <Button type="primary" htmlType="submit">
+              등록
+            </Button>
+          </SubmitButtonWrap>
+        </div>
+      </Form>
+    </Box>
   );
 };
 export default CommentWrtieComponent;
 
-const ProfileImg = styled.div`
-  width: 28px;
-  height: 28px;
-  overflow: hidden;
-  border-radius: 50%;
-  > img {
-    width: 100%;
-  }
-`;
 const SubmitButtonWrap = styled(Form.Item)`
   position: absolute;
   bottom: 8px;

@@ -1,8 +1,9 @@
 import { Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Button, Form, Input } from "antd";
-import userApi from "apis/user";
-import { CreateUser } from "apis/user/type";
+import authApi from "apis/auth";
+import { CreateUser } from "apis/auth/type";
+
 import { useNavigate } from "react-router-dom";
 
 const SignUpComponent = () => {
@@ -10,7 +11,7 @@ const SignUpComponent = () => {
 
   const onFinish = async (values: CreateUser) => {
     try {
-      await userApi.createUser(values);
+      await authApi.createUser(values);
       alert("회원가입이 완료되었습니다! 로그인을 해주세요!");
       navigate("/login");
     } catch (e) {

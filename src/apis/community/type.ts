@@ -1,3 +1,6 @@
+import { UserInfo } from "apis/user/type";
+import { PositionArticle } from "apis/webcrawling/type";
+
 export type CommunityList = {
   _id: string;
   title: string;
@@ -8,6 +11,7 @@ export type CommunityList = {
   userInfo: UserInfo;
   createdAt: string;
   updatedAt: string;
+  commentCnt: number;
 };
 export interface ImyVariables {
   _id?: string;
@@ -23,19 +27,10 @@ export type CommunityListResult = {
   total: number;
 };
 
-export type PositionArticle = {
-  positionId: string;
+export type BoardInfo = {
+  boardId: string;
   title: string;
-  company: string;
-  url: string;
 };
-
-export type UserInfo = {
-  userId: string;
-  userName: string;
-  profileimg: string;
-};
-
 export type CreateBoard = {
   title: string;
   description?: string;

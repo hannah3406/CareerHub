@@ -1,9 +1,3 @@
-export type CreateUser = {
-  email: string;
-  password: string;
-  name: string;
-};
-
 export type LoginResult = {
   token: string;
 };
@@ -16,8 +10,8 @@ export type userProfile = {
   profileimg: string;
 };
 
-export type myArticle = {
-  _id: string;
-  title: string;
-  updatedAt: string;
+export type UserInfo = {
+  userId: string;
+  userName: string;
+  profileimg: string;
 };

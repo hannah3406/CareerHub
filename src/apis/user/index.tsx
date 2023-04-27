@@ -1,22 +1,13 @@
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
 
-import { CreateUser, myArticle, userProfile } from "./type";
+import { userProfile } from "./type";
 
 export class UserApi {
   axios: AxiosInstance = instance;
   constructor(axios?: AxiosInstance) {
     if (axios) this.axios = axios;
   }
-
-  createUser = async (userData: CreateUser): Promise<{}> => {
-    const { data } = await instance({
-      method: "POST",
-      url: `/user/create`,
-      data: userData,
-    });
-    return data;
-  };
 
   updateUser = async (id: string, type: string, value: string): Promise<{}> => {
     const { data } = await instance({
@@ -44,14 +35,6 @@ export class UserApi {
         Expires: 0,
         // Authorization: `Bearer ${token}`,
       },
-    });
-    return data;
-  };
-
-  myArticle = async (): Promise<myArticle[]> => {
-    const { data } = await instance({
-      method: "GET",
-      url: `/user/myArticle`,
     });
     return data;
   };

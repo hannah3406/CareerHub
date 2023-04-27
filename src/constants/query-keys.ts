@@ -1,7 +1,10 @@
 export const QUERY_KEY = {
   USER: {
     PROFILE: "user-profile",
-    MYARTICLE: "user-myArticle",
+  },
+  MYPAGE: {
+    GET_MY_BOARD: "mypage-getmyBoard",
+    GET_MY_COMMENT: "mypage-getmyComment",
   },
   AUTH: {
     REFRESH: "auth-refresh",
@@ -12,5 +15,8 @@ export const QUERY_KEY = {
   COMMUNITY: {
     GETLIST: "community-getList",
     GETARTICLE: "community-getArticle",
+  },
+  COMMENT: {
+    GET_BOARD_COMMENTS: "comment-getBoardComments",
   },
 };

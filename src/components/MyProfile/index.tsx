@@ -2,6 +2,7 @@ import { Flex, Text, Button, Box, Tooltip } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { userProfile as userType } from "apis/user/type";
 import { CameraFilled } from "@ant-design/icons";
+import { ProfileImg } from "assets/style/common";
 
 interface IMyProfileComponentProps {
   userProfile: userType;
@@ -129,21 +130,7 @@ const MyProfileComponent = ({
 };
 
 export default MyProfileComponent;
-const ProfileImg = styled.div`
-  position: relative;
-  width: 100px;
-  height: 100px;
 
-  transition: 0.3s;
-  cursor: pointer;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 2.194px 2.046px 7.6px 0.4px rgba(0, 0, 0, 0.15);
-  > img {
-    z-index: -1;
-    width: 100%;
-  }
-`;
 const ProfileEditImg = styled.div<{ isSelect: boolean }>`
   position: relative;
   margin: 10px;

@@ -6,3 +6,8 @@ export type LoginData = {
 export type LogoutData = {
   email: string;
 };
+export type CreateUser = {
+  email: string;
+  password: string;
+  name: string;
+};

@@ -25,7 +25,6 @@ instance.interceptors.request.use(
 
     const isAccess = !!token;
     if (isAccess) {
-      console.log(isAccess);
       setAuthHeader(token as string);
       config.headers.Authorization = `Bearer ${token}`;
       return config;

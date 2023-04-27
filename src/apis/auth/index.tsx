@@ -1,6 +1,7 @@
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
 import { deleteToken, setToken } from "utils/sessionStorage/token";
+import { CreateUser } from "./type";
 
 export type LoginData = {
   email: string;
@@ -11,6 +12,14 @@ export class AuthApi {
   constructor(axios?: AxiosInstance) {
     if (axios) this.axios = axios;
   }
+  createUser = async (userData: CreateUser): Promise<{}> => {
+    const { data } = await instance({
+      method: "POST",
+      url: `/auth/create`,
+      data: userData,
+    });
+    return data;
+  };
   loginUser = async (loginData: LoginData): Promise<string> => {
     const { data } = await instance({
       method: "POST",

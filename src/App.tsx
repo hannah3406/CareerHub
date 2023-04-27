@@ -1,7 +1,7 @@
 import HomeLayout from "components/common/@Layout/layouts/HomeLayout";
 import "./App.css";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-
+import "moment/locale/ko";
 import { useEffect, useMemo } from "react";
 import { getToken } from "utils/sessionStorage/token";
 import { useGetProfileQuery } from "apis/user/query";
@@ -24,6 +24,10 @@ function App() {
       navigate("/login");
     }
   }, [exceptPath, navigate, pathname, token, userProfile]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <Routes>

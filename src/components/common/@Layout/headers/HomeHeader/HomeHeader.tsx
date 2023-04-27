@@ -12,6 +12,7 @@ import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "constants/query-keys";
 import { userProfile as userType } from "apis/user/type";
 import { getToken } from "utils/sessionStorage/token";
+import { ProfileDefaultImg } from "assets/style/common";
 const HomeHeader = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -38,16 +39,15 @@ const HomeHeader = () => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Box w="50%">
-          <Link to={ROUTES.HOME.path}>
-            <LogoImg>
-              <img src={LOGO} alt="logo" />
-            </LogoImg>
-          </Link>
+        <Box w="50%" onClick={() => navigate(ROUTES.HOME.path)}>
+          <LogoImg>
+            <img src={LOGO} alt="logo" />
+          </LogoImg>
         </Box>
         <Flex w="50%" justifyContent="right" alignItems="center">
           {!!userProfile ? (
             <Popover
+              placement="bottom"
               content={
                 <ProfilePanel>
                   <div onClick={() => navigate(ROUTES.MYPAGE.path)}>
@@ -58,7 +58,7 @@ const HomeHeader = () => {
               }
               trigger="click"
             >
-              <ProfileImg>
+              <ProfileDefaultImg>
                 <img
                   src={
                     process.env.PUBLIC_URL +
@@ -68,7 +68,7 @@ const HomeHeader = () => {
                   }
                   alt="프로필"
                 />
-              </ProfileImg>
+              </ProfileDefaultImg>
             </Popover>
           ) : (
             <>
@@ -92,22 +92,26 @@ const HomeHeader = () => {
       </Flex>
       <Divider bg="#ddd" w="100%" h="1px" m="15px 0" />
       <Box maxW="1200px" m="0 auto">
-        <Link to={ROUTES.POSITION.path}>
-          <NaviText isPath={pathname === ROUTES.POSITION.path}>
-            채용공고{" "}
-          </NaviText>
-        </Link>
+        <NaviText
+          isPath={pathname === ROUTES.POSITION.path}
+          onClick={() => navigate(ROUTES.POSITION.path)}
+        >
+          채용공고
+        </NaviText>
 
-        <Link to={ROUTES.COMMUNITY_LIST.path}>
-          <NaviText isPath={pathname === ROUTES.COMMUNITY_LIST.path}>
-            커뮤니티
-          </NaviText>
-        </Link>
-        <Link to={ROUTES.STATISTICSPAGE.path}>
-          <NaviText isPath={pathname === ROUTES.STATISTICSPAGE.path}>
-            통계분석
-          </NaviText>
-        </Link>
+        <NaviText
+          isPath={pathname === ROUTES.COMMUNITY_LIST.path}
+          onClick={() => navigate(ROUTES.COMMUNITY_LIST.path)}
+        >
+          커뮤니티
+        </NaviText>
+
+        <NaviText
+          isPath={pathname === ROUTES.STATISTICSPAGE.path}
+          onClick={() => navigate(ROUTES.STATISTICSPAGE.path)}
+        >
+          통계분석
+        </NaviText>
       </Box>
     </Box>
   );
@@ -126,27 +130,13 @@ const LogoImg = styled.div`
 `;
 const NaviText = styled.div<{ isPath: boolean }>`
   display: inline-block;
+  cursor: pointer;
   margin-left: 30px;
   font-weight: ${(props) => (props.isPath ? "700" : "400")};
   position: relative;
   color: ${(props) => (props.isPath ? "#d89999" : "#000")};
   &:hover {
     color: #d89999;
-  }
-`;
-const ProfileImg = styled.div`
-  width: 43px;
-  height: 43px;
-  overflow: hidden;
-  transition: 0.3s;
-  cursor: pointer;
-  border-radius: 50%;
-  box-shadow: 2.194px 2.046px 7.6px 0.4px rgba(0, 0, 0, 0.15);
-  > img {
-    width: 100%;
-  }
-  &:hover {
-    transform: scale(1.1);
   }
 `;
 

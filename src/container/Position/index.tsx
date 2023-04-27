@@ -21,7 +21,6 @@ const PositionContainer = () => {
   } = useGetInfinityScrollListQuery({
     variables: searchParams,
     options: {
-      enabled: true,
       getNextPageParam: (lastPage) => {
         if (lastPage.results.length < 10) return;
         return lastPage.page + 1;
@@ -38,7 +37,9 @@ const PositionContainer = () => {
   };
 
   useEffect(() => {
-    if (location.search === undefined || location.search === "") {
+    if (location.search === undefined) {
+      console.log("??", location.search, "??");
+
       setSearchParams({ keyword: undefined, type: undefined });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

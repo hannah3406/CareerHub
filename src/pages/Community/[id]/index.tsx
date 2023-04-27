@@ -1,5 +1,6 @@
 import { useGetCommunityDetailQuery } from "apis/community/query";
-import CommunityDetailComponent from "components/Community/detail";
+import CommunityDetailContainer from "container/Community/detail";
+
 import { useParams } from "react-router-dom";
 
 const CommunityDetailPage = () => {
@@ -11,9 +12,12 @@ const CommunityDetailPage = () => {
       enabled: !!params.id,
     },
   });
-
+  console.log();
   return !isLoading && data ? (
-    <CommunityDetailComponent data={data} />
+    <CommunityDetailContainer
+      boardDetail={data.boardDetail}
+      boardComments={data.boardComments}
+    />
   ) : (
     <>데이터가 없습니다.</>
   );

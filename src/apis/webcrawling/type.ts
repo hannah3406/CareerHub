@@ -16,7 +16,12 @@ export type PositionList = {
   updatedAt: string;
   description?: string;
 };
-
+export type PositionArticle = {
+  positionId: string;
+  title: string;
+  company: string;
+  url: string;
+};
 export type PositionListResult = {
   page: number;
   results: PositionList[];

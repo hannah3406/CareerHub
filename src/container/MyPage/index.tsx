@@ -10,10 +10,12 @@ import { QUERY_KEY } from "constants/query-keys";
 import { userProfile as userType } from "apis/user/type";
 import { getToken } from "utils/sessionStorage/token";
 import MyProfileComponent from "components/MyProfile";
-import { useGetMyArticleQuery } from "apis/user/query";
+import { useGetMyArticleQuery, useGetMyCommentQuery } from "apis/mypage/query";
 
 import CustomTabs from "components/common/CustomTabs";
-import MyHistoryComponent from "components/MyHistory";
+
+import MyBoardComponent from "components/MyHistory/MyBoard";
+import MyCommentComponent from "components/MyHistory/MyComment";
 const MyPageContainer = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -29,11 +31,17 @@ const MyPageContainer = () => {
   const [isSelect, setSelect] = useState<number | undefined>(
     Number(userProfile?.profileimg)
   );
-  const { data: myArticle } = useGetMyArticleQuery({
+  const { data: myBoard } = useGetMyArticleQuery({
     options: {
       enabled: isActiveFirst,
     },
   });
+  const { data: myComment } = useGetMyCommentQuery({
+    options: {
+      enabled: !isActiveFirst,
+    },
+  });
+
   useEffect(() => {
     if (!!userProfile) {
       const local = moment.utc(userProfile.updatedAt).toDate();
@@ -99,7 +107,10 @@ const MyPageContainer = () => {
               isActiveFirst={isActiveFirst}
               keyText={["작성 게시글", "작성 댓글"]}
             />
-            {!!myArticle && <MyHistoryComponent data={myArticle} />}
+            {!!myBoard && isActiveFirst && <MyBoardComponent data={myBoard} />}
+            {!!myComment && !isActiveFirst && (
+              <MyCommentComponent data={myComment} />
+            )}
           </Flex>
         </Box>
       </Flex>

@@ -14,7 +14,7 @@ const CommunityEditPage = () => {
   });
 
   return !isLoading && data ? (
-    <CommunityWriteComponent editData={data} isEdit />
+    <CommunityWriteComponent editData={data.boardDetail} isEdit />
   ) : (
     <>데이터가 없습니다.</>
   );

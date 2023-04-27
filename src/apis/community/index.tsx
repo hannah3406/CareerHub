@@ -1,3 +1,4 @@
+import { BoardCommentList } from "apis/comment/type";
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
 import {
@@ -32,12 +33,17 @@ export class CommunityApi {
     return { page, results, total };
   };
 
-  getById = async (_id: string | undefined): Promise<CommunityList> => {
+  getById = async (
+    _id: string | undefined
+  ): Promise<{
+    boardDetail: CommunityList;
+    boardComments: BoardCommentList[];
+  }> => {
     const { data } = await instance({
       method: "GET",
       url: `/community/${_id}`,
     });
-    return data[0];
+    return data;
   };
   deleteBoard = async (_id: string | undefined): Promise<{}> => {
     const { data } = await instance({
