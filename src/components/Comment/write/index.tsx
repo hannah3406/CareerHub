@@ -51,6 +51,7 @@ const CommentWrtieComponent = ({
         boardId,
       ]);
       await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
+      await queryClient.invalidateQueries([QUERY_KEY.RECOMMEND.GETLIST]);
     } catch (e) {
       console.log(e);
     }

@@ -32,6 +32,7 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
       data._id,
     ]);
     await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
+    await queryClient.invalidateQueries([QUERY_KEY.RECOMMEND.GETLIST]);
   };
   return (
     <Box p="0px 40px">
