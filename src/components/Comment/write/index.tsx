@@ -45,7 +45,6 @@ const CommentWrtieComponent = ({
     try {
       await commentApi.createComment(results);
       alert("댓글이 등록되었습니다.");
-      console.log(results, "-results");
 
       await queryClient.invalidateQueries([
         QUERY_KEY.COMMUNITY.GETARTICLE,

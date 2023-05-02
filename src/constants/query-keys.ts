@@ -16,6 +16,9 @@ export const QUERY_KEY = {
     GETLIST: "community-getList",
     GETARTICLE: "community-getArticle",
   },
+  RECOMMEND: {
+    GETLIST: "recommend-getList",
+  },
   COMMENT: {
     GET_BOARD_COMMENTS: "comment-getBoardComments",
   },

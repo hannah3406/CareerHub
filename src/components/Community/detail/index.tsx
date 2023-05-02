@@ -1,11 +1,15 @@
 import { Flex, Text, Box } from "@chakra-ui/react";
 
 import { CommunityList } from "apis/community/type";
-import PositionArticleCard from "components/common/PositionArticleCard";
-import SkillTag from "components/common/SkillTag";
-
-import CommunityCardHeader from "components/common/community/CommunityCardHeader";
-import CommunityCardFooter from "components/common/community/CommunityCardFooter";
+import PositionArticleCard from "components/Common/PositionArticleCard";
+import SkillTag from "components/Common/SkillTag";
+import { userProfile as userType } from "apis/user/type";
+import CommunityCardHeader from "components/Common/community/CommunityCardHeader";
+import CommunityCardFooter from "components/Common/community/CommunityCardFooter";
+import { useQueryClient } from "react-query";
+import { getToken } from "utils/sessionStorage/token";
+import { QUERY_KEY } from "constants/query-keys";
+import communityApi from "apis/community";
 
 interface ICommunityDetailProps {
   data: CommunityList;
@@ -14,13 +18,27 @@ interface ICommunityDetailProps {
 
 const CommunityDetailComponent = (props: ICommunityDetailProps) => {
   const { data } = props;
-
+  const queryClient = useQueryClient();
+  const token = getToken();
+  const userProfile = queryClient.getQueryData<userType>([
+    QUERY_KEY.USER.PROFILE,
+    token,
+  ]);
+  const isLikeBoard = async () => {
+    const result = await communityApi.likeBoard(data._id);
+    console.log(result);
+    await queryClient.invalidateQueries([
+      QUERY_KEY.COMMUNITY.GETARTICLE,
+      data._id,
+    ]);
+    await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
+  };
   return (
     <Box p="0px 40px">
       <CommunityCardHeader
         profileImg={data.userInfo.profileimg}
         userName={data.userInfo.userName}
-        updatedAt={data.updatedAt}
+        updatedAt={data.createdAt}
       />
       <Box fontWeight="bold" fontSize="18px" p="20px 0 0">
         {data.title}
@@ -42,7 +60,14 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
           title={data.positionArticle.title}
         />
       )}
-      <CommunityCardFooter commentCnt={data.commentCnt} />
+      {userProfile && data && (
+        <CommunityCardFooter
+          isLikeBoard={isLikeBoard}
+          isLikeState={data.like.includes(userProfile._id)}
+          likeCnt={data.like.length}
+          commentCnt={data.commentCnt}
+        />
+      )}
     </Box>
   );
 };

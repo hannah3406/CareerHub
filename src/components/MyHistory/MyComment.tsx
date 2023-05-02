@@ -1,7 +1,7 @@
 import { Text, Flex } from "@chakra-ui/react";
 import { myComment } from "apis/mypage/type";
 
-import ArrowRight2Icon from "components/common/@Icons/System/ArrowRight2";
+import ArrowRight2Icon from "components/Common/@Icons/System/ArrowRight2";
 import ROUTES from "constants/routes";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";

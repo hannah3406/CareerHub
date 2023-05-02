@@ -1,4 +1,4 @@
-import HomeLayout from "components/common/@Layout/layouts/HomeLayout";
+import HomeLayout from "components/Common/@Layout/layouts/HomeLayout";
 import "./App.css";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import "moment/locale/ko";

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import SearchBar from "components/common/SearchBar";
+import SearchBar from "components/Common/SearchBar";
 import { positionFilter } from "container/Position/data";
 
 import { Modal, Pagination, PaginationProps } from "antd";

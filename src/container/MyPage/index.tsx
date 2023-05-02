@@ -12,7 +12,7 @@ import { getToken } from "utils/sessionStorage/token";
 import MyProfileComponent from "components/MyProfile";
 import { useGetMyArticleQuery, useGetMyCommentQuery } from "apis/mypage/query";
 
-import CustomTabs from "components/common/CustomTabs";
+import CustomTabs from "components/Common/CustomTabs";
 
 import MyBoardComponent from "components/MyHistory/MyBoard";
 import MyCommentComponent from "components/MyHistory/MyComment";

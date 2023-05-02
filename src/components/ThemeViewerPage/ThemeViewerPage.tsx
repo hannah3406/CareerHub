@@ -1,4 +1,4 @@
-import HomeLayout from "components/common/@Layout/layouts/HomeLayout";
+import HomeLayout from "components/Common/@Layout/layouts/HomeLayout";
 
 import ThemeViewerPageContent from "./_fragments/ThemeViewerPageContent";
 

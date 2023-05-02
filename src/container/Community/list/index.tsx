@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import ScrollUp from "components/common/@Icons/System/ScrollUp";
+import ScrollUp from "components/Common/@Icons/System/ScrollUp";
 import { useGetCommunityListQuery } from "apis/community/query";
 import CommunityComponent from "components/Community/list";
 import { FormOutlined } from "@ant-design/icons";
@@ -7,11 +7,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "constants/routes";
 import { useRecoilState } from "recoil";
 import { CommunityParam, communityParamsState } from "recoil/community";
-import SearchBar from "components/common/SearchBar";
+import SearchBar from "components/Common/SearchBar";
 import { communityFilter } from "./data";
 import { useEffect, useState } from "react";
 import { Pagination, PaginationProps } from "antd";
 import styled from "@emotion/styled";
+import RecommendBoardComponent from "components/RecommendBoard";
+import { useGetRecommendQuery } from "apis/recommend/query";
 
 const CommunityListContainer = () => {
   const location = useLocation();
@@ -22,6 +24,12 @@ const CommunityListContainer = () => {
   const navigate = useNavigate();
 
   const { data: community, isLoading } = useGetCommunityListQuery({
+    variables: communityParams,
+    options: {
+      enabled: true,
+    },
+  });
+  const { data: recommend } = useGetRecommendQuery({
     variables: communityParams,
     options: {
       enabled: true,
@@ -40,10 +48,32 @@ const CommunityListContainer = () => {
 
   return (
     <Box>
+      <Box w="1200px" m="30px auto 10px">
+        <Text
+          p="10px 0"
+          fontSize="20px"
+          color="#555"
+          textAlign="center"
+          fontWeight="bold"
+        >
+          인기 게시글
+          <img
+            style={{
+              display: "inline-block",
+              margin: "3px 0 0 3px",
+              height: "20px",
+              verticalAlign: "top",
+            }}
+            src={process.env.PUBLIC_URL + `/assets/icon/community/flame.png`}
+            alt="불꽃아이콘"
+          />
+        </Text>
+        {recommend && <RecommendBoardComponent data={recommend} />}
+      </Box>
       <Box
         w="100%"
         position="sticky"
-        top="110px"
+        top="125px"
         bg="#fff"
         p="10px 0"
         zIndex="98"

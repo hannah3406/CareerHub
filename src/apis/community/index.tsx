@@ -80,6 +80,15 @@ export class CommunityApi {
     });
     return data;
   };
+  likeBoard = async (boardId: string): Promise<{}> => {
+    const { data } = await instance({
+      method: "POST",
+      url: `/community/like`,
+      data: { _id: boardId },
+    });
+    const { isLikeState } = data;
+    return isLikeState;
+  };
 }
 
 const communityApi = new CommunityApi();

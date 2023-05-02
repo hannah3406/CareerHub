@@ -6,7 +6,7 @@ export type CommunityList = {
   title: string;
   description?: string;
   positionArticle?: PositionArticle;
-  like: number;
+  like: string[];
   skill?: string[];
   userInfo: UserInfo;
   createdAt: string;

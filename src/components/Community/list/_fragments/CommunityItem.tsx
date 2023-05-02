@@ -1,23 +1,36 @@
 import { CommunityList } from "apis/community/type";
 import { Flex, Box, Text } from "@chakra-ui/react";
-import PositionArticleCard from "components/common/PositionArticleCard";
-import SkillTag from "components/common/SkillTag";
+import PositionArticleCard from "components/Common/PositionArticleCard";
+import SkillTag from "components/Common/SkillTag";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "constants/routes";
-import CommunityCardHeader from "components/common/community/CommunityCardHeader";
-import CommunityCardFooter from "components/common/community/CommunityCardFooter";
-
+import CommunityCardHeader from "components/Common/community/CommunityCardHeader";
+import CommunityCardFooter from "components/Common/community/CommunityCardFooter";
+import { useQueryClient } from "react-query";
+import { getToken } from "utils/sessionStorage/token";
+import { QUERY_KEY } from "constants/query-keys";
+import { userProfile as userType } from "apis/user/type";
 interface ICommunityItemProps {
   data: CommunityList;
+  sliderMode?: boolean;
 }
 
-const CommunityItem = ({ data }: ICommunityItemProps) => {
+const CommunityItem = ({ data, sliderMode }: ICommunityItemProps) => {
   const navigate = useNavigate();
-
+  const queryClient = useQueryClient();
+  const token = getToken();
+  const userProfile = queryClient.getQueryData<userType>([
+    QUERY_KEY.USER.PROFILE,
+    token,
+  ]);
+  const isLikeBoard = async () => {
+    return;
+  };
   return (
     <Flex
       flexDirection="column"
       w="100%"
+      h={sliderMode ? "270px" : "100%"}
       border="1px solid #ddd"
       p="10px 40px"
       borderRadius="10px"
@@ -30,13 +43,13 @@ const CommunityItem = ({ data }: ICommunityItemProps) => {
       <CommunityCardHeader
         profileImg={data.userInfo.profileimg}
         userName={data.userInfo.userName}
-        updatedAt={data.updatedAt}
+        updatedAt={data.createdAt}
       />
 
       <Box fontWeight="bold" fontSize="18px" p="10px 0">
         {data.title}
       </Box>
-      <Text whiteSpace="pre" color="#555" noOfLines={1}>
+      <Text whiteSpace="pre" color="#555" noOfLines={1} lineHeight="18px">
         {data.description}
       </Text>
       {data.positionArticle && (
@@ -53,7 +66,14 @@ const CommunityItem = ({ data }: ICommunityItemProps) => {
           ))}
         </Flex>
       )}
-      <CommunityCardFooter commentCnt={data.commentCnt} />
+      {userProfile && data && (
+        <CommunityCardFooter
+          isLikeBoard={isLikeBoard}
+          isLikeState={data.like.includes(userProfile._id)}
+          likeCnt={data.like.length}
+          commentCnt={data.commentCnt}
+        />
+      )}
     </Flex>
   );
 };

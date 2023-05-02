@@ -5,10 +5,10 @@ import { PlusOutlined } from "@ant-design/icons";
 import styled from "@emotion/styled";
 
 import WriteTag from "./_fragments/Write.Tag";
-import PositionSearchModal from "../../common/PositionSearchModal";
+import PositionSearchModal from "../../Common/PositionSearchModal";
 import { useRecoilState } from "recoil";
 import { PositionArtice, positionArticleState } from "recoil/position";
-import CloseIcon from "components/common/@Icons/System/Close";
+import CloseIcon from "components/Common/@Icons/System/Close";
 import { Flex } from "@chakra-ui/react";
 import { UserInfo, userProfile as userType } from "apis/user/type";
 import { useQueryClient } from "react-query";
@@ -18,7 +18,7 @@ import { CommunityList, ImyVariables } from "apis/community/type";
 import communityApi from "apis/community";
 import { ROUTES } from "constants/routes";
 import { useNavigate, useParams } from "react-router-dom";
-import PositionArticleCard from "components/common/PositionArticleCard";
+import PositionArticleCard from "components/Common/PositionArticleCard";
 import { sameArray } from "utils/sameArray";
 
 interface ICommunityWriteComponentProps {

@@ -1,4 +1,4 @@
-import RootSetting from "components/common/RootSetting";
+import RootSetting from "components/Common/RootSetting";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
