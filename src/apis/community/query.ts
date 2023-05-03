@@ -16,7 +16,6 @@ export function useGetCommunityListQuery(
   params: QueryHookParams<typeof communityApi.getList>
 ) {
   const queryKey = COMMUNITY_API_QUERY_KEY.GETLIST(params.variables);
-
   const query = useQuery(
     queryKey,
     () => communityApi.getList(params.variables),

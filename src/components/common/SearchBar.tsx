@@ -45,6 +45,9 @@ const SearchBar = ({
       type: selectType,
     };
     if (current) params.page = current;
+    if (type === "positionModal") {
+      return setSearchParams(params);
+    }
     if (type === "position") {
       setSearchParams(params);
       return navigate({
@@ -55,6 +58,7 @@ const SearchBar = ({
         })}`,
       });
     }
+
     if (type === "community") {
       setCommunityParams(params);
       return navigate({

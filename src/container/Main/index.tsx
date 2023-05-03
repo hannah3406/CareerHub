@@ -1,8 +1,10 @@
 import { Flex } from "@chakra-ui/react";
 import { useGetRecommendQuery } from "apis/recommend/query";
-import { useGetPaginationListQuery } from "apis/webcrawling/query";
+import { useGetInfinityScrollListQuery } from "apis/webcrawling/query";
 import SummaryCardsComponent from "components/Common/SummaryCards";
 import { useEffect, useMemo, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { SearchParam, searchParamsState } from "recoil/search";
 export interface SummaryCard {
   title: string;
   commentCnt?: number;
@@ -11,15 +13,20 @@ export interface SummaryCard {
 const MainContainer = () => {
   const [recommendList, setRecommendList] = useState<SummaryCard[]>([]);
   const [positionList, setPositionList] = useState<SummaryCard[]>([]);
+  const searchParams = useRecoilValue<SearchParam>(searchParamsState);
   const { data: recommend } = useGetRecommendQuery({
+    variables: { page: 1 },
     options: {
       enabled: true,
     },
   });
-  const { data: position } = useGetPaginationListQuery({
-    variables: { keyword: undefined },
+  const { data: position } = useGetInfinityScrollListQuery({
+    variables: searchParams,
     options: {
-      enabled: true,
+      getNextPageParam: (lastPage) => {
+        if (lastPage.results.length < 10) return;
+        return lastPage.page + 1;
+      },
     },
   });
 
@@ -35,10 +42,12 @@ const MainContainer = () => {
   }, [recommend]);
   const _positionList = useMemo(() => {
     if (position) {
-      return position.results.slice(0, 5).map(({ title, updatedAt }) => ({
-        title,
-        updatedAt,
-      }));
+      return position.pages[0].results
+        .slice(0, 5)
+        .map(({ title, updatedAt }) => ({
+          title,
+          updatedAt,
+        }));
     }
     return [];
   }, [position]);

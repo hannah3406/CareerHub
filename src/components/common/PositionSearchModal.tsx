@@ -43,7 +43,7 @@ const PositionSearchModal = ({ show, setShow }: IWriteModalProps) => {
         <SearchBar
           style={{ margin: "0 auto" }}
           bgNone
-          type="position"
+          type="positionModal"
           filter={positionFilter}
           current={current}
         />
