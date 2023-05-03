@@ -36,7 +36,7 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
   };
 
   return (
-    <Box p="0px 40px">
+    <Box p="10px 20px 50px 20px" position="relative" w="100%">
       <CommunityCardHeader
         profileImg={data.userInfo.profileimg}
         userName={data.userInfo.userName}

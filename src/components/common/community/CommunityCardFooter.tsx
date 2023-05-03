@@ -44,7 +44,15 @@ const CommunityCardFooter = ({
     }
   };
   return (
-    <Flex alignItems="center" justifyContent="space-between" pt="10px">
+    <Flex
+      alignItems="center"
+      justifyContent="space-between"
+      p="10px 20px 0 20px"
+      w="100%"
+      left={isDetail ? "0" : "20px"}
+      position="absolute"
+      bottom={isDetail ? "5px" : "10px"}
+    >
       <Flex alignItems="center" p="5px 0">
         <Tooltip label="좋아요">
           <Flex alignItems="center">

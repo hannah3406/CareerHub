@@ -29,10 +29,11 @@ const CommunityItem = ({ data, sliderMode }: ICommunityItemProps) => {
   return (
     <Flex
       flexDirection="column"
+      position="relative"
       w="100%"
-      h={sliderMode ? "270px" : "100%"}
+      h={sliderMode ? "250px" : "100%"}
       border="1px solid #ddd"
-      p="10px 40px"
+      p="10px 40px 50px 40px"
       borderRadius="10px"
       m="10px 0"
       bg="#fff"
@@ -64,9 +65,19 @@ const CommunityItem = ({ data, sliderMode }: ICommunityItemProps) => {
       )}
       {data.skill && (
         <Flex alignItems="center" pt="10px" flexWrap="wrap">
-          {data.skill.slice(0, 10).map((el, idx) => (
-            <SkillTag key={idx} skill={el} />
-          ))}
+          {sliderMode ? (
+            <>
+              {data.skill.slice(0, 4).map((el, idx) => (
+                <SkillTag key={idx} skill={el} />
+              ))}
+            </>
+          ) : (
+            <>
+              {data.skill.slice(0, 10).map((el, idx) => (
+                <SkillTag key={idx} skill={el} />
+              ))}
+            </>
+          )}
         </Flex>
       )}
       {userProfile && data && (

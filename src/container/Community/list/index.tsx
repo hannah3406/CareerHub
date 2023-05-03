@@ -50,7 +50,7 @@ const CommunityListContainer = () => {
     <Box>
       <Box w="1200px" m="30px auto 10px">
         <Text
-          p="10px 0"
+          pt="10px"
           fontSize="20px"
           color="#555"
           textAlign="center"
