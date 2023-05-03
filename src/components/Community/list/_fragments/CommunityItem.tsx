@@ -67,7 +67,7 @@ const CommunityItem = ({ data, sliderMode }: ICommunityItemProps) => {
         <Flex alignItems="center" pt="10px" flexWrap="wrap">
           {sliderMode ? (
             <>
-              {data.skill.slice(0, 4).map((el, idx) => (
+              {data.skill.slice(0, 5).map((el, idx) => (
                 <SkillTag key={idx} skill={el} />
               ))}
             </>

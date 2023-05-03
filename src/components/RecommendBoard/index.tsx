@@ -35,10 +35,10 @@ export default RecommendBoardComponent;
 
 const SliderWrapper = styled.div`
   position: relative;
-  width: 900px;
+  width: 1000px;
   margin: 0 auto;
   .slick-list {
-    width: 900px;
+    width: 1000px;
     margin: 0 -5px;
     height: 320px;
     padding: -10px -5px;

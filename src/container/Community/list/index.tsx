@@ -30,7 +30,6 @@ const CommunityListContainer = () => {
     },
   });
   const { data: recommend } = useGetRecommendQuery({
-    variables: communityParams,
     options: {
       enabled: true,
     },
@@ -80,17 +79,17 @@ const CommunityListContainer = () => {
       >
         <SearchBar
           type="community"
-          style={{ width: 900, margin: "0 auto" }}
+          style={{ width: 1000, margin: "0 auto" }}
           filter={communityFilter}
         />
       </Box>
       {isLoading && <Text>Loading...</Text>}
-      <Box w="900px" m="0 auto">
+      <Box w="1000px" m="0 auto">
         {community && community.results && (
           <CommunityComponent data={community.results} />
         )}
       </Box>
-      <Box w="900px" m="0 auto" mb="50px" textAlign="center">
+      <Box w="1000px" m="0 auto" mb="50px" textAlign="center">
         {community && (
           <PaginationStyle
             current={current}
