@@ -2,6 +2,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { Input, InputRef, Tag } from "antd";
+import { Box } from "@chakra-ui/react";
 
 interface IWriteTagProps {
   setTags: React.Dispatch<React.SetStateAction<string[]>>;
@@ -11,6 +12,7 @@ interface IWriteTagProps {
 const WriteTag = ({ setTags, tags }: IWriteTagProps) => {
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
+  const [alertMsg, setAlertMsg] = useState<string | undefined>(undefined);
   const inputRef = useRef<InputRef>(null);
   const handleClose = (removedTag: string) => {
     const newTags = tags.filter((tag) => tag !== removedTag);
@@ -20,7 +22,15 @@ const WriteTag = ({ setTags, tags }: IWriteTagProps) => {
     setInputValue(e.target.value);
   };
   const handleInputConfirm = () => {
-    if (inputValue && tags.indexOf(inputValue) !== -1) return;
+    if (inputValue.length === 0) {
+      setAlertMsg("1글자 이상의 태그를 입력해주세요.");
+      return setInputValue("");
+    }
+    if (inputValue && tags.indexOf(inputValue) !== -1) {
+      setAlertMsg("태그를 중복하여 추가할 수 없습니다.");
+      return setInputValue("");
+    }
+    setAlertMsg(undefined);
     if (tags.length > 6) {
       const changeValue = [...tags];
       changeValue[6] = inputValue;
@@ -39,6 +49,18 @@ const WriteTag = ({ setTags, tags }: IWriteTagProps) => {
 
   return (
     <>
+      {alertMsg && (
+        <Box
+          color="#D89999"
+          position="absolute"
+          top="-27px"
+          left="118px"
+          fontWeight="bold"
+          fontSize="12px"
+        >
+          {alertMsg}
+        </Box>
+      )}
       {inputVisible ? (
         <Input
           ref={inputRef}
