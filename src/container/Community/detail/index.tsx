@@ -3,11 +3,8 @@ import { CommunityList } from "apis/community/type";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import CommentWrtieComponent from "components/Comment/write";
 
-import { useQueryClient } from "react-query";
-import { QUERY_KEY } from "constants/query-keys";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ROUTES from "constants/routes";
-import communityApi from "apis/community";
 import CommunityDetailComponent from "components/Community/detail";
 import CommentListComponent from "components/Comment/list";
 import { BoardCommentList } from "apis/comment/type";
@@ -20,19 +17,7 @@ interface ICommunityDetailProps {
 const CommunityDetailContainer = (props: ICommunityDetailProps) => {
   const { boardDetail, boardComments } = props;
   const navigate = useNavigate();
-  const params = useParams();
-  const queryClient = useQueryClient();
 
-  const deleteBoard = async () => {
-    try {
-      await communityApi.deleteBoard(params.id);
-      alert("게시글이 삭제되었습니다.");
-      await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
-      navigate(ROUTES.COMMUNITY_LIST.path);
-    } catch (e) {
-      console.log(e);
-    }
-  };
   return (
     <>
       <Flex
@@ -44,12 +29,7 @@ const CommunityDetailContainer = (props: ICommunityDetailProps) => {
         m="35px auto 0"
       >
         <Box p="0px 40px" mb="20px">
-          {boardDetail && (
-            <CommunityDetailComponent
-              data={boardDetail}
-              deleteBoard={deleteBoard}
-            />
-          )}
+          {boardDetail && <CommunityDetailComponent data={boardDetail} />}
         </Box>
         {boardComments && boardComments.length > 0 && (
           <Box p="0px 40px" my="15px">

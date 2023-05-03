@@ -118,11 +118,9 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
     }
   };
   const onCancelArticle = () => {
-    console.log(positionArticle?.skill);
     const deleteArr = tags.filter((tag) => {
       return positionArticle?.skill && !positionArticle?.skill.includes(tag);
     });
-    console.log(deleteArr);
     setTags(deleteArr);
 
     setPositionArticle(null);

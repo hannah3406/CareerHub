@@ -38,8 +38,6 @@ const PositionContainer = () => {
 
   useEffect(() => {
     if (location.search === undefined) {
-      console.log("??", location.search, "??");
-
       setSearchParams({ keyword: undefined, type: undefined });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

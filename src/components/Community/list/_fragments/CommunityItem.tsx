@@ -35,6 +35,8 @@ const CommunityItem = ({ data, sliderMode }: ICommunityItemProps) => {
       p="10px 40px"
       borderRadius="10px"
       m="10px 0"
+      bg="#fff"
+      boxShadow={sliderMode ? "md" : "none"}
       cursor="pointer"
       onClick={() => {
         navigate(`${ROUTES.COMMUNITY_LIST.path}/${data._id}`);
@@ -54,6 +56,7 @@ const CommunityItem = ({ data, sliderMode }: ICommunityItemProps) => {
       </Text>
       {data.positionArticle && (
         <PositionArticleCard
+          sliderMode={sliderMode}
           url={data.positionArticle.url}
           company={data.positionArticle.company}
           title={data.positionArticle.title}

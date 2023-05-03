@@ -3,11 +3,13 @@ interface IPositionArticleCardProps {
   url: string;
   company: string;
   title: string;
+  sliderMode?: boolean;
 }
 const PositionArticleCard = ({
   url,
   company,
   title,
+  sliderMode,
 }: IPositionArticleCardProps) => {
   return (
     <Tooltip label="공고 바로가기">
@@ -19,7 +21,7 @@ const PositionArticleCard = ({
         alignItems="center"
         m="10px"
         ml="0"
-        w="85%"
+        w={sliderMode ? "100%" : "85%"}
         border="1px solid #ddd"
         transition=".3s"
         _hover={{
@@ -27,7 +29,7 @@ const PositionArticleCard = ({
         }}
       >
         <Box
-          w="20%"
+          w={sliderMode ? "30%" : "20%"}
           fontWeight="bold"
           fontSize="12px"
           textAlign="center"
@@ -37,7 +39,12 @@ const PositionArticleCard = ({
         >
           {company}
         </Box>
-        <Box w="80%" fontSize="12px" p="5px" noOfLines={1}>
+        <Box
+          w={sliderMode ? "70%" : "80%"}
+          fontSize="12px"
+          p="5px"
+          noOfLines={1}
+        >
           {title}
         </Box>
       </Flex>

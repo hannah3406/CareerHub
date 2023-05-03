@@ -13,7 +13,6 @@ export class RecommendApi {
       method: "GET",
       url: `/recommend-board`,
     });
-    console.log(data, "data");
     return data;
   };
 }

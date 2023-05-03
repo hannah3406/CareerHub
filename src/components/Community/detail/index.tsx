@@ -13,13 +13,13 @@ import communityApi from "apis/community";
 
 interface ICommunityDetailProps {
   data: CommunityList;
-  deleteBoard: () => Promise<void>;
 }
 
 const CommunityDetailComponent = (props: ICommunityDetailProps) => {
   const { data } = props;
   const queryClient = useQueryClient();
   const token = getToken();
+
   const userProfile = queryClient.getQueryData<userType>([
     QUERY_KEY.USER.PROFILE,
     token,
@@ -34,6 +34,7 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
     await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
     await queryClient.invalidateQueries([QUERY_KEY.RECOMMEND.GETLIST]);
   };
+
   return (
     <Box p="0px 40px">
       <CommunityCardHeader
@@ -63,10 +64,13 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
       )}
       {userProfile && data && (
         <CommunityCardFooter
+          boardId={data._id}
+          isDetail
           isLikeBoard={isLikeBoard}
           isLikeState={data.like.includes(userProfile._id)}
           likeCnt={data.like.length}
           commentCnt={data.commentCnt}
+          isWriter={data.userInfo.userId === userProfile?._id}
         />
       )}
     </Box>

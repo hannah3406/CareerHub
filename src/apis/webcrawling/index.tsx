@@ -24,7 +24,7 @@ export class WebCrawlingApi {
       keyword,
       type,
     };
-    console.log(params, "params");
+
     const { data } = await instance({
       method: "GET",
       url: `/web-crawling/getList`,

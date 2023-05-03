@@ -1,19 +1,48 @@
 import { LikeFilled, LikeOutlined, MessageFilled } from "@ant-design/icons";
 import { Box, Flex, Tooltip } from "@chakra-ui/react";
+import { Popover } from "antd";
+import communityApi from "apis/community";
+import { QUERY_KEY } from "constants/query-keys";
+import ROUTES from "constants/routes";
+import { useQueryClient } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import DotIcon from "../@Icons/System/Dot";
+import DotMoreIcon from "../@Icons/System/DotMore";
 
 interface ICommunityCardFooterProps {
   commentCnt: number;
   likeCnt: number;
   isLikeState: boolean;
   isLikeBoard: () => Promise<void>;
+  isWriter?: boolean;
+  isDetail?: boolean;
+  boardId?: string;
 }
 const CommunityCardFooter = ({
   likeCnt,
   commentCnt,
   isLikeState,
   isLikeBoard,
+  isWriter,
+  boardId,
+  isDetail,
 }: ICommunityCardFooterProps) => {
+  const navigate = useNavigate();
+  const params = useParams();
+  const queryClient = useQueryClient();
+  const goEditPage = () => {
+    navigate(`${ROUTES.COMMUNITY_LIST.path}/${boardId}/edit`);
+  };
+  const deleteBoard = async () => {
+    try {
+      await communityApi.deleteBoard(params.id);
+      alert("게시글이 삭제되었습니다.");
+      await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
+      navigate(ROUTES.COMMUNITY_LIST.path);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <Flex alignItems="center" justifyContent="space-between" pt="10px">
       <Flex alignItems="center" p="5px 0">
@@ -59,6 +88,39 @@ const CommunityCardFooter = ({
           </Flex>
         </Tooltip>
       </Flex>
+      {isWriter && isDetail && (
+        <Popover
+          trigger="click"
+          content={
+            <Box p="10px 0">
+              <Box
+                cursor="pointer"
+                p="3px 15px"
+                _hover={{
+                  bg: "#555",
+                  color: "#fff",
+                }}
+                onClick={goEditPage}
+              >
+                수정하기
+              </Box>
+              <Box
+                cursor="pointer"
+                p="3px 15px"
+                _hover={{
+                  bg: "#555",
+                  color: "#fff",
+                }}
+                onClick={deleteBoard}
+              >
+                삭제하기
+              </Box>
+            </Box>
+          }
+        >
+          <DotMoreIcon w="5px" color="#555" ml="1px" />
+        </Popover>
+      )}
     </Flex>
   );
 };
