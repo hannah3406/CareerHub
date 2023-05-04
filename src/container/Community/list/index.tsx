@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import ScrollUp from "components/Common/@Icons/System/ScrollUp";
+import ScrollUp from "components/common/@Icons/System/ScrollUp";
 import { useGetCommunityListQuery } from "apis/community/query";
 import CommunityComponent from "components/Community/list";
 import { FormOutlined } from "@ant-design/icons";
@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "constants/routes";
 import { useRecoilState } from "recoil";
 import { CommunityParam, communityParamsState } from "recoil/community";
-import SearchBar from "components/Common/SearchBar";
+import SearchBar from "components/common/SearchBar";
 import { communityFilter } from "./data";
 import { useEffect, useState } from "react";
 import { Pagination, PaginationProps } from "antd";

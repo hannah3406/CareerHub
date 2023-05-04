@@ -2,7 +2,7 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Button, Modal } from "antd";
 import { PositionList } from "apis/webcrawling/type";
-import SkillTag from "components/Common/SkillTag";
+import SkillTag from "components/common/SkillTag";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import AutosizeTextarea from "react-autosize-textarea";

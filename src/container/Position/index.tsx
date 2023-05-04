@@ -1,8 +1,8 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import { useGetInfinityScrollListQuery } from "apis/webcrawling/query";
-import ScrollUp from "components/Common/@Icons/System/ScrollUp";
-import SearchBar from "components/Common/SearchBar";
+import ScrollUp from "components/common/@Icons/System/ScrollUp";
+import SearchBar from "components/common/SearchBar";
 import PositionInfinityScroll from "components/Position/InfinityScroll";
 import { useEffect } from "react";
 import { SearchParam, searchParamsState } from "recoil/search";

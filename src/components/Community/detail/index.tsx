@@ -1,11 +1,11 @@
 import { Flex, Text, Box } from "@chakra-ui/react";
 
 import { CommunityList } from "apis/community/type";
-import PositionArticleCard from "components/Common/PositionArticleCard";
-import SkillTag from "components/Common/SkillTag";
+import PositionArticleCard from "components/common/PositionArticleCard";
+import SkillTag from "components/common/SkillTag";
 import { userProfile as userType } from "apis/user/type";
-import CommunityCardHeader from "components/Common/community/CommunityCardHeader";
-import CommunityCardFooter from "components/Common/community/CommunityCardFooter";
+import CommunityCardHeader from "components/common/community/CommunityCardHeader";
+import CommunityCardFooter from "components/common/community/CommunityCardFooter";
 import { useQueryClient } from "react-query";
 import { getToken } from "utils/sessionStorage/token";
 import { QUERY_KEY } from "constants/query-keys";

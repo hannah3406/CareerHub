@@ -1,5 +1,5 @@
 import { BoardCommentList } from "apis/comment/type";
-import CommunityCardHeader from "components/Common/community/CommunityCardHeader";
+import CommunityCardHeader from "components/common/community/CommunityCardHeader";
 import { Text, Box } from "@chakra-ui/react";
 interface ICommentListItemProps {
   comment: BoardCommentList;

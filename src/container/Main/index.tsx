@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { useGetRecommendQuery } from "apis/recommend/query";
 import { useGetInfinityScrollListQuery } from "apis/webcrawling/query";
-import SummaryCardsComponent from "components/Common/SummaryCards";
+import SummaryCardsComponent from "components/common/SummaryCards";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { SearchParam, searchParamsState } from "recoil/search";
