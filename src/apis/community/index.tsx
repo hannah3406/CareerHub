@@ -45,6 +45,14 @@ export class CommunityApi {
     });
     return data;
   };
+  getViewCountById = async (_id: string | undefined): Promise<{}> => {
+    const { data } = await instance({
+      method: "POST",
+      url: `/community/viewCount/${_id}`,
+    });
+    return data;
+  };
+
   deleteBoard = async (_id: string | undefined): Promise<{}> => {
     const { data } = await instance({
       method: "DELETE",

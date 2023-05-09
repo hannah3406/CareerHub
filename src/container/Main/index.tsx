@@ -9,6 +9,7 @@ export interface SummaryCard {
   title: string;
   commentCnt?: number;
   updatedAt: string;
+  review?: number;
 }
 const MainContainer = () => {
   const [recommendList, setRecommendList] = useState<SummaryCard[]>([]);
@@ -32,11 +33,14 @@ const MainContainer = () => {
 
   const _recommendList = useMemo(() => {
     if (recommend) {
-      return recommend.slice(0, 5).map(({ title, commentCnt, updatedAt }) => ({
-        title,
-        commentCnt,
-        updatedAt,
-      }));
+      return recommend
+        .slice(0, 5)
+        .map(({ title, review, commentCnt, updatedAt }) => ({
+          title,
+          commentCnt,
+          updatedAt,
+          review,
+        }));
     }
     return [];
   }, [recommend]);

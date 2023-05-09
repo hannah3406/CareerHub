@@ -82,6 +82,7 @@ const CommunityItem = ({ data, sliderMode }: ICommunityItemProps) => {
       )}
       {userProfile && data && (
         <CommunityCardFooter
+          review={data.review}
           isLikeBoard={isLikeBoard}
           isLikeState={data.like.includes(userProfile._id)}
           likeCnt={data.like.length}

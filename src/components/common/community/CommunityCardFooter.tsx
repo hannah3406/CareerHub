@@ -1,4 +1,9 @@
-import { LikeFilled, LikeOutlined, MessageFilled } from "@ant-design/icons";
+import {
+  EyeFilled,
+  LikeFilled,
+  LikeOutlined,
+  MessageFilled,
+} from "@ant-design/icons";
 import { Box, Flex, Tooltip } from "@chakra-ui/react";
 import { Popover } from "antd";
 import communityApi from "apis/community";
@@ -12,6 +17,7 @@ import DotMoreIcon from "../@Icons/System/DotMore";
 interface ICommunityCardFooterProps {
   commentCnt: number;
   likeCnt: number;
+  review: number;
   isLikeState: boolean;
   isLikeBoard: () => Promise<void>;
   isWriter?: boolean;
@@ -25,6 +31,7 @@ const CommunityCardFooter = ({
   isLikeBoard,
   isWriter,
   boardId,
+  review,
   isDetail,
 }: ICommunityCardFooterProps) => {
   const navigate = useNavigate();
@@ -54,6 +61,20 @@ const CommunityCardFooter = ({
       bottom={isDetail ? "5px" : "10px"}
     >
       <Flex alignItems="center" p="5px 0">
+        <Tooltip label="조회수">
+          <Flex alignItems="center">
+            <EyeFilled
+              style={{
+                color: "#555",
+                fontSize: "12px",
+              }}
+            />
+            <Box color="#555" fontSize="9px" ml="3px" pt="2px">
+              {review}
+            </Box>
+          </Flex>
+        </Tooltip>
+        <DotIcon fontSize="2px" mx="7px" color="#555" />
         <Tooltip label="좋아요">
           <Flex alignItems="center">
             {isLikeState ? (

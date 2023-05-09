@@ -163,9 +163,6 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
   return (
     <>
       <Form
-        onKeyPress={(e) => {
-          if (e.key === "Enter") e.preventDefault();
-        }}
         name="createBoard"
         layout="vertical"
         onFinish={!isEdit ? onFinish : onEditFinish}

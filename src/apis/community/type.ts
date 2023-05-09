@@ -12,6 +12,7 @@ export type CommunityList = {
   createdAt: string;
   updatedAt: string;
   commentCnt: number;
+  review: number;
 };
 export interface ImyVariables {
   _id?: string;
