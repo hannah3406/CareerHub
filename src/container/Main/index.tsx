@@ -9,7 +9,7 @@ export interface SummaryCard {
   title: string;
   commentCnt?: number;
   updatedAt: string;
-  review?: number;
+  view?: number;
 }
 const MainContainer = () => {
   const [recommendList, setRecommendList] = useState<SummaryCard[]>([]);
@@ -35,11 +35,11 @@ const MainContainer = () => {
     if (recommend) {
       return recommend
         .slice(0, 5)
-        .map(({ title, review, commentCnt, updatedAt }) => ({
+        .map(({ title, view, commentCnt, updatedAt }) => ({
           title,
           commentCnt,
           updatedAt,
-          review,
+          view,
         }));
     }
     return [];

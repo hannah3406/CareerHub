@@ -17,7 +17,7 @@ import DotMoreIcon from "../@Icons/System/DotMore";
 interface ICommunityCardFooterProps {
   commentCnt: number;
   likeCnt: number;
-  review: number;
+  view: number;
   isLikeState: boolean;
   isLikeBoard: () => Promise<void>;
   isWriter?: boolean;
@@ -31,7 +31,7 @@ const CommunityCardFooter = ({
   isLikeBoard,
   isWriter,
   boardId,
-  review,
+  view,
   isDetail,
 }: ICommunityCardFooterProps) => {
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ const CommunityCardFooter = ({
               }}
             />
             <Box color="#555" fontSize="9px" ml="3px" pt="2px">
-              {review}
+              {view}
             </Box>
           </Flex>
         </Tooltip>

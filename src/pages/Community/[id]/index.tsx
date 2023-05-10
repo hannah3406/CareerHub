@@ -31,7 +31,7 @@ const CommunityDetailPage = () => {
     } catch (e) {}
   };
   useEffect(() => {
-    if (!!id && data) {
+    if (!!id && data && data.boardDetail) {
       getViewCount(id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

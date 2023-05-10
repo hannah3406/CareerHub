@@ -1,4 +1,4 @@
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Box, Text } from "@chakra-ui/react";
 import { CommunityList } from "apis/community/type";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import CommentWrtieComponent from "components/Comment/write";
@@ -18,7 +18,21 @@ const CommunityDetailContainer = (props: ICommunityDetailProps) => {
   const { boardDetail, boardComments } = props;
   const navigate = useNavigate();
 
-  return (
+  return boardDetail === null ? (
+    <Flex
+      w="900px"
+      h="40vh"
+      border="1px solid #ddd"
+      borderRadius="10px"
+      m="35px auto"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Box fontFamily="Arita-dotum-Medium">
+        삭제되었거나, 존재하지 않는 게시글 입니다.
+      </Box>
+    </Flex>
+  ) : (
     <>
       <Flex
         flexDirection="column"

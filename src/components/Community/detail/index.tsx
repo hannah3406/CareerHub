@@ -65,7 +65,7 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
       {userProfile && data && (
         <CommunityCardFooter
           boardId={data._id}
-          review={data.review}
+          view={data.view}
           isDetail
           isLikeBoard={isLikeBoard}
           isLikeState={data.like.includes(userProfile._id)}
