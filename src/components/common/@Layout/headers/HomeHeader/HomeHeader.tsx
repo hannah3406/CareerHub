@@ -26,7 +26,7 @@ const HomeHeader = () => {
     if (!!userProfile) {
       await authApi.logoutUser(userProfile.email);
       await queryClient.invalidateQueries([QUERY_KEY.USER.PROFILE, token]);
-      navigate(ROUTES.LOGIN.path);
+      // navigate(ROUTES.LOGIN.path);
     }
   };
 
