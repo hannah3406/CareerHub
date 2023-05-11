@@ -5,7 +5,7 @@ import { positionFilter } from "container/Position/data";
 import { Modal, Pagination, PaginationProps } from "antd";
 import { Box, Flex } from "@chakra-ui/react";
 import PositionPagination from "components/Position/Pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { SearchParam, searchParamsState } from "recoil/search";
 import { useGetPaginationListQuery } from "apis/webcrawling/query";
@@ -32,9 +32,14 @@ const PositionSearchModal = ({ show, setShow }: IWriteModalProps) => {
     setCurrent(page);
     setSearchParams((prev) => ({ ...prev, page }));
   };
+  useEffect(() => {
+    setSearchParams({ type: undefined, keyword: undefined, page: 1 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show]);
+
   return (
     <Modal
-      open={show}
+      open={true}
       title={<ModalHeaderStyle>공고검색</ModalHeaderStyle>}
       onCancel={() => setShow(false)}
       footer={<></>}
@@ -43,6 +48,7 @@ const PositionSearchModal = ({ show, setShow }: IWriteModalProps) => {
         <SearchBar
           style={{ margin: "0 auto" }}
           bgNone
+          show={show}
           type="positionModal"
           filter={positionFilter}
           current={current}

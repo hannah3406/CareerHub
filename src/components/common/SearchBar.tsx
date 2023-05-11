@@ -2,7 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Input, Select } from "antd";
 import { ROUTES } from "constants/routes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { CommunityParam, communityParamsState } from "recoil/community";
@@ -21,6 +21,7 @@ interface ISearchBarProps {
   bgNone?: boolean;
   type: string;
   current?: number;
+  show?: boolean;
 }
 export type PageParam = {
   keyword: string;
@@ -33,9 +34,13 @@ const SearchBar = ({
   bgNone,
   type,
   current,
+  show,
 }: ISearchBarProps) => {
   const navigate = useNavigate();
   const setSearchParams = useSetRecoilState<SearchParam>(searchParamsState);
+  const [keywordValue, serKeywordValue] = useState<string | undefined>(
+    undefined
+  );
   const setCommunityParams =
     useSetRecoilState<CommunityParam>(communityParamsState);
   const [selectType, setSelectType] = useState<string>(filter[0].value);
@@ -74,6 +79,15 @@ const SearchBar = ({
   const selectChange = (value: string) => {
     setSelectType(value);
   };
+  const valueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    serKeywordValue(e.target.value);
+  };
+
+  useEffect(() => {
+    if (show) {
+      serKeywordValue(undefined);
+    }
+  }, [show]);
 
   return (
     <div style={{ ...style }}>
@@ -96,6 +110,8 @@ const SearchBar = ({
 
         <Box>
           <SearchStyle
+            value={keywordValue}
+            onChange={(e) => valueChange(e)}
             placeholder="검색어를 입력해주세요"
             onSearch={onSearch}
             enterButton

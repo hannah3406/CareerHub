@@ -6,10 +6,11 @@ import { Box } from "@chakra-ui/react";
 
 interface IWriteTagProps {
   setTags: React.Dispatch<React.SetStateAction<string[]>>;
+  setIsEnter: React.Dispatch<React.SetStateAction<boolean>>;
   tags: string[];
 }
 
-const WriteTag = ({ setTags, tags }: IWriteTagProps) => {
+const WriteTag = ({ setTags, tags, setIsEnter }: IWriteTagProps) => {
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [alertMsg, setAlertMsg] = useState<string | undefined>(undefined);
@@ -20,6 +21,7 @@ const WriteTag = ({ setTags, tags }: IWriteTagProps) => {
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    setIsEnter(false);
   };
   const handleInputConfirm = () => {
     if (inputValue.length === 0) {

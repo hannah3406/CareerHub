@@ -4,7 +4,6 @@ import { QUERY_KEY } from "constants/query-keys";
 import CommunityDetailContainer from "container/Community/detail";
 import { useEffect } from "react";
 import { useQueryClient } from "react-query";
-
 import { useParams } from "react-router-dom";
 
 const CommunityDetailPage = () => {
@@ -21,21 +20,19 @@ const CommunityDetailPage = () => {
   const getViewCount = async (id: string) => {
     try {
       const result = await communityApi.getViewCountById(id);
-      await queryClient.invalidateQueries([
-        QUERY_KEY.COMMUNITY.GETARTICLE,
-        params.id,
-      ]);
-      await queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
-
       return result;
-    } catch (e) {}
+    } catch (e: any) {
+      console.log(e.status, e.message);
+    }
   };
+
   useEffect(() => {
     if (!!id && data && data.boardDetail) {
       getViewCount(id);
+      queryClient.invalidateQueries([QUERY_KEY.COMMUNITY.GETLIST]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, data]);
+  }, [id, data, queryClient, params]);
+
   return !isLoading && data ? (
     <CommunityDetailContainer
       boardDetail={data.boardDetail}

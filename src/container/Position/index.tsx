@@ -38,9 +38,8 @@ const PositionContainer = () => {
 
   useEffect(() => {
     if (location.search === undefined || location.search === "") {
-      setSearchParams({ keyword: undefined, type: undefined });
+      setSearchParams({ ...searchParams, keyword: undefined, type: undefined });
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
@@ -69,9 +68,12 @@ const PositionContainer = () => {
       </Box>
       {isLoading && <Text>Loading...</Text>}
       <Box w="900px" m="0 auto">
-        {position?.pages.map((page) => {
-          return <PositionInfinityScroll key={page.page} data={page.results} />;
-        })}
+        {position &&
+          position?.pages.map((page) => {
+            return (
+              <PositionInfinityScroll key={page.page} data={page.results} />
+            );
+          })}
       </Box>
 
       {!hasNextPage && <Text>최하단입니다!</Text>}

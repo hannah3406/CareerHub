@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { PlusOutlined } from "@ant-design/icons";
 import styled from "@emotion/styled";
-
+import { debounce } from "lodash";
 import WriteTag from "./_fragments/Write.Tag";
 import PositionSearchModal from "../../common/PositionSearchModal";
 import { useRecoilState } from "recoil";
@@ -31,6 +31,7 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const params = useParams();
+  const [isEnter, setIsEnter] = useState<boolean>(false);
   const [skillSelect, setSkillSelect] = useState<string[]>([]);
   const [positionArticle, setPositionArticle] =
     useRecoilState<PositionArtice>(positionArticleState);
@@ -160,6 +161,17 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
     }
   }, [userProfile]);
 
+  const handleInputChange = debounce(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setIsEnter(true);
+    },
+    500
+  );
+
+  const showPositionPopup = async () => {
+    setShow(true);
+    await queryClient.invalidateQueries([QUERY_KEY.WEBCRAWLING.GETLIST]);
+  };
   return (
     <>
       <Form
@@ -171,12 +183,18 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
           title: !!editData ? editData.title : "",
           description: !!editData ? editData.description : "",
         }}
+        onKeyPress={(e) => {
+          if (e.key === "Enter" && !isEnter) e.preventDefault();
+        }}
       >
         <Form.Item name="title">
           <FormTitle placeholder="제목을 입력해주세요" />
         </Form.Item>
         <Form.Item name="description">
-          <FormContents placeholder="내용을 입력해주세요" />
+          <FormContents
+            placeholder="내용을 입력해주세요"
+            onChange={(e) => handleInputChange(e)}
+          />
         </Form.Item>
         <Form.Item
           label="관련공고선택"
@@ -202,7 +220,7 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
               type="dashed"
               block
               icon={<PlusOutlined />}
-              onClick={() => setShow(true)}
+              onClick={showPositionPopup}
             >
               공고 추가하기
             </Button>
@@ -214,7 +232,7 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
             padding: "10px",
           }}
         >
-          <WriteTag setTags={setTags} tags={tags} />
+          <WriteTag setTags={setTags} tags={tags} setIsEnter={setIsEnter} />
         </FormSkill>
         <FormSubmit>
           <Button onClick={onGoBack}>나가기</Button>
@@ -223,7 +241,7 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
           </Button>
         </FormSubmit>
       </Form>
-      <PositionSearchModal show={show} setShow={setShow} />
+      {show && <PositionSearchModal show={show} setShow={setShow} />}
     </>
   );
 };
