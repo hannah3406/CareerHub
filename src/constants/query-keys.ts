@@ -11,6 +11,7 @@ export const QUERY_KEY = {
   },
   WEBCRAWLING: {
     GETLIST: "webcrawling-getList",
+    GETPAGELIST: "webcrawling-getPageList",
   },
   COMMUNITY: {
     GETLIST: "community-getList",
