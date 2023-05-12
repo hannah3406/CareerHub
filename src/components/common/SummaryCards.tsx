@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useBreakpoint } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import ROUTES from "constants/routes";
 import { SummaryCard } from "container/Main";
@@ -18,9 +18,9 @@ const SummaryCardsComponent = ({
   isMargin,
 }: ISummaryCardsComponentProps) => {
   const navigate = useNavigate();
-
+  const breakpoint = useBreakpoint();
   const goDetailPage = () => {
-    if (titleText === "인기 게시글") {
+    if (titleText === "인기 게시글" || "커뮤니티") {
       navigate(ROUTES.COMMUNITY_LIST.path);
     } else {
       navigate(ROUTES.POSITION.path);
@@ -31,13 +31,13 @@ const SummaryCardsComponent = ({
       w={{ base: "100%", sm: "48%" }}
       mr={{ base: "0", sm: isMargin ? "4%" : "0" }}
     >
-      <TitleStyles>{titleText}</TitleStyles>
+      {breakpoint !== "base" && <TitleStyles>{titleText}</TitleStyles>}
       <Flex
         flexDir="column"
         w="100%"
-        border="1px solid #eee"
+        border={{ base: "none", sm: "1px solid #eee" }}
         borderRadius="10px"
-        boxShadow="md"
+        boxShadow={{ base: "none", sm: "md" }}
         p="20px"
       >
         {data &&
@@ -48,7 +48,7 @@ const SummaryCardsComponent = ({
               key={idx}
               p="3px 0"
             >
-              <Box>
+              <Box w="90%" noOfLines={1}>
                 {title}
                 {commentCnt && (
                   <span
@@ -72,7 +72,25 @@ const SummaryCardsComponent = ({
             </Flex>
           ))}
       </Flex>
-      <Flex alignItems="center" justifyContent="right" m="6px 0">
+      <Flex
+        display={{ base: "flex", sm: "none" }}
+        alignItems="center"
+        justifyContent="center"
+        m="6px 0"
+        border="1px solid #eee"
+        p="10px 0"
+        boxShadow="sm"
+      >
+        <GoDetailMobileStyles onClick={goDetailPage}>
+          {detailText}
+        </GoDetailMobileStyles>
+      </Flex>
+      <Flex
+        display={{ base: "none", sm: "flex" }}
+        alignItems="center"
+        justifyContent="right"
+        m="6px 0"
+      >
         <GoDetailStyles onClick={goDetailPage}>{detailText}</GoDetailStyles>
         <ArrowRight color="#000" fontSize="14px" />
       </Flex>
@@ -85,6 +103,16 @@ const TitleStyles = styled.div`
   margin: 6px 0;
 `;
 const GoDetailStyles = styled.div`
+  color: #777;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: "Arita-dotum-Medium";
+  &:hover {
+    color: #000;
+  }
+`;
+const GoDetailMobileStyles = styled.div`
   color: #777;
   cursor: pointer;
   font-size: 14px;

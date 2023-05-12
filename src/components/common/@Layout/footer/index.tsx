@@ -14,9 +14,13 @@ const HomeFooter = () => {
   return (
     <Box w="100%" border="1px solid #E5E7EC" bg="#000" justifyContent="center">
       <Flex maxW="1200px" m="0 auto">
-        <Box w="100%" p="40px 16px">
+        <Box w="100%" p={{ base: "15px 10px", sm: "40px 16px" }}>
           <Flex direction="column">
-            <Flex alignItems="end" justifyContent="space-between">
+            <Flex
+              flexDir={{ base: "column", sm: "row" }}
+              alignItems={{ base: "start", sm: "end" }}
+              justifyContent="space-between"
+            >
               <LOGOIMG>
                 <img src={LOGO} alt="logo" />
               </LOGOIMG>
@@ -74,6 +78,7 @@ const LOGOIMG = styled.div`
   width: 140px;
   height: 30px;
   overflow: hidden;
+  margin: 5px 0;
   > img {
     width: 100%;
     height: 100%;
@@ -82,6 +87,7 @@ const LOGOIMG = styled.div`
 const SLOGANIMG = styled.div`
   width: 500px;
   height: 20px;
+  margin: 5px 0;
   overflow: hidden;
   > img {
     width: 100%;
