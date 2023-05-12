@@ -1,6 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { useGetRecommendQuery } from "apis/recommend/query";
 import { useGetInfinityScrollListQuery } from "apis/webcrawling/query";
+import ShotCut from "components/common/ShotCut";
 import SummaryCardsComponent from "components/common/SummaryCards";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -65,7 +66,12 @@ const MainContainer = () => {
   }, [_positionList]);
   return (
     <>
-      <Flex flexWrap="wrap" w="1200px" m="40px auto" p="0 30px">
+      <Flex
+        display={{ base: "none", sm: "flex" }}
+        w="1200px"
+        m="40px auto"
+        p="0 30px"
+      >
         {positionList && (
           <SummaryCardsComponent
             isMargin
@@ -81,6 +87,15 @@ const MainContainer = () => {
             titleText="인기 게시글"
           />
         )}
+      </Flex>
+      <Flex
+        display={{ base: "flex", sm: "none" }}
+        w="100%"
+        flexDir="column"
+        m="40px auto"
+        p="0 30px"
+      >
+        <ShotCut />
       </Flex>
     </>
   );

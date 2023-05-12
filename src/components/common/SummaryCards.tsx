@@ -27,7 +27,10 @@ const SummaryCardsComponent = ({
     }
   };
   return (
-    <Box w="48%" mr={isMargin ? "4%" : "0"}>
+    <Box
+      w={{ base: "100%", sm: "48%" }}
+      mr={{ base: "0", sm: isMargin ? "4%" : "0" }}
+    >
       <TitleStyles>{titleText}</TitleStyles>
       <Flex
         flexDir="column"

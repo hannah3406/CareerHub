@@ -31,20 +31,39 @@ const HomeHeader = () => {
   };
 
   return (
-    <Box w="100%" p="15px 0" boxShadow="md">
+    <Box w="100%" p={{ base: "30px 0", sm: "15px 0" }} boxShadow="md">
       <Flex
-        maxW="1200px"
-        px="16px"
+        maxW={{ sm: "1200px" }}
+        px={{ base: "30px", sm: "16px" }}
         m="0 auto"
-        justifyContent="space-between"
+        justifyContent={{ base: "center", sm: "space-between" }}
         alignItems="center"
       >
-        <Box w="50%" onClick={() => navigate(ROUTES.HOME.path)}>
+        <Box
+          w="50%"
+          display={{ base: "none", sm: "block" }}
+          onClick={() => navigate(ROUTES.HOME.path)}
+        >
           <LogoImg>
             <img src={LOGO} alt="logo" />
           </LogoImg>
         </Box>
-        <Flex w="50%" justifyContent="right" alignItems="center">
+        <Box
+          w="50%"
+          display={{ base: "block", sm: "none" }}
+          textAlign="center"
+          onClick={() => navigate(ROUTES.HOME.path)}
+        >
+          <MobileLogoImg>
+            <img src={LOGO} alt="logo" />
+          </MobileLogoImg>
+        </Box>
+        <Flex
+          display={{ base: "none", sm: "flex" }}
+          w="50%"
+          justifyContent="right"
+          alignItems="center"
+        >
           {!!userProfile ? (
             <Popover
               placement="bottom"
@@ -76,7 +95,6 @@ const HomeHeader = () => {
                 <Box fontWeight="bold">회원가입</Box>
               </Link>
               <Divider
-                display={{ base: "none", sm: "block" }}
                 orientation="vertical"
                 w="1px"
                 h="8px"
@@ -90,8 +108,14 @@ const HomeHeader = () => {
           )}
         </Flex>
       </Flex>
-      <Divider bg="#ddd" w="100%" h="1px" m="15px 0" />
-      <Box maxW="1200px" m="0 auto">
+      <Divider
+        display={{ base: "none", sm: "block" }}
+        bg="#ddd"
+        w="100%"
+        h="1px"
+        m="15px 0"
+      />
+      <Box display={{ base: "none", sm: "block" }} maxW="1200px" m="0 auto">
         <NaviText
           isPath={pathname === ROUTES.POSITION.path}
           onClick={() => navigate(ROUTES.POSITION.path)}
@@ -121,11 +145,22 @@ export default HomeHeader;
 
 const LogoImg = styled.div`
   width: 140px;
-  height: 30px;
+  // height: 50px;
   overflow: hidden;
+  display: inline-block;
   > img {
     width: 100%;
-    height: 100%;
+    // height: 100%;
+  }
+`;
+const MobileLogoImg = styled.div`
+  width: 180px;
+  // height: 50px;
+  overflow: hidden;
+  display: inline-block;
+  > img {
+    width: 100%;
+    // height: 100%;
   }
 `;
 const NaviText = styled.div<{ isPath: boolean }>`
