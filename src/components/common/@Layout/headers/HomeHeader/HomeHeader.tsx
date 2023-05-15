@@ -130,12 +130,12 @@ const HomeHeader = () => {
           커뮤니티
         </NaviText>
 
-        {/* <NaviText
+        <NaviText
           isPath={pathname === ROUTES.STATISTICSPAGE.path}
           onClick={() => navigate(ROUTES.STATISTICSPAGE.path)}
         >
           통계분석
-        </NaviText> */}
+        </NaviText>
       </Box>
     </Box>
   );
