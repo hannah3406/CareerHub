@@ -1,4 +1,4 @@
-import { Flex, Box, Text } from "@chakra-ui/react";
+import { Flex, Box } from "@chakra-ui/react";
 import { CommunityList } from "apis/community/type";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import CommentWrtieComponent from "components/Comment/write";
