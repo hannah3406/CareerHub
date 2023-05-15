@@ -12,7 +12,10 @@ function App() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const exceptPath = useMemo(() => ["/login", "/signup", "/", "/position"], []);
+  const exceptPath = useMemo(
+    () => ["/login", "/signup", "/", "/position", "/community"],
+    []
+  );
   const { data: userProfile } = useGetProfileQuery({
     variables: token,
     options: {
