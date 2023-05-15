@@ -1,6 +1,17 @@
-커리어허브 (CarrerrHub) 프론트엔드 레퍼지토리입니다.  <br/>
-
-커리어허브 - 유명 공고 사이트들의 공고글을 크롤링하여, 한번에 모아보고 채용 공고에 대한 다양한 커뮤니티와 통계를 제공하는 플랫폼. <br/><br/>
+<div >
+[ 개인 프로젝트 ] </br>
+플랫폼 명 : 커리어허브 (CareerHub)  </br>
+운영 URL : https://careerhub-front.netlify.app/  </br>
+플랫폼 설명 : 구인구직 채용 커뮤니티 플랫폼 (where job seekers and employers connect for new opportunities)  </br>
+참여 인원 : 1명 (개인 단독 진행 중)  </br>
+개발 영역 : 프론트, 백, 서버  </br>
+기술 상세 :  </br>
+- 프론트 : Typescript, Antd, Chakra, React-query, Recoil, Styled Component, ChartJS  </br>
+- 백엔드 : NestJS, puppeteer  </br>
+- DB : Mongo Atlas </br>
+- 서버 : GCP  </br>
+- 추가 예정 : Kafka, ELK stack  </br>
+</div> </br></br>
 
 페이지 : 대시보드, 채용공고, 커뮤니티, 마이페이지, 통계/분석<br/>
 주요 기능 : 추천 게시글, 채용공고 인피니티 스크롤, 커뮤니티 crud 및 댓글, 조회수 좋아요, 마이페이지 프로필 변경/내가쓴 댓글/내가쓴 게시글, 통계/분석 차트 내려받기 제공<br/><br/>
