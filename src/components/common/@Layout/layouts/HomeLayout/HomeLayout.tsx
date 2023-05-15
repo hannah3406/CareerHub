@@ -1,4 +1,4 @@
-import { Box, ContainerProps, Flex, Grid } from "@chakra-ui/react";
+import { ContainerProps, Flex, Grid } from "@chakra-ui/react";
 import HomeFooter from "../../footer";
 
 import HomeHeader from "../../headers/HomeHeader";
