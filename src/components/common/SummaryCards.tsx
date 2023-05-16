@@ -20,7 +20,8 @@ const SummaryCardsComponent = ({
   const navigate = useNavigate();
   const breakpoint = useBreakpoint();
   const goDetailPage = () => {
-    if (titleText === "인기 게시글" || "커뮤니티") {
+    if (titleText === "인기 게시글" || titleText === "커뮤니티") {
+      console.log(titleText, "titleText");
       navigate(ROUTES.COMMUNITY_LIST.path);
     } else {
       navigate(ROUTES.POSITION.path);
