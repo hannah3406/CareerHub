@@ -14,6 +14,7 @@ import { Pagination, PaginationProps } from "antd";
 import styled from "@emotion/styled";
 import RecommendBoardComponent from "components/RecommendBoard";
 import { useGetRecommendQuery } from "apis/recommend/query";
+import NoResult from "components/common/NoResult";
 
 const CommunityListContainer = () => {
   const location = useLocation();
@@ -85,8 +86,10 @@ const CommunityListContainer = () => {
       </Box>
       {isLoading && <Text>Loading...</Text>}
       <Box w="1000px" m="0 auto">
-        {community && community.results && (
+        {community && community.results.length > 0 ? (
           <CommunityComponent data={community.results} />
+        ) : (
+          <NoResult />
         )}
       </Box>
       <Box w="1000px" m="0 auto" mb="50px" textAlign="center">

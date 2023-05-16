@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { SearchParam, searchParamsState } from "recoil/search";
 import { useRecoilState } from "recoil";
 import { positionFilter } from "container/Position/data";
+import NoResult from "components/common/NoResult";
 
 const PositionContainer = () => {
   const location = useLocation();
@@ -76,15 +77,7 @@ const PositionContainer = () => {
           })}
       </Box>
 
-      {!hasNextPage && (
-        <Flex w="900px" m="0 auto">
-          <img
-            style={{ display: "inline-block", margin: "0 auto" }}
-            src={process.env.PUBLIC_URL + `/assets/image/no_result_img.png`}
-            alt="no_result_img"
-          />
-        </Flex>
-      )}
+      {!hasNextPage && <NoResult />}
       <Box
         position="fixed"
         bottom={{ base: "90px", sm: "40px" }}
