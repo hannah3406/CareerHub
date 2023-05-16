@@ -1,6 +1,7 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useGetRecommendQuery } from "apis/recommend/query";
 import { useGetInfinityScrollListQuery } from "apis/webcrawling/query";
+import Banner from "components/common/Banner";
 
 import SummaryCardsComponent from "components/common/SummaryCards";
 import { useEffect, useMemo, useState } from "react";
@@ -65,28 +66,33 @@ const MainContainer = () => {
     setPositionList(_positionList);
   }, [_positionList]);
   return (
-    <Flex
-      display={{ base: "none", sm: "flex" }}
-      w="1200px"
-      m="40px auto"
-      p="0 30px"
-    >
-      {positionList && (
-        <SummaryCardsComponent
-          isMargin
-          data={positionList}
-          detailText="채용 공고 보러가기"
-          titleText="최신 공고"
-        />
-      )}
-      {recommendList && (
-        <SummaryCardsComponent
-          data={recommendList}
-          detailText="전체 게시글 보러가기"
-          titleText="인기 게시글"
-        />
-      )}
-    </Flex>
+    <>
+      <Box maxW="1200px" m="40px auto">
+        <Banner />
+      </Box>
+      <Flex
+        display={{ base: "none", sm: "flex" }}
+        w="1200px"
+        m="40px auto"
+        p="0 30px"
+      >
+        {positionList && (
+          <SummaryCardsComponent
+            isMargin
+            data={positionList}
+            detailText="채용 공고 보러가기"
+            titleText="최신 공고"
+          />
+        )}
+        {recommendList && (
+          <SummaryCardsComponent
+            data={recommendList}
+            detailText="전체 게시글 보러가기"
+            titleText="인기 게시글"
+          />
+        )}
+      </Flex>
+    </>
   );
 };
 

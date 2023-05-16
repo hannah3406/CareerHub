@@ -13,7 +13,14 @@ function App() {
   const { pathname } = useLocation();
 
   const exceptPath = useMemo(
-    () => ["/login", "/signup", "/", "/position", "/community"],
+    () => [
+      "/login",
+      "/signup",
+      "/",
+      "/position",
+      "/community",
+      "/community/[:id]",
+    ],
     []
   );
   const { data: userProfile } = useGetProfileQuery({
