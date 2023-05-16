@@ -25,3 +25,11 @@ export const searchParamsState = atom<SearchParam>({
     page: 1,
   },
 });
+export const searchPageParamsState = atom<SearchParam>({
+  key: `searchPageParamsState/${v1()}`,
+  default: {
+    keyword: undefined,
+    type: undefined,
+    page: 1,
+  },
+});

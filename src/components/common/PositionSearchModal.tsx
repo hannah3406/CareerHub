@@ -7,8 +7,9 @@ import { Box, Flex } from "@chakra-ui/react";
 import PositionPagination from "components/Position/Pagination";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { SearchParam, searchParamsState } from "recoil/search";
+import { SearchParam, searchPageParamsState } from "recoil/search";
 import { useGetPaginationListQuery } from "apis/webcrawling/query";
+import NoResult from "./NoResult";
 
 interface IWriteModalProps {
   show: boolean;
@@ -16,8 +17,9 @@ interface IWriteModalProps {
 }
 
 const PositionSearchModal = ({ show, setShow }: IWriteModalProps) => {
-  const [searchParams, setSearchParams] =
-    useRecoilState<SearchParam>(searchParamsState);
+  const [searchParams, setSearchParams] = useRecoilState<SearchParam>(
+    searchPageParamsState
+  );
 
   const [current, setCurrent] = useState<number>(searchParams.page ?? 1);
 
@@ -80,9 +82,11 @@ const PositionSearchModal = ({ show, setShow }: IWriteModalProps) => {
               </ModalTableHeaderStyle>
               <ModalTableHeaderStyle>일자</ModalTableHeaderStyle>
             </Flex>
-            {!search && <Box>검색결과가 없습니다.</Box>}
-            {search && (
+
+            {search && search.results.length > 0 ? (
               <PositionPagination data={search.results} setShow={setShow} />
+            ) : (
+              <NoResult />
             )}
           </Flex>
           {search && (

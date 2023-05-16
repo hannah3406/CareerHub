@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { CommunityParam, communityParamsState } from "recoil/community";
-import { SearchParam, searchParamsState } from "recoil/search";
+import {
+  searchPageParamsState,
+  SearchParam,
+  searchParamsState,
+} from "recoil/search";
 
 const { Search } = Input;
 
@@ -37,7 +41,9 @@ const SearchBar = ({
   show,
 }: ISearchBarProps) => {
   const navigate = useNavigate();
-  const setSearchParams = useSetRecoilState<SearchParam>(searchParamsState);
+  const setSearchParams = useSetRecoilState<SearchParam>(
+    type === "positionModal" ? searchPageParamsState : searchParamsState
+  );
   const [keywordValue, serKeywordValue] = useState<string | undefined>(
     undefined
   );

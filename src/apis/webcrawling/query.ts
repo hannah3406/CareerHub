@@ -10,9 +10,9 @@ export const WEBCRAWLING_API_QUERY_KEY = {
     QUERY_KEY.WEBCRAWLING.GETLIST,
     searchParams,
   ],
-  GETPAGELIST: (searchParams?: PositionPageSearchParams) => [
+  GETPAGELIST: (searchPageParams?: PositionPageSearchParams) => [
     QUERY_KEY.WEBCRAWLING.GETPAGELIST,
-    searchParams,
+    searchPageParams,
   ],
 };
 export function useGetInfinityScrollListQuery(
