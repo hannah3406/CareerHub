@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Flex } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import { useGetInfinityScrollListQuery } from "apis/webcrawling/query";
 import ScrollUp from "components/common/@Icons/System/ScrollUp";
@@ -76,7 +76,15 @@ const PositionContainer = () => {
           })}
       </Box>
 
-      {!hasNextPage && <Text>최하단입니다!</Text>}
+      {!hasNextPage && (
+        <Flex w="900px" m="0 auto">
+          <img
+            style={{ display: "inline-block", margin: "0 auto" }}
+            src={process.env.PUBLIC_URL + `/assets/image/no_result_img.png`}
+            alt="no_result_img"
+          />
+        </Flex>
+      )}
       <Box
         position="fixed"
         bottom={{ base: "90px", sm: "40px" }}
