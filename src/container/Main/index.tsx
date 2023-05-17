@@ -10,7 +10,7 @@ import { SearchParam, searchParamsState } from "recoil/search";
 export interface SummaryCard {
   title: string;
   commentCnt?: number;
-  updatedAt: string;
+  createdAt?: string;
   view?: number;
 }
 const MainContainer = () => {
@@ -37,10 +37,10 @@ const MainContainer = () => {
     if (recommend) {
       return recommend
         .slice(0, 5)
-        .map(({ title, view, commentCnt, updatedAt }) => ({
+        .map(({ title, view, commentCnt, createdAt }) => ({
           title,
           commentCnt,
-          updatedAt,
+          createdAt,
           view,
         }));
     }
@@ -50,9 +50,9 @@ const MainContainer = () => {
     if (position) {
       return position.pages[0].results
         .slice(0, 5)
-        .map(({ title, updatedAt }) => ({
+        .map(({ title, createdAt }) => ({
           title,
-          updatedAt,
+          createdAt,
         }));
     }
     return [];

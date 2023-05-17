@@ -42,7 +42,7 @@ const SummaryCardsComponent = ({
         p="20px"
       >
         {data &&
-          data.map(({ title, commentCnt, updatedAt }, idx) => (
+          data.map(({ title, commentCnt, createdAt }, idx) => (
             <Flex
               justifyContent="space-between"
               alignItems="center"
@@ -68,7 +68,7 @@ const SummaryCardsComponent = ({
               </Box>
 
               <Box fontSize="12px" fontFamily="Arita-dotum-Medium">
-                {moment(updatedAt).fromNow()}
+                {moment(createdAt).fromNow()}
               </Box>
             </Flex>
           ))}

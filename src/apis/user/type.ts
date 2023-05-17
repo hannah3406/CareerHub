@@ -8,6 +8,7 @@ export type userProfile = {
   updatedAt: string;
   _id: string;
   profileimg: string;
+  view: string[];
 };
 
 export type UserInfo = {
