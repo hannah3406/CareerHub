@@ -4,7 +4,6 @@ import "moment/locale/ko";
 import { useEffect, useMemo } from "react";
 import { getToken } from "utils/sessionStorage/token";
 import { useGetProfileQuery } from "apis/user/query";
-import TemporarilyComponent from "components/common/Temporarily";
 import ROUTES from "constants/routes";
 import HomeLayout from "components/common/@Layout/layouts/HomeLayout";
 

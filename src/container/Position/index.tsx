@@ -1,4 +1,4 @@
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import { useGetInfinityScrollListQuery } from "apis/webcrawling/query";
 import ScrollUp from "components/common/@Icons/System/ScrollUp";

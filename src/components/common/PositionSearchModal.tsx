@@ -3,7 +3,7 @@ import SearchBar from "components/common/SearchBar";
 import { positionFilter } from "container/Position/data";
 
 import { Modal, Pagination, PaginationProps } from "antd";
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import PositionPagination from "components/Position/Pagination";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
