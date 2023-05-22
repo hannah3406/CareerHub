@@ -2,28 +2,28 @@ import {
   UseInfiniteQueryOptions,
   UseMutationOptions,
   UseQueryOptions,
-} from 'react-query';
+} from "react-query";
 
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 
 export type QueryHookParams<
   T extends CustomRequestFn,
   Data = RequestFnReturn<T>,
   Variables = Parameter<T>,
-  Error = MyError,
+  Error = MyError
 > = {
-  options?: Omit<UseQueryOptions<Data, Error>, 'queryKey' | 'queryFn'>;
+  options?: Omit<UseQueryOptions<Data, Error>, "queryKey" | "queryFn">;
 } & OptionalVariables<Variables>;
 
 export type InfiniteQueryHookParams<
   T extends CustomRequestFn,
   Data = RequestFnReturn<T>,
   Variables = Parameter<T>,
-  Error = MyError,
+  Error = MyError
 > = {
   options?: Omit<
     UseInfiniteQueryOptions<Data, Error, Data, Data, any>,
-    'queryKey' | 'queryFn'
+    "queryKey" | "queryFn"
   >;
 } & OptionalVariables<Variables>;
 
@@ -31,11 +31,11 @@ export type MutationHookParams<
   T extends CustomRequestFn,
   Data = RequestFnReturn<T>,
   Variables = Parameter<T>,
-  Error = MyError,
+  Error = MyError
 > = {
   options?: Omit<
     UseMutationOptions<Data, Error, Variables>,
-    'mutationFn' | 'mutationKey'
+    "mutationFn" | "mutationKey"
   >;
 };
 

@@ -1,10 +1,12 @@
 import "./App.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import "moment/locale/ko";
 import { useEffect, useMemo } from "react";
 import { getToken } from "utils/sessionStorage/token";
 import { useGetProfileQuery } from "apis/user/query";
 import TemporarilyComponent from "components/common/Temporarily";
+import ROUTES from "constants/routes";
+import HomeLayout from "components/common/@Layout/layouts/HomeLayout";
 
 function App() {
   const token = getToken();
@@ -39,24 +41,24 @@ function App() {
   }, [pathname]);
 
   return (
-    // <Routes>
-    //   {Object.values(ROUTES).map((route) => (
-    //     <Route
-    //       key={route.path}
-    //       path={route.path}
-    //       element={
-    //         <HomeLayout
-    //           isHideHeader={
-    //             route.path === "/community/create" ||
-    //             route.path === "/community/:id/edit"
-    //           }
-    //           content={<route.element />}
-    //         />
-    //       }
-    //     />
-    //   ))}
-    // </Routes>
-    <TemporarilyComponent />
+    <Routes>
+      {Object.values(ROUTES).map((route) => (
+        <Route
+          key={route.path}
+          path={route.path}
+          element={
+            <HomeLayout
+              isHideHeader={
+                route.path === "/community/create" ||
+                route.path === "/community/:id/edit"
+              }
+              content={<route.element />}
+            />
+          }
+        />
+      ))}
+    </Routes>
+    // <TemporarilyComponent />
   );
 }
 
