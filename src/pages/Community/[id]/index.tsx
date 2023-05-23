@@ -19,9 +19,7 @@ const CommunityDetailPage = () => {
 
   const getViewCount = async (id: string) => {
     try {
-      const result = await communityApi.getViewCountById(id);
-      console.log(result);
-      return result;
+      return communityApi.getViewCountById(id);
     } catch (e: any) {
       console.log(e.status, e.message);
     }

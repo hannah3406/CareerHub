@@ -54,9 +54,8 @@ export class CommunityApi {
       method: "POST",
       url: `/community/viewCount/${_id}`,
     });
-    const { result, boardId } = data;
-    setViewBoardId(boardId);
-    return result;
+    const { boardId } = data;
+    return setViewBoardId(boardId);
   };
 
   deleteBoard = async (_id: string | undefined): Promise<{}> => {
