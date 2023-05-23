@@ -15,13 +15,22 @@ import styled from "@emotion/styled";
 import RecommendBoardComponent from "components/RecommendBoard";
 import { useGetRecommendQuery } from "apis/recommend/query";
 import NoResult from "components/common/NoResult";
+import { getToken } from "utils/sessionStorage/token";
+import { useQueryClient } from "react-query";
+import { QUERY_KEY } from "constants/query-keys";
+import { userProfile as userType } from "apis/user/type";
 
 const CommunityListContainer = () => {
   const location = useLocation();
   const [communityParams, setCommunityParams] =
     useRecoilState<CommunityParam>(communityParamsState);
   const [current, setCurrent] = useState<number>(communityParams.page ?? 1);
-
+  const token = getToken();
+  const queryClient = useQueryClient();
+  const userProfile = queryClient.getQueryData<userType>([
+    QUERY_KEY.USER.PROFILE,
+    token,
+  ]);
   const navigate = useNavigate();
 
   const { data: community, isLoading } = useGetCommunityListQuery({
@@ -38,6 +47,13 @@ const CommunityListContainer = () => {
   const onPageChange: PaginationProps["onChange"] = (page) => {
     setCurrent(page);
     setCommunityParams((prev) => ({ ...prev, page }));
+  };
+  const onGoCreatePage = () => {
+    if (!!userProfile) {
+      return navigate(ROUTES.COMMUNITY_CREATE.path);
+    }
+    alert("로그인 후 이용 가능한 서비스입니다.");
+    return navigate(ROUTES.LOGIN.path);
   };
   useEffect(() => {
     if (location.search === undefined || location.search === "") {
@@ -105,7 +121,7 @@ const CommunityListContainer = () => {
         position="fixed"
         bottom={{ base: "90px", sm: "130px" }}
         right={{ base: "16px", sm: "60px" }}
-        onClick={() => navigate(ROUTES.COMMUNITY_CREATE.path)}
+        onClick={onGoCreatePage}
         cursor="pointer"
         w="60px"
         h="60px"

@@ -80,11 +80,11 @@ const CommunityItem = ({ data, sliderMode }: ICommunityItemProps) => {
           )}
         </Flex>
       )}
-      {userProfile && data && (
+      {data && (
         <CommunityCardFooter
           view={data.view}
           isLikeBoard={isLikeBoard}
-          isLikeState={data.like.includes(userProfile._id)}
+          isLikeState={userProfile && data.like.includes(userProfile._id)}
           likeCnt={data.like.length}
           commentCnt={data.commentCnt}
         />

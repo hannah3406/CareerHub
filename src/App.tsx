@@ -1,39 +1,12 @@
 import "./App.css";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "moment/locale/ko";
-import { useEffect, useMemo } from "react";
-import { getToken } from "utils/sessionStorage/token";
-import { useGetProfileQuery } from "apis/user/query";
+import { useEffect } from "react";
 import ROUTES from "constants/routes";
 import HomeLayout from "components/common/@Layout/layouts/HomeLayout";
 
 function App() {
-  const token = getToken();
-  const navigate = useNavigate();
   const { pathname } = useLocation();
-
-  const exceptPath = useMemo(
-    () => [
-      "/login",
-      "/signup",
-      "/",
-      "/position",
-      "/community",
-      "/community/[:id]",
-    ],
-    []
-  );
-  const { data: userProfile } = useGetProfileQuery({
-    variables: token,
-    options: {
-      enabled: token !== null && token !== undefined,
-    },
-  });
-  useEffect(() => {
-    if (userProfile === undefined && !token && !exceptPath.includes(pathname)) {
-      navigate("/login");
-    }
-  }, [exceptPath, navigate, pathname, token, userProfile]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,7 +30,6 @@ function App() {
         />
       ))}
     </Routes>
-    // <TemporarilyComponent />
   );
 }
 

@@ -1,13 +1,16 @@
 import { Button, Form, Input } from "antd";
 import { useQueryClient } from "react-query";
-import { getToken } from "utils/sessionStorage/token";
+
 import { UserInfo, userProfile as userType } from "apis/user/type";
 import { QUERY_KEY } from "constants/query-keys";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import commentApi from "apis/comment";
 import { useEffect, useState } from "react";
 import { ProfileSmallImg } from "assets/style/common";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "constants/routes";
+import { getToken } from "utils/sessionStorage/token";
 const { TextArea } = Input;
 
 interface ICommentWrtieComponentProps {
@@ -20,6 +23,7 @@ const CommentWrtieComponent = ({
 }: ICommentWrtieComponentProps) => {
   const [form] = Form.useForm();
   const token = getToken();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const userProfile = queryClient.getQueryData<userType>([
     QUERY_KEY.USER.PROFILE,
@@ -67,18 +71,18 @@ const CommentWrtieComponent = ({
   }, [userProfile]);
   return (
     <Box bg="#eee" p="10px 40px">
-      <Form
-        form={form}
-        onFinish={(values) => {
-          onSubmitValue(values);
-          form.resetFields();
-        }}
-        initialValues={{
-          contents: "",
-        }}
-      >
-        <div style={{ position: "relative" }}>
-          {userProfile && (
+      {userProfile ? (
+        <Form
+          form={form}
+          onFinish={(values) => {
+            onSubmitValue(values);
+            form.resetFields();
+          }}
+          initialValues={{
+            contents: "",
+          }}
+        >
+          <div style={{ position: "relative" }}>
             <Flex alignItems="center" p="5px 0 15px">
               <ProfileSmallImg>
                 <img
@@ -95,24 +99,34 @@ const CommentWrtieComponent = ({
                 {userProfile.name}
               </Box>
             </Flex>
-          )}
 
-          <Form.Item name="contents">
-            <TextArea
-              style={{
-                padding: "15px 15px 40px 15px",
-              }}
-              autoSize={{ minRows: 2 }}
-              placeholder="댓글을 입력해주세요."
-            />
-          </Form.Item>
-          <SubmitButtonWrap>
-            <Button type="primary" htmlType="submit">
-              등록
-            </Button>
-          </SubmitButtonWrap>
-        </div>
-      </Form>
+            <Form.Item name="contents">
+              <TextArea
+                style={{
+                  padding: "15px 15px 40px 15px",
+                }}
+                autoSize={{ minRows: 2 }}
+                placeholder="댓글을 입력해주세요."
+              />
+            </Form.Item>
+            <SubmitButtonWrap>
+              <Button type="primary" htmlType="submit">
+                등록
+              </Button>
+            </SubmitButtonWrap>
+          </div>
+        </Form>
+      ) : (
+        <Text
+          onClick={() => navigate(ROUTES.LOGIN.path)}
+          color="#888"
+          fontSize="14px"
+          cursor="pointer"
+          _hover={{ color: "#333" }}
+        >
+          로그인 후 이용해주세요.
+        </Text>
+      )}
     </Box>
   );
 };

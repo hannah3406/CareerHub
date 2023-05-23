@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { CONFIG } from "config";
-import { getToken } from "utils/sessionStorage/token";
+import { deleteToken, getToken } from "utils/sessionStorage/token";
 
 const instance: AxiosInstance = axios.create({
   baseURL: CONFIG.API_BASE_URL,
@@ -33,6 +33,7 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.log("dd");
     Promise.reject(error);
   }
 );
@@ -43,9 +44,22 @@ instance.interceptors.response.use(
   },
   async (error) => {
     try {
+      const { response: res } = error || {};
+      if (res) {
+        const { status } = res;
+        const isUnAuthError = status === 401;
+        if (isUnAuthError) {
+          deleteToken();
+          setTimeout(() => {
+            alert("로그인 후 이용 가능합니다.");
+            window.location.href = "/login";
+          }, 0);
+        }
+      }
       return Promise.reject(error);
     } catch (e) {
       console.log(e);
+      return Promise.reject(error);
     }
   }
 );

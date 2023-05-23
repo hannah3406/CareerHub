@@ -62,18 +62,16 @@ const CommunityDetailComponent = (props: ICommunityDetailProps) => {
           title={data.positionArticle.title}
         />
       )}
-      {userProfile && data && (
-        <CommunityCardFooter
-          boardId={data._id}
-          view={data.view}
-          isDetail
-          isLikeBoard={isLikeBoard}
-          isLikeState={data.like.includes(userProfile._id)}
-          likeCnt={data.like.length}
-          commentCnt={data.commentCnt}
-          isWriter={data.userInfo.userId === userProfile?._id}
-        />
-      )}
+      <CommunityCardFooter
+        boardId={data._id}
+        view={data.view}
+        isDetail
+        isLikeBoard={isLikeBoard}
+        isLikeState={userProfile && data.like.includes(userProfile._id)}
+        likeCnt={data.like.length}
+        commentCnt={data.commentCnt}
+        isWriter={data.userInfo.userId === userProfile?._id}
+      />
     </Box>
   );
 };

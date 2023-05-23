@@ -18,7 +18,7 @@ interface ICommunityCardFooterProps {
   commentCnt: number;
   likeCnt: number;
   view: number;
-  isLikeState: boolean;
+  isLikeState?: boolean;
   isLikeBoard: () => Promise<void>;
   isWriter?: boolean;
   isDetail?: boolean;

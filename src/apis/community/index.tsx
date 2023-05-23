@@ -1,6 +1,7 @@
 import { BoardCommentList } from "apis/comment/type";
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
+import { getViewBoardId, setViewBoardId } from "utils/sessionStorage/view";
 import {
   CommunityList,
   CommunityListResult,
@@ -45,12 +46,17 @@ export class CommunityApi {
     });
     return data;
   };
-  getViewCountById = async (_id: string | undefined): Promise<{}> => {
+  getViewCountById = async (_id: string | undefined): Promise<any> => {
+    if (_id === undefined) return;
+    const isView = getViewBoardId(_id);
+    if (isView) return;
     const { data } = await instance({
       method: "POST",
       url: `/community/viewCount/${_id}`,
     });
-    return data;
+    const { result, boardId } = data;
+    setViewBoardId(boardId);
+    return result;
   };
 
   deleteBoard = async (_id: string | undefined): Promise<{}> => {
