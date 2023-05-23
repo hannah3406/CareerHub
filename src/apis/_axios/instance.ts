@@ -33,7 +33,6 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.log("dd");
     Promise.reject(error);
   }
 );
