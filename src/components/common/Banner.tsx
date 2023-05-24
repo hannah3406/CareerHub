@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Flex } from "@chakra-ui/react";
 const Banner = () => {
   return (
-    <Flex p="0 30px" m="0 auto">
+    <Flex p="0 30px" m="0 auto" w="1000px">
       <Flex
         justifyContent="center"
         alignItems="center"
