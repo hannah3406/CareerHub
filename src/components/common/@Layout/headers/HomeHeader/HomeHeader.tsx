@@ -10,18 +10,20 @@ import styled from "@emotion/styled";
 import authApi from "apis/auth";
 import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "constants/query-keys";
-import { userProfile as userType } from "apis/user/type";
 import { getToken } from "utils/sessionStorage/token";
 import { ProfileDefaultImg } from "assets/style/common";
+import { useGetProfileQuery } from "apis/user/query";
 const HomeHeader = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const token = getToken();
-  const userProfile = queryClient.getQueryData<userType>([
-    QUERY_KEY.USER.PROFILE,
-    token,
-  ]);
+  const { data: userProfile } = useGetProfileQuery({
+    variables: token,
+    options: {
+      enabled: token !== null && token !== undefined,
+    },
+  });
   const logout = async () => {
     if (!!userProfile) {
       await authApi.logoutUser(userProfile.email);
