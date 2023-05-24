@@ -67,7 +67,7 @@ const MainContainer = () => {
   }, [_positionList]);
   return (
     <>
-      <Box maxW="1200px" m="40px auto">
+      <Box maxW="1200px" m="20px auto">
         <Banner />
       </Box>
       <Flex
