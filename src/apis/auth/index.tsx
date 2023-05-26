@@ -24,7 +24,7 @@ export class AuthApi {
     const { data } = await instance({
       method: "POST",
       url: `/auth/login`,
-      headers: { withCredentials: true },
+      withCredentials: true,
       data: loginData,
     });
 
