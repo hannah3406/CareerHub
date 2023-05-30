@@ -21,10 +21,13 @@ export class AuthApi {
     return data;
   };
   loginUser = async (loginData: LoginData): Promise<string> => {
-    const { data } = await instance({
-      method: "POST",
-      url: `/auth/login`,
-      data: loginData,
+    // const { data } = await instance({
+    //   method: "POST",
+    //   url: `/auth/login`,
+    //   data: loginData,
+    // });
+    const { data } = await instance.post(`/auth/login`, loginData, {
+      withCredentials: true,
     });
 
     setToken(data.accessToken);
