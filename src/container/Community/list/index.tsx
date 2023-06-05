@@ -15,7 +15,7 @@ import styled from "@emotion/styled";
 import RecommendBoardComponent from "components/RecommendBoard";
 import { useGetRecommendQuery } from "apis/recommend/query";
 import NoResult from "components/common/NoResult";
-import { getToken } from "utils/sessionStorage/token";
+import { getAccessToken } from "utils/sessionStorage/token";
 import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "constants/query-keys";
 import { userProfile as userType } from "apis/user/type";
@@ -25,7 +25,7 @@ const CommunityListContainer = () => {
   const [communityParams, setCommunityParams] =
     useRecoilState<CommunityParam>(communityParamsState);
   const [current, setCurrent] = useState<number>(communityParams.page ?? 1);
-  const token = getToken();
+  const token = getAccessToken();
   const queryClient = useQueryClient();
   const userProfile = queryClient.getQueryData<userType>([
     QUERY_KEY.USER.PROFILE,

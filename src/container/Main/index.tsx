@@ -1,12 +1,12 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useGetRecommendQuery } from "apis/recommend/query";
-import { useGetInfinityScrollListQuery } from "apis/webcrawling/query";
+import { useGetPaginationListQuery } from "apis/webcrawling/query";
 import Banner from "components/common/Banner";
 
 import SummaryCardsComponent from "components/common/SummaryCards";
 import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { SearchParam, searchParamsState } from "recoil/search";
+import { searchPageParamsState, SearchParam } from "recoil/search";
 export interface SummaryCard {
   title: string;
   commentCnt?: number;
@@ -14,57 +14,44 @@ export interface SummaryCard {
   view?: number;
 }
 const MainContainer = () => {
-  const [recommendList, setRecommendList] = useState<SummaryCard[]>([]);
-  const [positionList, setPositionList] = useState<SummaryCard[]>([]);
-  const searchParams = useRecoilValue<SearchParam>(searchParamsState);
+  const [recommendList, setRecommendList] = useState<SummaryCard[] | null>(
+    null
+  );
+  const [positionList, setPositionList] = useState<SummaryCard[] | null>(null);
+  const searchParams = useRecoilValue<SearchParam>(searchPageParamsState);
   const { data: recommend } = useGetRecommendQuery({
     variables: { page: 1 },
-    options: {
-      enabled: true,
-    },
   });
-  const { data: position } = useGetInfinityScrollListQuery({
+  const { data: position } = useGetPaginationListQuery({
     variables: searchParams,
-    options: {
-      getNextPageParam: (lastPage) => {
-        if (lastPage.results.length < 10) return;
-        return lastPage.page + 1;
-      },
-    },
   });
 
   const _recommendList = useMemo(() => {
-    if (recommend) {
-      return recommend
-        .slice(0, 5)
-        .map(({ title, view, commentCnt, createdAt }) => ({
+    return recommend
+      ? recommend.slice(0, 5).map(({ title, view, commentCnt, createdAt }) => ({
           title,
           commentCnt,
           createdAt,
           view,
-        }));
-    }
-    return [];
+        }))
+      : [];
   }, [recommend]);
+
   const _positionList = useMemo(() => {
-    if (position) {
-      return position.pages[0].results
-        .slice(0, 5)
-        .map(({ title, createdAt }) => ({
-          title,
-          createdAt,
-        }));
-    }
-    return [];
+    return position
+      ? position.results
+          .slice(0, 5)
+          .map(({ title, createdAt }) => ({ title, createdAt }))
+      : [];
   }, [position]);
 
   useEffect(() => {
     setRecommendList(_recommendList);
-  }, [_recommendList]);
+  }, [_recommendList, recommend]);
 
   useEffect(() => {
     setPositionList(_positionList);
-  }, [_positionList]);
+  }, [_positionList, position]);
   return (
     <>
       <Box maxW="1200px" m="20px auto">

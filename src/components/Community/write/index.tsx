@@ -13,7 +13,7 @@ import { Flex } from "@chakra-ui/react";
 import { UserInfo, userProfile as userType } from "apis/user/type";
 import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "constants/query-keys";
-import { getToken } from "utils/sessionStorage/token";
+import { getAccessToken } from "utils/sessionStorage/token";
 import { CommunityList, ImyVariables } from "apis/community/type";
 import communityApi from "apis/community";
 import { ROUTES } from "constants/routes";
@@ -40,7 +40,7 @@ const CommunityWriteComponent = (props: ICommunityWriteComponentProps) => {
   );
 
   const [show, setShow] = useState<boolean>(false);
-  const token = getToken();
+  const token = getAccessToken();
   const userProfile = queryClient.getQueryData<userType>([
     QUERY_KEY.USER.PROFILE,
     token,

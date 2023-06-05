@@ -1,6 +1,10 @@
 import instance from "apis/_axios/instance";
 import { AxiosInstance } from "axios";
-import { deleteToken, setToken } from "utils/sessionStorage/token";
+import {
+  deleteToken,
+  setAccessToken,
+  setRefreshToken,
+} from "utils/sessionStorage/token";
 import { CreateUser } from "./type";
 
 export type LoginData = {
@@ -20,18 +24,16 @@ export class AuthApi {
     });
     return data;
   };
-  loginUser = async (loginData: LoginData): Promise<string> => {
-    // const { data } = await instance({
-    //   method: "POST",
-    //   url: `/auth/login`,
-    //   data: loginData,
-    // });
-    const { data } = await instance.post(`/auth/login`, loginData, {
-      withCredentials: true,
+  loginUser = async (loginData: LoginData): Promise<{}> => {
+    const { data } = await instance({
+      method: "POST",
+      url: `/auth/login`,
+      data: loginData,
     });
-
-    setToken(data.accessToken);
-    return data.accessToken;
+    const { accessToken, refreshToken } = data;
+    setRefreshToken(refreshToken);
+    setAccessToken(accessToken);
+    return { accessToken, refreshToken };
   };
   logoutUser = async (email: string): Promise<{}> => {
     deleteToken();
@@ -42,15 +44,17 @@ export class AuthApi {
     });
     return data;
   };
-  // GetRefreshToken = async (): Promise<{}> => {
-  //   const { data } = await instance({
-  //     method: "GET",
-  //     url: `/auth/refresh`,
-  //   });
-
-  //   setToken(data);
-  //   return data;
-  // };
+  getRefresh = async (token: string | null): Promise<{}> => {
+    const { data } = await instance({
+      method: "GET",
+      url: `/auth/refresh`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const { accessToken, refreshToken } = data;
+    setRefreshToken(refreshToken);
+    setAccessToken(accessToken);
+    return data;
+  };
 }
 
 const authApi = new AuthApi();

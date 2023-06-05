@@ -8,7 +8,7 @@ import userApi from "apis/user";
 import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "constants/query-keys";
 import { userProfile as userType } from "apis/user/type";
-import { getToken } from "utils/sessionStorage/token";
+import { getAccessToken } from "utils/sessionStorage/token";
 import MyProfileComponent from "components/MyProfile";
 import { useGetMyArticleQuery, useGetMyCommentQuery } from "apis/mypage/query";
 
@@ -19,7 +19,7 @@ import MyCommentComponent from "components/MyHistory/MyComment";
 const MyPageContainer = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const token = getToken();
+  const token = getAccessToken();
   const userProfile = queryClient.getQueryData<userType>([
     QUERY_KEY.USER.PROFILE,
     token,

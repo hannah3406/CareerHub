@@ -23,18 +23,10 @@ export class UserApi {
     return data;
   };
 
-  getProfile = async (
-    token: string | null | undefined
-  ): Promise<userProfile> => {
+  getProfile = async (): Promise<userProfile | undefined> => {
     const { data } = await instance({
       method: "GET",
       url: `/user/profile`,
-      headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-        Expires: 0,
-        // Authorization: `Bearer ${token}`,
-      },
     });
     return data;
   };

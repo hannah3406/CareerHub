@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { ProfileSmallImg } from "assets/style/common";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "constants/routes";
-import { getToken } from "utils/sessionStorage/token";
+import { getAccessToken } from "utils/sessionStorage/token";
 const { TextArea } = Input;
 
 interface ICommentWrtieComponentProps {
@@ -22,7 +22,7 @@ const CommentWrtieComponent = ({
   boardId,
 }: ICommentWrtieComponentProps) => {
   const [form] = Form.useForm();
-  const token = getToken();
+  const token = getAccessToken();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const userProfile = queryClient.getQueryData<userType>([

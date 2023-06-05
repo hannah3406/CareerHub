@@ -19,6 +19,7 @@ export function useGetInfinityScrollListQuery(
   params: InfiniteQueryHookParams<typeof webCrawlingApi.getList>
 ) {
   const queryKey = WEBCRAWLING_API_QUERY_KEY.GETLIST(params.variables);
+
   const query = useInfiniteQuery(
     queryKey,
     ({ pageParam = 1 }) => webCrawlingApi.getList(params.variables, pageParam),
@@ -26,6 +27,7 @@ export function useGetInfinityScrollListQuery(
   );
   return { ...query, queryKey };
 }
+
 export function useGetPaginationListQuery(
   params: QueryHookParams<typeof webCrawlingApi.getPaginationList>
 ) {

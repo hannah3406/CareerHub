@@ -10,16 +10,14 @@ import styled from "@emotion/styled";
 import authApi from "apis/auth";
 import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "constants/query-keys";
-import { getToken } from "utils/sessionStorage/token";
+import { getAccessToken } from "utils/sessionStorage/token";
 import { ProfileDefaultImg } from "assets/style/common";
 import { useGetProfileQuery } from "apis/user/query";
 const HomeHeader = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const token = getToken();
-  const { data: userProfile } = useGetProfileQuery({
-    variables: token,
+  const token = getAccessToken();
+  const { data: userProfile } = useGetProfileQuery(token, {
     options: {
       enabled: token !== null && token !== undefined,
     },
@@ -27,8 +25,7 @@ const HomeHeader = () => {
   const logout = async () => {
     if (!!userProfile) {
       await authApi.logoutUser(userProfile.email);
-      await queryClient.invalidateQueries([QUERY_KEY.USER.PROFILE, token]);
-      // navigate(ROUTES.LOGIN.path);
+      navigate(ROUTES.HOME.path);
     }
   };
 

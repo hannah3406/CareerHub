@@ -7,7 +7,7 @@ import ROUTES from "constants/routes";
 import CommunityCardHeader from "components/common/community/CommunityCardHeader";
 import CommunityCardFooter from "components/common/community/CommunityCardFooter";
 import { useQueryClient } from "react-query";
-import { getToken } from "utils/sessionStorage/token";
+import { getAccessToken } from "utils/sessionStorage/token";
 import { QUERY_KEY } from "constants/query-keys";
 import { userProfile as userType } from "apis/user/type";
 interface ICommunityItemProps {
@@ -18,7 +18,7 @@ interface ICommunityItemProps {
 const CommunityItem = ({ data, sliderMode }: ICommunityItemProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const token = getToken();
+  const token = getAccessToken();
   const userProfile = queryClient.getQueryData<userType>([
     QUERY_KEY.USER.PROFILE,
     token,

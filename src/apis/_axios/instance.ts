@@ -1,12 +1,21 @@
+import authApi from "apis/auth";
 import axios, { AxiosInstance } from "axios";
 import { CONFIG } from "config";
-import { deleteToken, getToken } from "utils/sessionStorage/token";
+
+import {
+  deleteToken,
+  getAccessToken,
+  getRefreshToken,
+} from "utils/sessionStorage/token";
 
 const instance: AxiosInstance = axios.create({
   baseURL: CONFIG.API_BASE_URL,
   timeout: 15000,
   headers: {
     "Content-Type": "application/json",
+    "Cache-Control": "no-cache, no-store, must-revalidate",
+    Pragma: "no-cache",
+    Expires: 0,
   },
   withCredentials: true,
 });
@@ -22,11 +31,10 @@ const unsetAuthHeader = () => {
 
 instance.interceptors.request.use(
   (config) => {
-    const token = getToken();
-
+    const token = getAccessToken();
     const isAccess = !!token;
     if (isAccess) {
-      setAuthHeader(token as string);
+      console.log("---?---", token);
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     }
@@ -54,6 +62,12 @@ instance.interceptors.response.use(
             alert("로그인 후 이용 가능합니다.");
             window.location.href = "/login";
           }, 0);
+        }
+        if (status === 410) {
+          deleteToken(true);
+          const refreshToken = getRefreshToken();
+          setAuthHeader(refreshToken as string);
+          await authApi.getRefresh(refreshToken);
         }
       }
       return Promise.reject(error);

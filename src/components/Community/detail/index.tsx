@@ -7,7 +7,7 @@ import { userProfile as userType } from "apis/user/type";
 import CommunityCardHeader from "components/common/community/CommunityCardHeader";
 import CommunityCardFooter from "components/common/community/CommunityCardFooter";
 import { useQueryClient } from "react-query";
-import { getToken } from "utils/sessionStorage/token";
+import { getAccessToken } from "utils/sessionStorage/token";
 import { QUERY_KEY } from "constants/query-keys";
 import communityApi from "apis/community";
 
@@ -18,7 +18,7 @@ interface ICommunityDetailProps {
 const CommunityDetailComponent = (props: ICommunityDetailProps) => {
   const { data } = props;
   const queryClient = useQueryClient();
-  const token = getToken();
+  const token = getAccessToken();
 
   const userProfile = queryClient.getQueryData<userType>([
     QUERY_KEY.USER.PROFILE,

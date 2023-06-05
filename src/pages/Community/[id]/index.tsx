@@ -22,6 +22,7 @@ const CommunityDetailPage = () => {
       return communityApi.getViewCountById(id);
     } catch (e: any) {
       console.log(e.status, e.message);
+      throw e;
     }
   };
 
