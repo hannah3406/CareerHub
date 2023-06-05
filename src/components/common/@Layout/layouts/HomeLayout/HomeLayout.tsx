@@ -1,5 +1,5 @@
 import { TimeIcon } from "@chakra-ui/icons";
-import { ContainerProps, Flex, Grid, Text } from "@chakra-ui/react";
+import { ContainerProps, Flex, Text } from "@chakra-ui/react";
 import HomeFooter from "../../footer";
 
 import HomeHeader from "../../headers/HomeHeader";
