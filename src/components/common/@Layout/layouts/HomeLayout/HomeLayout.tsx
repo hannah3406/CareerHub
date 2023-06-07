@@ -1,5 +1,5 @@
-import { TimeIcon } from "@chakra-ui/icons";
-import { ContainerProps, Flex, Text } from "@chakra-ui/react";
+// import { TimeIcon } from "@chakra-ui/icons";
+import { ContainerProps, Flex, Grid } from "@chakra-ui/react";
 import HomeFooter from "../../footer";
 
 import HomeHeader from "../../headers/HomeHeader";
@@ -22,7 +22,7 @@ const HomeLayout = ({
 }: HomeLayoutProps) => {
   return (
     <>
-      {/* <Grid
+      <Grid
         minH="100vh"
         h="100%"
         m="0 auto"
@@ -44,8 +44,8 @@ const HomeLayout = ({
         )}
         <main>{content}</main>
         <footer>{footer}</footer>
-      </Grid> */}
-      <Flex
+      </Grid>
+      {/* <Flex
         minH="100vh"
         h="100%"
         w="100%"
@@ -61,7 +61,7 @@ const HomeLayout = ({
           운영 시간에 방문 부탁드립니다 :)
           <br />( 운영시간 : 오전 9시~ 6시 )
         </Text>
-      </Flex>
+      </Flex> */}
       <Flex
         minH="100vh"
         h="100%"
